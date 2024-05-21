@@ -12,7 +12,8 @@ public class VacancyEntity {
     @Column(name = "title", nullable = false)
     private String title = "";
 
-    @Column(name = "company_n", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_n", nullable = false)
     private CompanyEntity companyEntity = new CompanyEntity(-1L,"");
 
     @Column(name = "description", nullable = false)
