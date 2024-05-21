@@ -10,6 +10,21 @@ public class VacancyDto extends Dto {
     private String comment = "";
     private Boolean completed = false;
 
+    public VacancyDto() {
+        super();
+    }
+
+    public VacancyDto(String title, String description, String company,
+                      String source, String comment, Boolean completed) {
+        this();
+        this.title = title;
+        this.description = description;
+        this.company = company;
+        this.source = source;
+        this.comment = comment;
+        this.completed = completed;
+    }
+
     public String getTitle() {
         return title;
     }

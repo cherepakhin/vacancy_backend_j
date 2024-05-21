@@ -2,8 +2,16 @@ package ru.perm.v.vacancy_j.dto;
 
 import java.util.Objects;
 
-public class Dto {
+public abstract class Dto {
     private Long id = -1L;
+
+    protected Dto() {
+        this.id = -1L;
+    }
+
+    protected Dto(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;

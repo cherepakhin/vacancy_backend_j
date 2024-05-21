@@ -63,4 +63,23 @@ class VacancyDtoTest {
         vacancyDto.setCompleted(true);
         assertTrue(vacancyDto.getCompleted());
     }
+
+    @Test
+    void constructorTest() {
+        String TITLE = "TITLE";
+        String DESCRIPTION = "DESCRIPTION";
+        String COMPANY = "COMPANY";
+        String SOURCE = "SOURCE";
+        String COMMENT = "COMMENT";
+        boolean COMPLETED = true;
+
+        VacancyDto vacancyDto = new VacancyDto(TITLE, DESCRIPTION, COMPANY, SOURCE, COMMENT, COMPLETED);
+
+        assertEquals(TITLE, vacancyDto.getTitle());
+        assertEquals(DESCRIPTION, vacancyDto.getDescription());
+        assertEquals(COMPANY, vacancyDto.getCompany());
+        assertEquals(SOURCE, vacancyDto.getSource());
+        assertEquals(COMMENT, vacancyDto.getComment());
+        assertEquals(COMPLETED, vacancyDto.getCompleted());
+    }
 }
