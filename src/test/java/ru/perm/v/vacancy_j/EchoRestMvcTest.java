@@ -23,10 +23,20 @@ public class EchoRestMvcTest {
     private MockMvc mockMvc;
 
     @Test
-    void getEcho() {
+    void getEchoStatus() {
         try {
             mockMvc.perform(MockMvcRequestBuilders.get("/echo/aaa"))
                     .andExpect(MockMvcResultMatchers.status().isOk());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    @Test
+    void getEchoMessage() {
+        try {
+            mockMvc.perform(MockMvcRequestBuilders.get("/echo/aaa"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.content().string("aaa"));
         } catch (Exception e) {
             fail(e.getMessage());
         }
