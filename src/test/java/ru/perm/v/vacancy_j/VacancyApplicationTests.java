@@ -12,5 +12,4 @@ class VacancyApplicationTests {
 	void contextLoads() {
 		assertEquals(1, 1);
 	}
-
 }
