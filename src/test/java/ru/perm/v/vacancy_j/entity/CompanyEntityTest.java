@@ -34,4 +34,13 @@ class CompanyEntityTest {
 
         assertEquals(companyEntity1, companyEntity2);
     }
+
+    @Test
+    void createDefault() {
+        CompanyEntity companyEntity = new CompanyEntity();
+
+        assertNotNull(companyEntity);
+        assertEquals(-1L, companyEntity.getN());
+        assertEquals("", companyEntity.getName());
+    }
 }

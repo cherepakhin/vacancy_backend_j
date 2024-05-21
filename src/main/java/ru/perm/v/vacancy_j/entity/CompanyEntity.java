@@ -9,9 +9,9 @@ public class CompanyEntity {
     @Id
     @Column(name = "n", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long n;
+    private Long n = -1L;
     @Column(name = "name", nullable = false)
-    private String name;
+    private String name = "";
 
     public Long getN() {
         return n;
