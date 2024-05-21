@@ -3,33 +3,33 @@ package ru.perm.v.vacancy_j.dto;
 import java.util.Objects;
 
 public abstract class Dto {
-    private Long id = -1L;
+    private Long n = -1L;
 
     protected Dto() {
-        this.id = -1L;
+        this.n = -1L;
     }
 
-    protected Dto(Long id) {
-        this.id = id;
+    protected Dto(Long n) {
+        this.n = n;
     }
 
-    public Long getId() {
-        return id;
+    public Long getN() {
+        return n;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setN(Long n) {
+        this.n = n;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Dto dto)) return false;
-        return Objects.equals(id, dto.id);
+        return Objects.equals(n, dto.n);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(n);
     }
 }

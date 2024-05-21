@@ -10,7 +10,10 @@ import ru.perm.v.vacancy_j.dto.VacancyDto;
 @RequestMapping("/vacancy")
 public class VacancyRest {
     @GetMapping("/{id}")
-    public VacancyDto getById(@PathVariable String id) {
-        return new VacancyDto();
+    public VacancyDto getByN(@PathVariable Long n) {
+        //TODO: receive from service
+        VacancyDto vacancyDto = new VacancyDto();
+        vacancyDto.setN(n);
+        return vacancyDto;
     }
 }

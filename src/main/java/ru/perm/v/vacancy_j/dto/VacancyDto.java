@@ -3,6 +3,7 @@ package ru.perm.v.vacancy_j.dto;
 import java.util.Objects;
 
 public class VacancyDto extends Dto {
+    private Long n = -1L;
     private String title = "";
     private String description = "";
     private String company = "";
@@ -14,15 +15,21 @@ public class VacancyDto extends Dto {
         super();
     }
 
-    public VacancyDto(String title, String description, String company,
-                      String source, String comment, Boolean completed) {
-        this();
+    public VacancyDto(String title, String description, String company, String source, String comment, Boolean completed) {
+        super();
         this.title = title;
         this.description = description;
         this.company = company;
         this.source = source;
         this.comment = comment;
         this.completed = completed;
+    }
+    public Long getN() {
+        return n;
+    }
+
+    public void setN(Long n) {
+        this.n = n;
     }
 
     public String getTitle() {
@@ -78,11 +85,11 @@ public class VacancyDto extends Dto {
         if (this == o) return true;
         if (!(o instanceof VacancyDto that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(company, that.company) && Objects.equals(source, that.source) && Objects.equals(comment, that.comment) && Objects.equals(completed, that.completed);
+        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(company, that.company) && Objects.equals(source, that.source) && Objects.equals(comment, that.comment) && Objects.equals(completed, that.completed);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), title, description, company, source, comment, completed);
+        return Objects.hash(super.hashCode(), n, title, description, company, source, comment, completed);
     }
 }

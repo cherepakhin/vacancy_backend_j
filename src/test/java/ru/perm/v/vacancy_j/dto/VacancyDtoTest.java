@@ -15,8 +15,8 @@ class VacancyDtoTest {
     @Test
     void testId() {
         VacancyDto vacancyDto = new VacancyDto();
-        vacancyDto.setId(10L);
-        assertEquals(10L, vacancyDto.getId());
+        vacancyDto.setN(10L);
+        assertEquals(10L, vacancyDto.getN());
     }
 
     @Test

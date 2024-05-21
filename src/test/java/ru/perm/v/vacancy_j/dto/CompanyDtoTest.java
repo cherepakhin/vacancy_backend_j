@@ -26,6 +26,6 @@ class CompanyDtoTest {
     void testConstructor() {
         CompanyDto companyDto = new CompanyDto();
         assertEquals("", companyDto.getName());
-        assertEquals(-1L, companyDto.getId());
+        assertEquals(-1L, companyDto.getN());
     }
 }

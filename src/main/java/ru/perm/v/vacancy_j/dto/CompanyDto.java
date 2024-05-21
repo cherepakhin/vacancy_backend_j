@@ -9,8 +9,8 @@ public class CompanyDto extends Dto {
         this.name = "";
     }
 
-    public CompanyDto(Long id, String name) {
-        super(id);
+    public CompanyDto(Long n, String name) {
+        super(n);
 
         this.name = name;
     }
