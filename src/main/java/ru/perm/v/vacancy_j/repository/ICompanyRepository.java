@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ICompanyRepository extends JpaRepository<CompanyEntity, Long> {
     List<CompanyEntity> findByNameOrderByNDesc(String name);
+    List<CompanyEntity> findByN(Long n);
 }
