@@ -13,6 +13,16 @@ public class CompanyEntity {
     @Column(name = "name", nullable = false)
     private String name = "";
 
+    public CompanyEntity() {
+        super();
+    }
+
+    public CompanyEntity(Long n, String name) {
+        super();
+        this.n = n;
+        this.name = name;
+    }
+
     public Long getN() {
         return n;
     }
