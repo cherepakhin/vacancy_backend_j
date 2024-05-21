@@ -20,7 +20,14 @@
 
 Rest:
 
+````shell
 /api/echo/MESSAGE_ECHO
 >MESSAGE_ECHO
+````
 
+Обновление структуры базы данных:
+
+````shell
+./gradlew flywayMigrate
+````
  
