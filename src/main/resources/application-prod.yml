@@ -1,0 +1,14 @@
+spring:
+  dataSource:
+    url: jdbc:postgresql://127.0.0.1:5432/vacancy
+    username: ${PG_USER:vasi}
+    password: ${PG_PASSWORD:pass}
+  jpa:
+    # show SQL statements in console.
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    generate_statistics: true
