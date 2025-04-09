@@ -14,6 +14,7 @@ public class CompanyDto extends Dto {
 
         this.name = name;
     }
+
     public String getName() {
         return name;
     }

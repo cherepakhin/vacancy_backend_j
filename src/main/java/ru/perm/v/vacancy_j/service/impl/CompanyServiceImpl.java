@@ -3,6 +3,7 @@ package ru.perm.v.vacancy_j.service.impl;
 import org.springframework.stereotype.Service;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
+import ru.perm.v.vacancy_j.mapper.CompanyMapper;
 import ru.perm.v.vacancy_j.repository.ICompanyRepository;
 import ru.perm.v.vacancy_j.service.CompanyService;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Service
 public class CompanyServiceImpl implements CompanyService {
     private ICompanyRepository companyRepository;
+    private CompanyMapper companyMapper = new CompanyMapper();
     public CompanyServiceImpl() {
         super();
     }
@@ -24,8 +26,7 @@ public class CompanyServiceImpl implements CompanyService {
         if (companies.isEmpty()) {
             throw new Exception("Company not found");
         } else {
-            //TODO add mapper?
-            return new CompanyDto(companies.get(0).getN(), companies.get(0).getName());
+            return  companyMapper.toDto(companies.get(0));
         }
     }
 }

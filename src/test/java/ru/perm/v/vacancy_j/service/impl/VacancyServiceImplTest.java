@@ -1,6 +1,7 @@
 package ru.perm.v.vacancy_j.service.impl;
 
 import org.junit.jupiter.api.Test;
+import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
@@ -23,6 +24,7 @@ public class VacancyServiceImplTest {
         vacancyEntity.setTitle("TITLE");
         vacancyEntity.setDescription("DESCRIPTION");
         CompanyEntity companyEntity = new CompanyEntity();
+        companyEntity.setN(10L);
         companyEntity.setName("COMPANY");
         vacancyEntity.setCompanyEntity(companyEntity);
 
@@ -39,7 +41,7 @@ public class VacancyServiceImplTest {
         assertEquals(100L, foundVacancy.getN());
         assertEquals("TITLE", foundVacancy.getTitle());
         assertEquals("DESCRIPTION", foundVacancy.getDescription());
-        assertEquals("COMPANY", foundVacancy.getCompany());
+        assertEquals(new CompanyDto(10L, "COMPANY"), foundVacancy.getCompany());
         assertFalse(foundVacancy.getCompleted());
     }
 }

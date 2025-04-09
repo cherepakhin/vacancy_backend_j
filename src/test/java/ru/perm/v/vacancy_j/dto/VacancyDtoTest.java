@@ -36,9 +36,11 @@ class VacancyDtoTest {
     void testCompany() {
         VacancyDto vacancyDto = new VacancyDto();
         CompanyDto companyDto = new CompanyDto();
+        companyDto.setN(10L);
         companyDto.setName("company");
         vacancyDto.setCompany(companyDto);
-        assertEquals("company", vacancyDto.getCompany());
+
+        assertEquals(new CompanyDto(10L, "company"), vacancyDto.getCompany());
     }
 
     @Test
