@@ -11,6 +11,8 @@ public class VacancyEntity {
     @Column(name = "n", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long n = -1L;
+
+    // short description
     @Column(name = "title", nullable = false)
     private String title = "";
 
@@ -18,6 +20,7 @@ public class VacancyEntity {
     @JoinColumn(name = "company_n", nullable = false)
     private CompanyEntity companyEntity = new CompanyEntity(-1L,"");
 
+    // full description
     @Column(name = "description", nullable = false)
     private String description = "";
 

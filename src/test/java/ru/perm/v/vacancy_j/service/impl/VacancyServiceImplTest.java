@@ -1,8 +1,8 @@
 package ru.perm.v.vacancy_j.service.impl;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
+import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
 import ru.perm.v.vacancy_j.repository.IVacancyRepository;
 import ru.perm.v.vacancy_j.service.VacancyService;
@@ -20,6 +20,12 @@ public class VacancyServiceImplTest {
     void getByN() {
         VacancyEntity vacancyEntity = new VacancyEntity();
         vacancyEntity.setN(100L);
+        vacancyEntity.setTitle("TITLE");
+        vacancyEntity.setDescription("DESCRIPTION");
+        CompanyEntity companyEntity = new CompanyEntity();
+        companyEntity.setName("COMPANY");
+        vacancyEntity.setCompanyEntity(companyEntity);
+
         when(vacancyRepository.findByN(100L)).thenReturn(Collections.singletonList(vacancyEntity));
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         VacancyDto foundVacancy = null;
@@ -31,5 +37,9 @@ public class VacancyServiceImplTest {
 
         assertNotNull(foundVacancy);
         assertEquals(100L, foundVacancy.getN());
+        assertEquals("TITLE", foundVacancy.getTitle());
+        assertEquals("DESCRIPTION", foundVacancy.getDescription());
+        assertEquals("COMPANY", foundVacancy.getCompany());
+        assertFalse(foundVacancy.getCompleted());
     }
 }

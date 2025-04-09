@@ -6,7 +6,7 @@ public class VacancyDto extends Dto {
     private Long n = -1L;
     private String title = "";
     private String description = "";
-    private String company = "";
+    private CompanyDto company = new CompanyDto();
     private String source = "";
     private String comment = "";
     private Boolean completed = false;
@@ -15,19 +15,22 @@ public class VacancyDto extends Dto {
         super();
     }
 
-    public VacancyDto(String title, String description, String company, String source, String comment, Boolean completed) {
+    public VacancyDto(String title, String description, CompanyDto companyDto, String source, String comment, Boolean completed) {
         super();
         this.title = title;
         this.description = description;
-        this.company = company;
+        this.company = companyDto;
         this.source = source;
         this.comment = comment;
         this.completed = completed;
     }
+
+    @Override
     public Long getN() {
         return n;
     }
 
+    @Override
     public void setN(Long n) {
         this.n = n;
     }
@@ -48,11 +51,11 @@ public class VacancyDto extends Dto {
         this.description = description;
     }
 
-    public String getCompany() {
+    public CompanyDto getCompany() {
         return company;
     }
 
-    public void setCompany(String company) {
+    public void setCompany(CompanyDto company) {
         this.company = company;
     }
 
