@@ -19,10 +19,10 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyDto getByN(Long n) {
+    public CompanyDto getByN(Long n) throws Exception {
         List<CompanyEntity> companies = companyRepository.findByN(n);
         if (companies.isEmpty()) {
-            return null;
+            throw new Exception("Company not found");
         } else {
             //TODO add mapper?
             return new CompanyDto(companies.get(0).getN(), companies.get(0).getName());

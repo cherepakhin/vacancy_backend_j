@@ -1,6 +1,7 @@
 package ru.perm.v.vacancy_j.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
 @Entity
