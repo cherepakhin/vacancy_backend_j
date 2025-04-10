@@ -1,5 +1,6 @@
 package ru.perm.v.vacancy_j.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 public class VacancyServiceImpl implements VacancyService {
+    @Autowired
     private IVacancyRepository vacancyRepository;
     private CompanyMapper companyMapper = new CompanyMapper();
 

@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/vacancy")
 public class VacancyRest {
-    @GetMapping("/{id}")
+    @GetMapping("/{n}")
     public VacancyDto getByN(@PathVariable Long n) {
         //TODO: receive from service
         VacancyDto vacancyDto = new VacancyDto();

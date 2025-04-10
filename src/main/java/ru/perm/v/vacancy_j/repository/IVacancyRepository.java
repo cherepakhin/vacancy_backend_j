@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface IVacancyRepository extends JpaRepository<VacancyEntity, Long> {
-    List<VacancyEntity> findByNameOrderByNDesc(String name);
+    List<VacancyEntity> findByTitleOrderByNDesc(String name);
 
     List<VacancyEntity> findByN(Long n);
 }
