@@ -27,17 +27,21 @@ public class VacancyEntity {
     @Column(name = "link", nullable = false)
     private String link = "";
 
+    @Column(name = "comment", nullable = false)
+    private String comment = "";
+
     public VacancyEntity() {
         super();
     }
 
-    public VacancyEntity(Long n, String title, CompanyEntity companyEntity, String description, String link) {
+    public VacancyEntity(Long n, String title, CompanyEntity companyEntity, String description, String link, String comment) {
         this();
         this.n = n;
         this.title = title;
         this.companyEntity = companyEntity;
         this.description = description;
         this.link = link;
+        this.comment = comment;
     }
 
     public Long getN() {
@@ -80,26 +84,23 @@ public class VacancyEntity {
         this.link = link;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VacancyEntity that)) return false;
-        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(companyEntity, that.companyEntity) && Objects.equals(description, that.description) && Objects.equals(link, that.link);
+        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(companyEntity, that.companyEntity) && Objects.equals(description, that.description) && Objects.equals(link, that.link) && Objects.equals(comment, that.comment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(n, title, companyEntity, description, link);
-    }
-
-    @Override
-    public String toString() {
-        return "VacancyEntity{" +
-                "n=" + n +
-                ", title='" + title + '\'' +
-                ", companyEntity=" + companyEntity +
-                ", description='" + description + '\'' +
-                ", link='" + link + '\'' +
-                '}';
+        return Objects.hash(n, title, companyEntity, description, link, comment);
     }
 }
