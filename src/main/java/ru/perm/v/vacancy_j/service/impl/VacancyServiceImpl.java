@@ -6,6 +6,7 @@ import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
 import ru.perm.v.vacancy_j.mapper.CompanyMapper;
+import ru.perm.v.vacancy_j.mapper.VacancyMapper;
 import ru.perm.v.vacancy_j.repository.IVacancyRepository;
 import ru.perm.v.vacancy_j.service.VacancyService;
 
@@ -17,6 +18,7 @@ public class VacancyServiceImpl implements VacancyService {
     private IVacancyRepository vacancyRepository;
     private CompanyMapper companyMapper = new CompanyMapper();
 
+    private VacancyMapper vacancyMapper = new VacancyMapper();
     public VacancyServiceImpl() {
         super();
     }
@@ -42,9 +44,14 @@ public class VacancyServiceImpl implements VacancyService {
             vacancyDto.setSource("TODO");
             //TODO add Comment
             vacancyDto.setComment("");
-            vacancyDto.setCompleted(false); //TODO: set completed
             //TODO add mapper?
             return vacancyDto;
         }
+    }
+
+    @Override
+    public List<VacancyDto> getAll() {
+        List<VacancyEntity> entities = vacancyRepository.findAll();
+        return vacancyMapper.toListDto(entities);
     }
 }

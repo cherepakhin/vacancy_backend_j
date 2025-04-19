@@ -57,19 +57,6 @@ class VacancyDtoTest {
         vacancyDto.setCompany(new CompanyDto(COMPANY_N, COMPANY_NAME));
         assertEquals(new CompanyDto(COMPANY_N, COMPANY_NAME), vacancyDto.getCompany());
     }
-    @Test
-    void testCompletedFalse() {
-        VacancyDto vacancyDto = new VacancyDto();
-        vacancyDto.setCompleted(false);
-        assertFalse(vacancyDto.getCompleted());
-    }
-
-    @Test
-    void testCompletedTrue() {
-        VacancyDto vacancyDto = new VacancyDto();
-        vacancyDto.setCompleted(true);
-        assertTrue(vacancyDto.getCompleted());
-    }
 
     @Test
     void constructorTest() {
@@ -79,15 +66,13 @@ class VacancyDtoTest {
         String COMPANY_NAME = "COMPANY";
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
-        boolean COMPLETED = true;
 
-        VacancyDto vacancyDto = new VacancyDto(TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, COMPLETED);
+        VacancyDto vacancyDto = new VacancyDto(TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
 
         assertEquals(TITLE, vacancyDto.getTitle());
         assertEquals(DESCRIPTION, vacancyDto.getDescription());
         assertEquals(new CompanyDto(COMPANY_N, COMPANY_NAME), vacancyDto.getCompany());
         assertEquals(SOURCE, vacancyDto.getSource());
         assertEquals(COMMENT, vacancyDto.getComment());
-        assertEquals(COMPLETED, vacancyDto.getCompleted());
     }
 }

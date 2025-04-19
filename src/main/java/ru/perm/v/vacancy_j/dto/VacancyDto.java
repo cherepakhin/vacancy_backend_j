@@ -9,20 +9,23 @@ public class VacancyDto extends Dto {
     private CompanyDto company = new CompanyDto();
     private String source = "";
     private String comment = "";
-    private Boolean completed = false;
 
     public VacancyDto() {
         super();
     }
 
-    public VacancyDto(String title, String description, CompanyDto companyDto, String source, String comment, Boolean completed) {
+    public VacancyDto(Long n, String title, String description, CompanyDto companyDto, String source, String comment) {
+        this(title, description, companyDto, source, comment);
+        this.n = n;
+    }
+
+    public VacancyDto(String title, String description, CompanyDto companyDto, String source, String comment) {
         super();
         this.title = title;
         this.description = description;
         this.company = companyDto;
         this.source = source;
         this.comment = comment;
-        this.completed = completed;
     }
 
     @Override
@@ -75,25 +78,17 @@ public class VacancyDto extends Dto {
         this.comment = comment;
     }
 
-    public Boolean getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(Boolean completed) {
-        this.completed = completed;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VacancyDto that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(company, that.company) && Objects.equals(source, that.source) && Objects.equals(comment, that.comment) && Objects.equals(completed, that.completed);
+        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(company, that.company) && Objects.equals(source, that.source) && Objects.equals(comment, that.comment) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), n, title, description, company, source, comment, completed);
+        return Objects.hash(super.hashCode(), n, title, description, company, source, comment);
     }
 
     @Override
@@ -104,8 +99,7 @@ public class VacancyDto extends Dto {
                 ", description='" + description + '\'' +
                 ", company=" + company +
                 ", source='" + source + '\'' +
-                ", comment='" + comment + '\'' +
-                ", completed=" + completed +
+                ", comment='" + comment +
                 '}';
     }
 }

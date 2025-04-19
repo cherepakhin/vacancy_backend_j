@@ -9,6 +9,7 @@ import ru.perm.v.vacancy_j.repository.IVacancyRepository;
 import ru.perm.v.vacancy_j.service.VacancyService;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -42,6 +43,42 @@ public class VacancyServiceImplTest {
         assertEquals("TITLE", foundVacancy.getTitle());
         assertEquals("DESCRIPTION", foundVacancy.getDescription());
         assertEquals(new CompanyDto(10L, "COMPANY"), foundVacancy.getCompany());
-        assertFalse(foundVacancy.getCompleted());
+   }
+
+    @Test
+    void getAll() {
+        VacancyEntity vacancyEntity100 = new VacancyEntity();
+        vacancyEntity100.setN(100L);
+        vacancyEntity100.setTitle("TITLE 100");
+        vacancyEntity100.setDescription("DESCRIPTION 100");
+        vacancyEntity100.setLink("SOURCE 100");
+        vacancyEntity100.setComment("COMMENT 100");
+
+        CompanyEntity companyEntity10 = new CompanyEntity();
+        companyEntity10.setN(10L);
+        companyEntity10.setName("COMPANY 10");
+        vacancyEntity100.setCompanyEntity(companyEntity10);
+
+        VacancyEntity vacancyEntity200 = new VacancyEntity();
+        vacancyEntity200.setN(200L);
+        vacancyEntity200.setTitle("TITLE 200");
+        vacancyEntity200.setDescription("DESCRIPTION 200");
+        vacancyEntity200.setLink("SOURCE 200");
+        CompanyEntity companyEntity20 = new CompanyEntity();
+        companyEntity20.setN(20L);
+        companyEntity20.setName("COMPANY 20");
+        vacancyEntity200.setCompanyEntity(companyEntity20);
+
+        when(vacancyRepository.findAll()).thenReturn(List.of(vacancyEntity100, vacancyEntity200));
+
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+
+        List<VacancyDto> dtos = vacancyService.getAll();
+
+        assertEquals(2, dtos.size());
+        CompanyDto companyDto10 = new CompanyDto(10L, "COMPANY 10");
+        CompanyDto companyDto20 = new CompanyDto(20L, "COMPANY 20");
+        assertEquals(2, dtos.size());
+        assertEquals(new VacancyDto(100L, "TITLE 100", "DESCRIPTION 100", companyDto10, "SOURCE 100", "COMMENT 100"), dtos.get(0));
     }
 }
