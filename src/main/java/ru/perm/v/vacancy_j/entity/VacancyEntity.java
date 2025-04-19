@@ -24,6 +24,18 @@ public class VacancyEntity {
     @Column(name = "description", nullable = false)
     private String description = "";
 
+    public VacancyEntity() {
+        super();
+    }
+
+    public VacancyEntity(Long n, String title, CompanyEntity companyEntity, String description) {
+        this();
+        this.n = n;
+        this.title = title;
+        this.companyEntity = companyEntity;
+        this.description = description;
+    }
+
     public Long getN() {
         return n;
     }

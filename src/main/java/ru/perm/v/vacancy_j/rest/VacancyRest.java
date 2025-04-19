@@ -5,13 +5,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.ArrayList;
 
 
 @RestController
 @RequestMapping("/vacancy")
 public class VacancyRest {
+    @GetMapping("/")
+    public List<VacancyDto> getAll() {
+        //TODO: realise list
+        List<VacancyDto> dtos = new ArrayList<>();
+        return dtos;
+    }
+
     @GetMapping("/{n}")
     public VacancyDto getByN(@PathVariable Long n) {
         //TODO: receive from service

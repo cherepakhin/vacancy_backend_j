@@ -32,4 +32,11 @@ public class CompanyServiceImpl implements CompanyService {
             return  companyMapper.toDto(companies.get(0));
         }
     }
+
+    @Override
+    public List<CompanyDto> getAll() {
+        List<CompanyEntity> entites = companyRepository.getAll();
+        companyMapper.toListDto(entites);
+        return List.of();
+    }
 }

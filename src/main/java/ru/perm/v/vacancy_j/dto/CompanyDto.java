@@ -35,4 +35,11 @@ public class CompanyDto extends Dto {
     public int hashCode() {
         return Objects.hash(super.hashCode(), name);
     }
+
+    @Override
+    public String toString() {
+        return "CompanyDto{" + "n='" + getN() + '\'' +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

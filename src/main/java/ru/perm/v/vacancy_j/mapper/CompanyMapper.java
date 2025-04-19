@@ -22,13 +22,15 @@ public class CompanyMapper implements IMapper<CompanyDto, CompanyEntity> {
         return entity;
     }
 
-    List<CompanyDto> toListDto(List<CompanyEntity> entities) {
-        List<CompanyDto> dtos = entities.stream().map(this::toDto).toList();
-        return dtos;
-    }
-
-    List<CompanyEntity> toListEntities(List<CompanyDto> dtos) {
+    @Override
+    public List<CompanyEntity> toListEntity(List<CompanyDto> dtos) {
         List<CompanyEntity> entites = dtos.stream().map(this::toEntity).toList();
         return entites;
+    }
+
+    @Override
+    public List<CompanyDto> toListDto(List<CompanyEntity> entities) {
+        List<CompanyDto> dtos = entities.stream().map(this::toDto).toList();
+        return dtos;
     }
 }

@@ -61,7 +61,7 @@ class CompanyMapperTest {
 
         CompanyMapper companyMapper = new CompanyMapper();
 
-        List<CompanyEntity> entites = companyMapper.toListEntities(List.of(dto1, dto2));
+        List<CompanyEntity> entites = companyMapper.toListEntity(List.of(dto1, dto2));
 
         assertEquals(2, entites.size());
         assertEquals(new CompanyEntity(1L, "name1"), entites.get(0));

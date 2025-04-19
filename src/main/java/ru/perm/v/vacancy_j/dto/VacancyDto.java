@@ -95,4 +95,17 @@ public class VacancyDto extends Dto {
     public int hashCode() {
         return Objects.hash(super.hashCode(), n, title, description, company, source, comment, completed);
     }
+
+    @Override
+    public String toString() {
+        return "VacancyDto{" +
+                "n=" + n +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", company=" + company +
+                ", source='" + source + '\'' +
+                ", comment='" + comment + '\'' +
+                ", completed=" + completed +
+                '}';
+    }
 }
