@@ -35,7 +35,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<CompanyDto> getAll() {
-        List<CompanyEntity> entites = companyRepository.getAll();
+        List<CompanyEntity> entites = companyRepository.findAll();
         companyMapper.toListDto(entites);
         return List.of();
     }

@@ -24,16 +24,20 @@ public class VacancyEntity {
     @Column(name = "description", nullable = false)
     private String description = "";
 
+    @Column(name = "link", nullable = false)
+    private String link = "";
+
     public VacancyEntity() {
         super();
     }
 
-    public VacancyEntity(Long n, String title, CompanyEntity companyEntity, String description) {
+    public VacancyEntity(Long n, String title, CompanyEntity companyEntity, String description, String link) {
         this();
         this.n = n;
         this.title = title;
         this.companyEntity = companyEntity;
         this.description = description;
+        this.link = link;
     }
 
     public Long getN() {
@@ -68,15 +72,34 @@ public class VacancyEntity {
         this.description = description;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VacancyEntity that)) return false;
-        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(companyEntity, that.companyEntity) && Objects.equals(description, that.description);
+        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(companyEntity, that.companyEntity) && Objects.equals(description, that.description) && Objects.equals(link, that.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(n, title, companyEntity, description);
+        return Objects.hash(n, title, companyEntity, description, link);
+    }
+
+    @Override
+    public String toString() {
+        return "VacancyEntity{" +
+                "n=" + n +
+                ", title='" + title + '\'' +
+                ", companyEntity=" + companyEntity +
+                ", description='" + description + '\'' +
+                ", link='" + link + '\'' +
+                '}';
     }
 }

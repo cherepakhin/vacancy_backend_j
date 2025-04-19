@@ -7,3 +7,5 @@ CREATE table if not exists company
 
 -- default value for null company
 insert into company(n, name) values (-1,'-');
+
+COMMIT;

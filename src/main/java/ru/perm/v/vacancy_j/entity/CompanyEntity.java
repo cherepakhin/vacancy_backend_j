@@ -51,4 +51,12 @@ public class CompanyEntity {
     public int hashCode() {
         return Objects.hash(n, name);
     }
+
+    @Override
+    public String toString() {
+        return "CompanyEntity{" +
+                "n=" + n +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

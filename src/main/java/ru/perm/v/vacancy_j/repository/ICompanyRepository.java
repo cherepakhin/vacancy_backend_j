@@ -11,6 +11,5 @@ import ru.perm.v.vacancy_j.entity.CompanyEntity;
 public interface ICompanyRepository extends JpaRepository<CompanyEntity, Long> {
     List<CompanyEntity> findByNameOrderByNDesc(String name);
     List<CompanyEntity> findByN(Long n);
-    List<CompanyEntity> getAll();
-
+    List<CompanyEntity> findAll();
 }

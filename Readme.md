@@ -30,5 +30,12 @@ Rest:
 ````shell
 ./gradlew flywayMigrate
 ````
+
+или
+
+````shell
+
+./gradlew flywayMigrate -Dflyway.url=jdbc:postgresql://192.168.1.20:5432/vacancy -Dflyway.user=vasi -Dflyway.password=pass
+````
  
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64

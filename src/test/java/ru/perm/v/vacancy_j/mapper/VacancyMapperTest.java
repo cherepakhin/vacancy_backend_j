@@ -76,7 +76,8 @@ public class VacancyMapperTest {
         String VACANCY_DESCRIPTION_10 = "VACANCY_DESCRIPTION_10";
 
         CompanyEntity companyEntity100 = new CompanyEntity(COMPANY_N_100, COMPANY_NAME_100);
-        VacancyEntity entity100 = new VacancyEntity(N10, VACANCY_TITLE_10,companyEntity100, VACANCY_DESCRIPTION_10);
+        String LINK_10="LINK_10";
+        VacancyEntity entity100 = new VacancyEntity(N10, VACANCY_TITLE_10,companyEntity100, VACANCY_DESCRIPTION_10, LINK_10);
 
         Long COMPANY_N_200 = 200L;
         String COMPANY_NAME_200 = "COMPANY_NAME_200";
@@ -84,7 +85,8 @@ public class VacancyMapperTest {
         Long VACANCY_N_20 = 200L;
         String VACANCY_TITLE_20 = "VACANCY_TITLE_20";
         String VACANCY_DESCRIPTION_20 = "VACANCY_DESCRIPTION_20";
-        VacancyEntity entity200 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200, VACANCY_DESCRIPTION_20);
+        String LINK_20="LINK_20";
+        VacancyEntity entity200 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200, VACANCY_DESCRIPTION_20, LINK_20);
 
         List<VacancyDto> dtos = new VacancyMapper().toListDto(List.of(entity100, entity200));
 
@@ -98,7 +100,7 @@ public class VacancyMapperTest {
         vacancyDto10.setTitle(VACANCY_TITLE_10);
         vacancyDto10.setDescription(VACANCY_DESCRIPTION_10);
         vacancyDto10.setCompany(companyDto100);
-
+        vacancyDto10.setSource("LINK_10");
         assertEquals(vacancyDto10, dtos.get(0));
 
         CompanyDto companyDto200 = new CompanyDto();
@@ -111,6 +113,7 @@ public class VacancyMapperTest {
         vacancyDto20.setTitle(VACANCY_TITLE_20);
         vacancyDto20.setDescription(VACANCY_DESCRIPTION_20);
         vacancyDto20.setCompany(companyDto200);
+        vacancyDto20.setSource("LINK_20");
 
         assertEquals(vacancyDto20, dtos.get(1));
     }
@@ -124,12 +127,15 @@ public class VacancyMapperTest {
         Long VACANCY_N_10 = 10L;
         String VACANCY_TITLE_10 = "VACANCY_TITLE_10";
         String VACANCY_DESCRIPTION_10 = "VACANCY_DESCRIPTION_10";
+        String LINK_10="LINK_10";
+        String LINK_20="LINK_20";
 
         VacancyDto vacancyDto10 = new VacancyDto();
 
         vacancyDto10.setN(VACANCY_N_10);
         vacancyDto10.setTitle(VACANCY_TITLE_10);
         vacancyDto10.setDescription(VACANCY_DESCRIPTION_10);
+        vacancyDto10.setSource(LINK_10);
 
         CompanyDto companyDto100 = new CompanyDto(COMPANY_N_100, COMPANY_NAME_100);
         vacancyDto10.setCompany(companyDto100);
@@ -143,6 +149,7 @@ public class VacancyMapperTest {
         vacancyDto20.setN(VACANCY_N_20);
         vacancyDto20.setTitle(VACANCY_TITLE_20);
         vacancyDto20.setDescription(VACANCY_DESCRIPTION_20);
+        vacancyDto20.setSource(LINK_20);
 
         Long COMPANY_N_200 = 200L;
         String COMPANY_NAME_200 = "COMPANY_NAME_200";
@@ -154,9 +161,8 @@ public class VacancyMapperTest {
         CompanyEntity companyEntity100 = new CompanyEntity(COMPANY_N_100, COMPANY_NAME_100);
 
         CompanyEntity companyEntity200 = new CompanyEntity(COMPANY_N_200, COMPANY_NAME_200);
-        VacancyEntity vacancyEntity20 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200, VACANCY_DESCRIPTION_20);
-
-        VacancyEntity vacancyEntity10 = new VacancyEntity(VACANCY_N_10, VACANCY_TITLE_10,companyEntity100, VACANCY_DESCRIPTION_10);
+        VacancyEntity vacancyEntity10 = new VacancyEntity(VACANCY_N_10, VACANCY_TITLE_10,companyEntity100, VACANCY_DESCRIPTION_10, LINK_10);
+        VacancyEntity vacancyEntity20 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200, VACANCY_DESCRIPTION_20, LINK_20);
 
         assertEquals(vacancyEntity10, entities.get(0));
         assertEquals(vacancyEntity20, entities.get(1));

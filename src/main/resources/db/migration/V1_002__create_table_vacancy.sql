@@ -7,3 +7,5 @@ CREATE table if not exists vacancy
     CONSTRAINT vacancy_pkey PRIMARY KEY (n),
     CONSTRAINT fk_company_n FOREIGN KEY (company_n) REFERENCES company (n)
 );
+
+COMMIT;
