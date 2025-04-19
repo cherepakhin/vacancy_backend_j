@@ -12,6 +12,8 @@ public class VacancyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long n = -1L;
 
+    //TODO: add date created, date modified
+
     // short description
     @Column(name = "title", nullable = false)
     private String title = "";
