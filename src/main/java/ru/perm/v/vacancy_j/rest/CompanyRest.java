@@ -1,15 +1,13 @@
 package ru.perm.v.vacancy_j.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.service.CompanyService;
 
 @RestController
 @RequestMapping("/company")
+@CrossOrigin(origins = "*")
 public class CompanyRest {
 
     @Autowired
