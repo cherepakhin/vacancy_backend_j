@@ -1,6 +1,10 @@
 package ru.perm.v.vacancy_j.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
@@ -12,6 +16,8 @@ import ru.perm.v.vacancy_j.service.VacancyService;
 
 import java.util.List;
 
+import static java.lang.String.format;
+
 @Service
 public class VacancyServiceImpl implements VacancyService {
     @Autowired
@@ -19,6 +25,9 @@ public class VacancyServiceImpl implements VacancyService {
     private CompanyMapper companyMapper = new CompanyMapper();
 
     private VacancyMapper vacancyMapper = new VacancyMapper();
+
+    Logger log = LoggerFactory.getLogger(VacancyServiceImpl.class);
+
     public VacancyServiceImpl() {
         super();
     }
@@ -52,6 +61,23 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public List<VacancyDto> getAll() {
         List<VacancyEntity> entities = vacancyRepository.findAll();
+        return vacancyMapper.toListDto(entities);
+    }
+
+    @Override
+    public List<VacancyDto> findByName(String title) {
+        log.info(format("Find vacancy by title: %s" , title));
+        VacancyEntity query = new VacancyEntity();
+        query.setTitle(title);
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnorePaths("n", "companyEntity", "description", "link", "comment")
+                .withIncludeNullValues()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example<VacancyEntity> example = Example.of(query, matcher);
+        List<VacancyEntity> entities = vacancyRepository.findAll(example);
+        for(VacancyEntity v : entities) {
+            log.info(format("Find vacancy by title %s" , v.toString()));
+        }
         return vacancyMapper.toListDto(entities);
     }
 }

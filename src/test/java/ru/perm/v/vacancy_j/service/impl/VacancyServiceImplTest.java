@@ -1,6 +1,8 @@
 package ru.perm.v.vacancy_j.service.impl;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
@@ -80,5 +82,32 @@ public class VacancyServiceImplTest {
         CompanyDto companyDto20 = new CompanyDto(20L, "COMPANY 20");
         assertEquals(2, dtos.size());
         assertEquals(new VacancyDto(100L, "TITLE 100", "DESCRIPTION 100", companyDto10, "SOURCE 100", "COMMENT 100"), dtos.get(0));
+    }
+
+    @Test
+    void findByName() {
+        String SEARCH_TITLE = "SEARCH_TITLE";
+
+        VacancyEntity vacancyEntity100 = new VacancyEntity();
+        vacancyEntity100.setN(100L);
+        vacancyEntity100.setTitle(SEARCH_TITLE);
+
+        VacancyEntity query = new VacancyEntity();
+        query.setTitle(SEARCH_TITLE);
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnorePaths("n", "companyEntity", "description", "link", "comment")
+                .withIncludeNullValues()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example<VacancyEntity> example = Example.of(query, matcher);
+
+        when(vacancyRepository.findAll(example)).thenReturn(List.of(vacancyEntity100));
+
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+
+        List<VacancyDto> dtos = vacancyService.findByName(SEARCH_TITLE);
+
+        assertEquals(1, dtos.size());
+        assertEquals(100L, dtos.get(0).getN());
+        assertEquals(SEARCH_TITLE, dtos.get(0).getTitle());
     }
 }
