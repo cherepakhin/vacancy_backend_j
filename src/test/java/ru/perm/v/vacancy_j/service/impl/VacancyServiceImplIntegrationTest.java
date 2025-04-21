@@ -41,12 +41,41 @@ public class VacancyServiceImplIntegrationTest {
     }
 
     @Test
-    void withEntityManager() {
+    void findByCriteryWithLikeName() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        VacancyCriterySearch criterySearch = new VacancyCriterySearch();
+        criterySearch.setByName("%1");
 
+        List<VacancyDto> vacancies = vacancyService.findByCritery(criterySearch);
 
-//        assertEquals(4, vacancies.size());
+        assertEquals(2, vacancies.size());
+        assertEquals(1L, vacancies.get(0).getN());
+        assertEquals(2L, vacancies.get(1).getN());
     }
 
+    @Test
+    void findByCriteryWithEqName() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        VacancyCriterySearch criterySearch = new VacancyCriterySearch();
+        criterySearch.setByName("Vacancy 1 Company 2");
+
+        List<VacancyDto> vacancies = vacancyService.findByCritery(criterySearch);
+
+        assertEquals(1, vacancies.size());
+        assertEquals(3L, vacancies.get(0).getN());
+    }
+
+    @Test
+    void findByCriteryWithInNN() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        VacancyCriterySearch criterySearch = new VacancyCriterySearch();
+        criterySearch.setNn(List.of(1L, 3L));
+
+        List<VacancyDto> vacancies = vacancyService.findByCritery(criterySearch);
+
+        assertEquals(2, vacancies.size());
+        assertEquals(1L, vacancies.get(0).getN());
+        assertEquals(3L, vacancies.get(1).getN());
+    }
 
 }

@@ -88,14 +88,15 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> findByCritery(VacancyCriterySearch criterySearch) {
         log.info(format("Find vacancy by criterySearch: %s", criterySearch));
 
-        Specification<VacancyEntity> spec = VacancySpecifications.hasNGreaterThan(-1);
+        Specification<VacancyEntity> spec = VacancySpecifications.hasNGreaterThan(-1L);
 
         if (criterySearch.getNn().size() > 0) {
-            log.info("Nn");
+            log.info("add NN to critery");
             spec = spec.and(VacancySpecifications.N_In(criterySearch.getNn()));
         }
 
         if (!criterySearch.getByName().isEmpty()) {
+            log.info("add NAME to critery");
             spec = spec.and(VacancySpecifications.hasTitleLike(criterySearch.getByName()));
         }
 

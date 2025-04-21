@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class VacancyCriterySearch {
-    String byName = "";
     List<Long> nn = new ArrayList<>();
+
+    /**
+     * for like use string with '%'. Example: criterySearch.setByName("%1");
+     */
+    String byName = "";
 
     public String getByName() {
         return byName;
