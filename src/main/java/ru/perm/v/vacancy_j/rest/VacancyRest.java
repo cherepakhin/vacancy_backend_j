@@ -33,7 +33,7 @@ public class VacancyRest {
 
     @GetMapping("/{n}")
     public VacancyDto getByN(@PathVariable Long n) {
-        log.info("get /vacancy/%d", n);
+        log.info(format("get /vacancy/%s", n));
         //TODO: receive from service
         VacancyDto vacancyDto = new VacancyDto();
         vacancyDto.setN(n);

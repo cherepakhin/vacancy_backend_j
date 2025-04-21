@@ -78,4 +78,16 @@ public class VacancyServiceImplIntegrationTest {
         assertEquals(3L, vacancies.get(1).getN());
     }
 
+    @Test
+    void findByCriteryWithInNNAndLikeName() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        VacancyCriterySearch criterySearch = new VacancyCriterySearch();
+        criterySearch.setNn(List.of(1L, 3L));
+        criterySearch.setByName("%Company 1");
+        List<VacancyDto> vacancies = vacancyService.findByCritery(criterySearch);
+
+        assertEquals(1, vacancies.size());
+        assertEquals(1L, vacancies.get(0).getN());
+    }
+
 }
