@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
+import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
@@ -110,4 +111,6 @@ public class VacancyServiceImplTest {
         assertEquals(100L, dtos.get(0).getN());
         assertEquals(SEARCH_TITLE, dtos.get(0).getTitle());
     }
+
+
 }

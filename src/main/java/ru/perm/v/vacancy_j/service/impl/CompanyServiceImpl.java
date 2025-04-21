@@ -36,7 +36,12 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public List<CompanyDto> getAll() {
         List<CompanyEntity> entites = companyRepository.findAll();
-        companyMapper.toListDto(entites);
-        return List.of();
+        return companyMapper.toListDto(entites);
+    }
+
+    @Override
+    public List<CompanyDto> findByLikeName(String name) {
+        List<CompanyEntity> entites = companyRepository.findByLikeName(name);
+        return companyMapper.toListDto(entites);
     }
 }

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.service.VacancyService;
 
@@ -40,9 +41,9 @@ public class VacancyRest {
     }
 
     @PostMapping("/find")
-    public List<VacancyDto> findBy(@RequestBody CriterySearch criterySearch) {
-        log.info(format("find by %s", criterySearch));
-        List<VacancyDto> dtos = vacancyService.findByName(criterySearch.byName);
+    public List<VacancyDto> findBy(@RequestBody VacancyCriterySearch vacancyCriterySearch) {
+        log.info(format("find by %s", vacancyCriterySearch));
+        List<VacancyDto> dtos = vacancyService.findByCritery(vacancyCriterySearch);
 
         return dtos;
     }

@@ -1,0 +1,46 @@
+package ru.perm.v.vacancy_j.dto;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class VacancyCriterySearch {
+    String byName = "";
+    List<Long> nn = new ArrayList<>();
+
+    public String getByName() {
+        return byName;
+    }
+
+    public void setByName(String byName) {
+        this.byName = byName;
+    }
+
+    public List<Long> getNn() {
+        return nn;
+    }
+
+    public void setNn(List<Long> nn) {
+        this.nn = nn;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VacancyCriterySearch that)) return false;
+        return Objects.equals(byName, that.byName) && Objects.equals(nn, that.nn);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(byName, nn);
+    }
+
+    @Override
+    public String toString() {
+        return "VacancyCriterySearch{" +
+                "byName='" + byName + '\'' +
+                ", nn=" + nn +
+                '}';
+    }
+}

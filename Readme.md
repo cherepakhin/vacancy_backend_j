@@ -39,3 +39,5 @@ Rest:
 ````
  
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
+http POST :8080/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
