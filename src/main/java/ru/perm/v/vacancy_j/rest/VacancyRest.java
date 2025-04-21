@@ -34,15 +34,17 @@ public class VacancyRest {
     @GetMapping("/{n}")
     public VacancyDto getByN(@PathVariable Long n) {
         log.info(format("get /vacancy/%s", n));
-        //TODO: receive from service
-        VacancyDto vacancyDto = new VacancyDto();
-        vacancyDto.setN(n);
-        return vacancyDto;
+        try {
+            return vacancyService.getByN(n);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping("/find")
     public List<VacancyDto> findBy(@RequestBody VacancyCriterySearch vacancyCriterySearch) {
         log.info(format("find by %s", vacancyCriterySearch));
+
         List<VacancyDto> dtos = vacancyService.findByCritery(vacancyCriterySearch);
 
         return dtos;
