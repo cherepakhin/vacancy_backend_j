@@ -49,6 +49,13 @@ public class VacancyRest {
         log.info(format("POST updateByN /vacancy/%s", vacancyDto.getN()));
         log.info(format("vacancyDto %s", vacancyDto));
         try {
+            // check for exist
+            VacancyDto prevVacancy = vacancyService.getByN(vacancyDto.getN());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+        try {
             VacancyDto dto = vacancyService.update(vacancyDto);
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
