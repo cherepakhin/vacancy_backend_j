@@ -41,3 +41,28 @@ Rest:
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 http POST :8080/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
+
+Для работы с базой данных использован org.springframework.data.jpa.domain.Specification. Пример в VacancyServiceImpl.findByCritery() :
+
+````java
+    public List<VacancyDto> findByCritery(VacancyCriterySearch criterySearch) {
+        log.info(format("Find vacancy by criterySearch: %s", criterySearch));
+
+        Specification<VacancyEntity> spec = VacancySpecifications.hasNGreaterThan(-1L);
+
+        if (criterySearch.getNn().size() > 0) {
+            log.info("add NN to critery");
+            spec = spec.and(VacancySpecifications.N_In(criterySearch.getNn()));
+        }
+
+        if (!criterySearch.getByName().isEmpty()) {
+            log.info("add NAME to critery");
+            spec = spec.and(VacancySpecifications.hasTitleLike(criterySearch.getByName()));
+        }
+
+        List<VacancyEntity> entities = vacancyRepository.findAll(spec);
+        for (VacancyEntity v : entities) {
+            log.info(format("Find vacancy by title %s", v.toString()));
+        }
+        return vacancyMapper.toListDto(entities);
+````
