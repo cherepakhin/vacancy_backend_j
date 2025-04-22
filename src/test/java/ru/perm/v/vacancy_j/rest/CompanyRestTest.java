@@ -1,6 +1,7 @@
 package ru.perm.v.vacancy_j.rest;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.http.ResponseEntity;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.service.CompanyService;
 
@@ -19,10 +20,10 @@ class CompanyRestTest {
         when(companyService.getByN(COMPANY_N)).thenReturn(companyDto);
         CompanyRest companyRest = new CompanyRest(companyService);
 
-        CompanyDto receivedDTO = companyRest.getByN(1L);
+        ResponseEntity ret = companyRest.getByN(1L);
 
-        assertNotNull(receivedDTO);
-        assertEquals(companyDto, receivedDTO);
+        assertNotNull(ret.getBody());
+        assertEquals(companyDto, ret.getBody());
     }
 
     @Test
@@ -33,10 +34,11 @@ class CompanyRestTest {
         when(companyService.getByN(COMPANY_N)).thenReturn(companyDto);
         CompanyRest companyRest = new CompanyRest(companyService);
 
-        CompanyDto receivedDTO = companyRest.getByN(1L);
+        ResponseEntity<?> ret = companyRest.getByN(1L);
 
-        assertNotNull(receivedDTO);
-        assertEquals(companyDto, receivedDTO);
-        assertEquals(1L, companyRest.getByN(1L).getN());
+        assertNotNull(ret);
+        assertEquals(companyDto, ret.getBody());
+        CompanyDto recivedDto = (CompanyDto) ret.getBody();
+        assertEquals(companyDto, recivedDto);
     }
 }

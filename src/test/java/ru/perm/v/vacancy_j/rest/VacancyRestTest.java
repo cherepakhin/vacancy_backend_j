@@ -25,8 +25,8 @@ class VacancyRestTest {
         try {
             when(mockVacancyService.getByN(N)).thenReturn(vacancyDto);
             vacancyRest.setVacancyService(mockVacancyService);
-            VacancyDto receivedDto = vacancyRest.getByN(2L);
-            assertEquals(vacancyDto, receivedDto);
+            ResponseEntity ret = vacancyRest.getByN(2L);
+            assertEquals(vacancyDto, ret.getBody());
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -41,9 +41,9 @@ class VacancyRestTest {
         vacancyRest.setVacancyService(mockVacancyService);
         when(mockVacancyService.getByN(N)).thenReturn(vacancyDto);
 
-        VacancyDto receivedDto = vacancyRest.getByN(N);
+        ResponseEntity<VacancyDto> ret = vacancyRest.getByN(N);
 
-        assertEquals(2L, receivedDto.getN());
+        assertEquals(2L, ret.getBody().getN());
     }
 
     @Test
@@ -61,7 +61,8 @@ class VacancyRestTest {
 
         when(mockVacancyService.findByCritery(vacancyCriterySearch)).thenReturn(List.of(vacancyDto1, vacancyDto2));
 
-        List<VacancyDto> dtos = vacancyRest.findBy(vacancyCriterySearch);
+        ResponseEntity ret = vacancyRest.findBy(vacancyCriterySearch);
+        List<VacancyDto> dtos= (List<VacancyDto>) ret.getBody();
 
         assertEquals(2, dtos.size());
         assertEquals(vacancyDto1, dtos.get(0));
@@ -78,7 +79,8 @@ class VacancyRestTest {
         try {
             when(mockVacancyService.update(vacancyDto)).thenReturn(vacancyDto);
             vacancyRest.setVacancyService(mockVacancyService);
-            updatedDto = vacancyRest.update(vacancyDto);
+            ResponseEntity ret = vacancyRest.update(vacancyDto);
+            updatedDto= (VacancyDto) ret.getBody();
         } catch (Exception e) {
             fail(e.getMessage());
         }

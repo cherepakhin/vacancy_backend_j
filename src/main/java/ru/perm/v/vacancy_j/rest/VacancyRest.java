@@ -34,33 +34,36 @@ public class VacancyRest {
     }
 
     @GetMapping("/{n}")
-    public VacancyDto getByN(@PathVariable Long n) {
+    public ResponseEntity getByN(@PathVariable Long n) {
         log.info(format("get /vacancy/%s", n));
         try {
-            return vacancyService.getByN(n);
+            return ResponseEntity.ok(vacancyService.getByN(n));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
     @PostMapping("/")
-    public VacancyDto update(@RequestBody VacancyDto vacancyDto) {
+    public ResponseEntity<?> update(@RequestBody VacancyDto vacancyDto) {
         log.info(format("POST updateByN /vacancy/%s", vacancyDto.getN()));
         log.info(format("vacancyDto %s", vacancyDto));
         try {
-            return vacancyService.update(vacancyDto);
+            VacancyDto dto = vacancyService.update(vacancyDto);
+            return ResponseEntity.ok(dto);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
     @PostMapping("/find")
-    public List<VacancyDto> findBy(@RequestBody VacancyCriterySearch vacancyCriterySearch) {
+    public ResponseEntity<?> findBy(@RequestBody VacancyCriterySearch vacancyCriterySearch) {
         log.info(format("find by %s", vacancyCriterySearch));
 
         List<VacancyDto> dtos = vacancyService.findByCritery(vacancyCriterySearch);
 
-        return dtos;
+        return ResponseEntity.ok(dtos);
     }
 
     public VacancyService getVacancyService() {
