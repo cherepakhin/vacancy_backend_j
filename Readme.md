@@ -42,7 +42,7 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 http POST :8080/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 
-Для работы с базой данных использован org.springframework.data.jpa.domain.Specification. Пример в VacancyServiceImpl.findByCritery() :
+Для работы с базой данных использован org.springframework.data.jpa.domain.Specification. Пример в ru.perm.v.vacancy_j.service.impl.VacancyServiceImpl.findByCritery(...) :
 
 ````java
     public List<VacancyDto> findByCritery(VacancyCriterySearch criterySearch) {
@@ -60,9 +60,25 @@ http POST :8080/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
             spec = spec.and(VacancySpecifications.hasTitleLike(criterySearch.getByName()));
         }
 
-        List<VacancyEntity> entities = vacancyRepository.findAll(spec);
+        List<VacancyEntity> entities 1= vacancyRepository.findAll(spec);
         for (VacancyEntity v : entities) {
             log.info(format("Find vacancy by title %s", v.toString()));
         }
         return vacancyMapper.toListDto(entities);
+````
+
+Тест ru.perm.v.vacancy_j.service.impl.VacancyServiceImplIntegrationTest:
+
+````shell
+    @Test
+    void findByCriteryWithInNNAndLikeName() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        VacancyCriterySearch criterySearch = new VacancyCriterySearch();
+        criterySearch.setNn(List.of(1L, 3L));
+        criterySearch.setByName("%Company 1");
+        List<VacancyDto> vacancies = vacancyService.findByCritery(criterySearch);
+
+        assertEquals(1, vacancies.size());
+        assertEquals(1L, vacancies.get(0).getN());
+     }
 ````
