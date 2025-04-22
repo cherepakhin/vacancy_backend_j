@@ -105,6 +105,19 @@ class VacancyRestTest {
         assertEquals(2, receivedVacancies.getBody().size());
         assertEquals(vacancyDto1, receivedVacancies.getBody().get(0));
         assertEquals(vacancyDto2, receivedVacancies.getBody().get(1));
+    }
 
+    @Test
+    public void deleteByN() throws Exception {
+        VacancyDto vacancyDto1 = new VacancyDto();
+        Long N = 1L;
+        vacancyDto1.setN(N);
+        VacancyRest vacancyRest = new VacancyRest();
+        vacancyRest.setVacancyService(mockVacancyService);
+        when(mockVacancyService.getByN(N)).thenThrow(new Exception("ERROR"));
+        ResponseEntity<?> response = vacancyRest.deleteByN(N);
+
+        assertEquals(500, response.getStatusCode().value());
+        assertEquals("ERROR", response.getBody());
     }
 }

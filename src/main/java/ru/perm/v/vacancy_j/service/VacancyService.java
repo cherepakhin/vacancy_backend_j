@@ -13,4 +13,6 @@ public interface VacancyService {
     List<VacancyDto> findByCritery(VacancyCriterySearch criterySearch);
 
     VacancyDto update(VacancyDto vacancyDto) throws Exception;
+
+    void deleteByN(Long n) throws Exception;
 }

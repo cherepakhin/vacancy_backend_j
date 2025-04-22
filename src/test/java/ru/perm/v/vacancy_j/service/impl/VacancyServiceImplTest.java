@@ -112,7 +112,6 @@ public class VacancyServiceImplTest {
         assertEquals(SEARCH_TITLE, dtos.get(0).getTitle());
     }
 
-
     @Test
     void update() {
         CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
@@ -136,5 +135,35 @@ public class VacancyServiceImplTest {
         verify(vacancyRepository, times(1)).existsById(100L);
         verify(vacancyRepository, times(1)).findById(100L);
         verify(vacancyRepository, times(1)).save(vacancyEntity100);
+    }
+
+    @Test
+    public void deleteForExist() {
+        Long N = 100L;
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        when(vacancyRepository.existsById(N)).thenReturn(true);
+        try {
+            vacancyService.deleteByN(N);
+        } catch (Exception e) {
+            fail();
+        }
+
+        verify(vacancyRepository, times(1)).deleteById(N);
+    }
+
+    @Test
+    public void deleteForNotExist() {
+        Long N = 100L;
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        when(vacancyRepository.existsById(N)).thenReturn(false);
+        String err = null;
+        try {
+            vacancyService.deleteByN(N);
+        } catch (Exception e) {
+            err = e.getMessage();
+        }
+
+        verify(vacancyRepository, never()).deleteById(N);
+        assertEquals("VacancyDto with N=100 not exist", err);
     }
 }

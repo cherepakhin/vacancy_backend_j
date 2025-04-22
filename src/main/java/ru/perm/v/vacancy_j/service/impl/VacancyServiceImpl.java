@@ -137,4 +137,21 @@ public class VacancyServiceImpl implements VacancyService {
         VacancyEntity saved = vacancyRepository.save(entity);
         return vacancyMapper.toDto(saved);
     }
+
+    @Override
+    public void deleteByN(Long n) throws Exception {
+        boolean exist = vacancyRepository.existsById(n);
+        if (!exist) {
+            String error = format("VacancyDto with N=%s not exist", n);
+            log.info(error);
+            throw new Exception(error);
+        }
+        try {
+            vacancyRepository.deleteById(n);
+        } catch (Exception e) {
+            String error = format("Error for delete n=%s: %s", n, e.getMessage());
+            log.info(error);
+            throw new Exception(error);
+        }
+    }
 }

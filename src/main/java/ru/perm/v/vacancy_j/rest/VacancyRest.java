@@ -46,11 +46,10 @@ public class VacancyRest {
 
     @PostMapping("/")
     public ResponseEntity<?> update(@RequestBody VacancyDto vacancyDto) {
-        log.info(format("POST updateByN /vacancy/%s", vacancyDto.getN()));
-        log.info(format("vacancyDto %s", vacancyDto));
+        log.info(format("POST update vacancyDto %s", vacancyDto));
         try {
             // check for exist
-            VacancyDto prevVacancy = vacancyService.getByN(vacancyDto.getN());
+            vacancyService.getByN(vacancyDto.getN());
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
@@ -71,6 +70,25 @@ public class VacancyRest {
         List<VacancyDto> dtos = vacancyService.findByCritery(vacancyCriterySearch);
 
         return ResponseEntity.ok(dtos);
+    }
+
+    @DeleteMapping("/$n")
+    public ResponseEntity<?> deleteByN(@PathVariable Long n) {
+        log.info(format("DELETE vacancy n= %s", n));
+        try {
+            // check for exist
+            vacancyService.getByN(n);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+        try {
+            getVacancyService().deleteByN(n);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+        return ResponseEntity.ok("");
     }
 
     public VacancyService getVacancyService() {
