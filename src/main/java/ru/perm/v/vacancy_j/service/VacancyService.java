@@ -11,4 +11,6 @@ public interface VacancyService {
     List<VacancyDto> getAll();
     List<VacancyDto> findByName(String name);
     List<VacancyDto> findByCritery(VacancyCriterySearch criterySearch);
+
+    VacancyDto update(VacancyDto vacancyDto) throws Exception;
 }

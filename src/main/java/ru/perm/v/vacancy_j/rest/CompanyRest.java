@@ -24,7 +24,6 @@ public class CompanyRest {
 
     @GetMapping("/{n}")
     public CompanyDto getByN(@PathVariable Long n) {
-        //TODO: receive from service
         try {
             CompanyDto company = companyService.getByN(n);
             return company;

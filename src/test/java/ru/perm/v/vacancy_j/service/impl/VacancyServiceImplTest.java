@@ -13,10 +13,10 @@ import ru.perm.v.vacancy_j.service.VacancyService;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class VacancyServiceImplTest {
     IVacancyRepository vacancyRepository = mock(IVacancyRepository.class);
@@ -113,4 +113,28 @@ public class VacancyServiceImplTest {
     }
 
 
+    @Test
+    void update() {
+        CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
+        VacancyEntity vacancyEntity100 = new VacancyEntity(100L,"TITLE 100",
+                companyEntity10, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100");
+        when(vacancyRepository.existsById(100L)).thenReturn(true);
+        when(vacancyRepository.findById(100L)).thenReturn(Optional.of(vacancyEntity100));
+        when(vacancyRepository.save(vacancyEntity100)).thenReturn(vacancyEntity100);
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+
+        CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
+        VacancyDto vacancyDto = new VacancyDto(100L,"TITLE 100","DESCRIPTION 100", companyDto,"SOURCE 100","COMMENT 100");
+        VacancyDto updatedVacancyDto = null;
+        try {
+            updatedVacancyDto = vacancyService.update(vacancyDto);
+        } catch (Exception e) {
+            fail();
+        }
+
+        assertEquals(vacancyDto, updatedVacancyDto);
+        verify(vacancyRepository, times(1)).existsById(100L);
+        verify(vacancyRepository, times(1)).findById(100L);
+        verify(vacancyRepository, times(1)).save(vacancyEntity100);
+    }
 }

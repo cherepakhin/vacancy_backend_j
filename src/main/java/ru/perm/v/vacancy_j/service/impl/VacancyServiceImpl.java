@@ -18,6 +18,7 @@ import ru.perm.v.vacancy_j.service.VacancyService;
 import ru.perm.v.vacancy_j.specs.VacancySpecifications;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.lang.String.format;
 
@@ -107,4 +108,33 @@ public class VacancyServiceImpl implements VacancyService {
         return vacancyMapper.toListDto(entities);
     }
 
+    @Override
+    public VacancyDto update(VacancyDto vacancyDto) throws Exception {
+        if (vacancyDto == null) {
+            String error = "VacancyDto for update is null";
+            log.info(error);
+            throw new Exception(error);
+        }
+        if (vacancyDto.getN() == null) {
+            String error = "\"ID VacancyDto for update is null\"";
+            log.info(error);
+            throw new Exception(error);
+        }
+        boolean exist = vacancyRepository.existsById(vacancyDto.getN());
+        if (!exist) {
+            String error = format("VacancyDto with N= %s not exist", vacancyDto.getN());
+            log.info(error);
+            throw new Exception(error);
+        }
+
+        Optional<VacancyEntity> optionalVacancy = vacancyRepository.findById(vacancyDto.getN());
+        if (!optionalVacancy.isPresent()) {
+            String error = format("VacancyDto with N= %s not found", vacancyDto.getN());
+            log.info(error);
+            throw new Exception(error);
+        }
+        VacancyEntity entity = vacancyMapper.toEntity(vacancyDto);
+        VacancyEntity saved = vacancyRepository.save(entity);
+        return vacancyMapper.toDto(saved);
+    }
 }

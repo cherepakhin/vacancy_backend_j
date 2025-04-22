@@ -1,6 +1,7 @@
 package ru.perm.v.vacancy_j.rest;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.http.ResponseEntity;
 import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.service.VacancyService;
@@ -9,8 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class VacancyRestTest {
 
@@ -68,4 +68,41 @@ class VacancyRestTest {
         assertEquals(vacancyDto2, dtos.get(1));
     }
 
+    @Test
+    void update() throws Exception {
+        VacancyRest vacancyRest = new VacancyRest();
+        Long N = 2L;
+        VacancyDto vacancyDto = new VacancyDto();
+        vacancyDto.setN(N);
+        VacancyDto updatedDto = null;
+        try {
+            when(mockVacancyService.update(vacancyDto)).thenReturn(vacancyDto);
+            vacancyRest.setVacancyService(mockVacancyService);
+            updatedDto = vacancyRest.update(vacancyDto);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        assertEquals(vacancyDto, updatedDto);
+        verify(mockVacancyService, times(1)).update(vacancyDto);
+    }
+
+    @Test
+    public void getAll() {
+        VacancyDto vacancyDto1 = new VacancyDto();
+        vacancyDto1.setN(1L);
+        VacancyDto vacancyDto2 = new VacancyDto();
+        vacancyDto2.setN(2L);
+        List<VacancyDto> vacancyDtos = List.of(vacancyDto1, vacancyDto2);
+        VacancyRest vacancyRest = new VacancyRest();
+        vacancyRest.setVacancyService(mockVacancyService);
+        when(mockVacancyService.getAll()).thenReturn(vacancyDtos);
+        ResponseEntity<List<VacancyDto>> receivedVacancies = vacancyRest.getAll();
+
+        assertEquals(200, receivedVacancies.getStatusCodeValue());
+        assertEquals(2, receivedVacancies.getBody().size());
+        assertEquals(vacancyDto1, receivedVacancies.getBody().get(0));
+        assertEquals(vacancyDto2, receivedVacancies.getBody().get(1));
+
+    }
 }
