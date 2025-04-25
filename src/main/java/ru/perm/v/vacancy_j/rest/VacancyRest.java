@@ -72,7 +72,7 @@ public class VacancyRest {
         return ResponseEntity.ok(dtos);
     }
 
-    @DeleteMapping("/$n")
+    @DeleteMapping("/{n}")
     public ResponseEntity<?> deleteByN(@PathVariable Long n) {
         log.info(format("DELETE vacancy n= %s", n));
         try {

@@ -82,3 +82,5 @@ http POST :8080/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
         assertEquals(1L, vacancies.get(0).getN());
      }
 ````
+
+http :8080/api/vacancy/2

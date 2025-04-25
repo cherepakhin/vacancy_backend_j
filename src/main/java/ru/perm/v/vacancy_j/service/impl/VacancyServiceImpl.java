@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
@@ -64,7 +65,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<VacancyDto> getAll() {
-        List<VacancyEntity> entities = vacancyRepository.findAll();
+        List<VacancyEntity> entities = vacancyRepository.findAll(Sort.by(Sort.Order.asc("n")));
         return vacancyMapper.toListDto(entities);
     }
 
@@ -78,7 +79,7 @@ public class VacancyServiceImpl implements VacancyService {
                 .withIncludeNullValues()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example<VacancyEntity> example = Example.of(query, matcher);
-        List<VacancyEntity> entities = vacancyRepository.findAll(example);
+        List<VacancyEntity> entities = vacancyRepository.findAll(example, Sort.by(Sort.Order.asc("n")));
         for (VacancyEntity v : entities) {
             log.info(format("Find vacancy by title %s", v.toString()));
         }
@@ -101,7 +102,7 @@ public class VacancyServiceImpl implements VacancyService {
             spec = spec.and(VacancySpecifications.hasTitleLike(criterySearch.getByName()));
         }
 
-        List<VacancyEntity> entities = vacancyRepository.findAll(spec);
+        List<VacancyEntity> entities = vacancyRepository.findAll(spec, Sort.by(Sort.Order.asc("n")));
         for (VacancyEntity v : entities) {
             log.info(format("Find vacancy by title %s", v.toString()));
         }

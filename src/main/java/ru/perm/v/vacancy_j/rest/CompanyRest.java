@@ -21,7 +21,7 @@ public class CompanyRest {
         super();
     }
 
-    public CompanyRest(CompanyService companyService) {
+    public CompanyRest(@Autowired CompanyService companyService) {
         this();
         this.companyService = companyService;
     }
