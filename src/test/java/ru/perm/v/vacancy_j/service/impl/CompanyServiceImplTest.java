@@ -57,7 +57,7 @@ class CompanyServiceImplTest {
 
         Long received = companyService.getNextN();
 
-        assertEquals(MAX_N+1L, received);
+        assertEquals(MAX_N + 1L, received);
     }
 
     @Test
@@ -124,11 +124,33 @@ class CompanyServiceImplTest {
 
     @Test
     void exampleSetToString() {
-        Set<Integer> set = Set.of(1,2);
+        Set<Integer> set = Set.of(1, 2);
 // так тоже работает
 //        String s = set.stream().sorted().map(e -> e.toString()).reduce("", String::concat);
         String s = set.stream().sorted().map(Object::toString).reduce("", String::concat);
 
         assertEquals("12", s);
+    }
+
+    @Test
+    void updateForExist() {
+        CompanyEntity oldCompanyEntity= new CompanyEntity(1L, "OLD_NAME_1");
+        when(companyRepository.findByN(1L)).thenReturn(List.of(oldCompanyEntity));
+
+
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+        CompanyDto updatedCompanyDto = null;
+        CompanyDto companyDto = new CompanyDto(1L, "NEW_NAME_1");
+
+        CompanyEntity savedCompanyEntity = new CompanyEntity(1L, "SAVED_NAME_1");
+        when(companyRepository.save(new CompanyEntity(1L,"NEW_NAME_1"))).thenReturn(savedCompanyEntity);
+        try {
+            updatedCompanyDto = companyService.update(companyDto);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        assertNotNull(updatedCompanyDto);
+        assertEquals(new CompanyDto(1L, "SAVED_NAME_1"), updatedCompanyDto);
     }
 }

@@ -15,6 +15,8 @@ import ru.perm.v.vacancy_j.service.CompanyService;
 import java.util.List;
 import java.util.Set;
 
+import static java.lang.String.format;
+
 @Service
 public class CompanyServiceImpl implements CompanyService {
     @Autowired
@@ -33,7 +35,8 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyDto getByN(Long n) throws Exception {
         List<CompanyEntity> companies = companyRepository.findByN(n);
         if (companies.isEmpty()) {
-            throw new Exception("Company not found");
+            String err = format("Company N=%s not found", n);
+            throw new Exception(err);
         } else {
             return companyMapper.toDto(companies.get(0));
         }
@@ -78,5 +81,18 @@ public class CompanyServiceImpl implements CompanyService {
             nextN = 0L;
         }
         return nextN + 1L;
+    }
+
+    @Override
+    public CompanyDto update(CompanyDto companyDto) throws Exception {
+        // for check exist company
+        List<CompanyEntity> companies = companyRepository.findByN(companyDto.getN());
+        if (companies.size() == 0) {
+            String err = format("Company N=%s not found", companyDto.getN());
+            throw new Exception(err);
+        }
+        CompanyEntity entity = companyMapper.toEntity(companyDto);
+        CompanyEntity saved = companyRepository.save(entity);
+        return companyMapper.toDto(saved);
     }
 }
