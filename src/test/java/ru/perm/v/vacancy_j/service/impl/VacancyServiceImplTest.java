@@ -178,4 +178,30 @@ public class VacancyServiceImplTest {
 
         assertEquals(MAX_N_FROM_DB + 1L, nextN);
     }
+
+    @Test
+    void create() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        long MAX_N_FROM_DB = 1L;
+        when(vacancyRepository.getMaxN()).thenReturn(MAX_N_FROM_DB);
+        CompanyEntity companyEntity = new CompanyEntity(10L, "COMPANY 10");
+        VacancyEntity vacancyEntity = new VacancyEntity(MAX_N_FROM_DB + 1L, "TITLE 100",
+                companyEntity, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100");
+        when(vacancyRepository.save(vacancyEntity)).thenReturn(vacancyEntity);
+
+        CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
+        VacancyDto vacancyDto = new VacancyDto(0L, "TITLE 100", "DESCRIPTION 100",
+                companyDto, "SOURCE 100", "COMMENT 100");
+
+        VacancyDto createdVacancy = vacancyService.create(vacancyDto);
+
+        assertEquals(
+                new VacancyDto(MAX_N_FROM_DB + 1L, "TITLE 100", "DESCRIPTION 100",
+                        companyDto, "SOURCE 100", "COMMENT 100"),
+                createdVacancy
+        );
+
+        verify(vacancyRepository, times(1)).getMaxN();
+        verify(vacancyRepository, times(1)).save(vacancyEntity);
+    }
 }
