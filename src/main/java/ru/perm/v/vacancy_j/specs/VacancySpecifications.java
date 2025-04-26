@@ -3,7 +3,6 @@ package ru.perm.v.vacancy_j.specs;
 import org.springframework.data.jpa.domain.Specification;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.data.jpa.domain.Specification.where;

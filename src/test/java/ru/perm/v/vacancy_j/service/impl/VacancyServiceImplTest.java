@@ -5,7 +5,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
-import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
@@ -48,7 +47,7 @@ public class VacancyServiceImplTest {
         assertEquals("TITLE", foundVacancy.getTitle());
         assertEquals("DESCRIPTION", foundVacancy.getDescription());
         assertEquals(new CompanyDto(10L, "COMPANY"), foundVacancy.getCompany());
-   }
+    }
 
     @Test
     void getAll() {
@@ -117,7 +116,7 @@ public class VacancyServiceImplTest {
     @Test
     void update() {
         CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
-        VacancyEntity vacancyEntity100 = new VacancyEntity(100L,"TITLE 100",
+        VacancyEntity vacancyEntity100 = new VacancyEntity(100L, "TITLE 100",
                 companyEntity10, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100");
         when(vacancyRepository.existsById(100L)).thenReturn(true);
         when(vacancyRepository.findById(100L)).thenReturn(Optional.of(vacancyEntity100));
@@ -125,7 +124,7 @@ public class VacancyServiceImplTest {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
 
         CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
-        VacancyDto vacancyDto = new VacancyDto(100L,"TITLE 100","DESCRIPTION 100", companyDto,"SOURCE 100","COMMENT 100");
+        VacancyDto vacancyDto = new VacancyDto(100L, "TITLE 100", "DESCRIPTION 100", companyDto, "SOURCE 100", "COMMENT 100");
         VacancyDto updatedVacancyDto = null;
         try {
             updatedVacancyDto = vacancyService.update(vacancyDto);

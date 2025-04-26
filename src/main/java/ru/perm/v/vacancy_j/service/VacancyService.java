@@ -1,6 +1,5 @@
 package ru.perm.v.vacancy_j.service;
 
-import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.VacancySort;
