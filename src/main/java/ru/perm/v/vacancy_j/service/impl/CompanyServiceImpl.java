@@ -44,4 +44,20 @@ public class CompanyServiceImpl implements CompanyService {
         List<CompanyEntity> entites = companyRepository.findByLikeName(name);
         return companyMapper.toListDto(entites);
     }
+
+    @Override
+    public CompanyDto create(CompanyDto companyDto) {
+        CompanyEntity companyEntity = companyMapper.toEntity(companyDto);
+        CompanyEntity createdEntity = companyRepository.save(companyEntity);
+        return companyMapper.toDto(createdEntity);
+    }
+
+    @Override
+    public Long getNextMaxN() {
+        Long nextN = companyRepository.getMaxN();
+        if(nextN == null) {
+            nextN = 0L;
+        }
+        return nextN + 1L;
+    }
 }

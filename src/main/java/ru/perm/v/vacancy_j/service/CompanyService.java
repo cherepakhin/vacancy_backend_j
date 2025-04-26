@@ -8,4 +8,9 @@ public interface CompanyService {
     CompanyDto getByN(Long n) throws Exception;
     List<CompanyDto> getAll();
     List<CompanyDto> findByLikeName(String name);
+
+    CompanyDto create(CompanyDto companyDto);
+
+    public Long getNextMaxN();
+
 }

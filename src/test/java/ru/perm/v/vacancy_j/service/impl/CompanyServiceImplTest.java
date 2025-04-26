@@ -48,4 +48,23 @@ class CompanyServiceImplTest {
         assertEquals("CompanyServiceImpl.getByN. NotFound: 100", expectedMessage);
     }
 
+    @Test
+    void getNextMaxN() {
+        Long MAX_N = 100L;
+        when(companyRepository.getMaxN()).thenReturn(MAX_N);
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+
+        Long received = companyService.getNextMaxN();
+
+        assertEquals(MAX_N+1L, received);
+    }
+    @Test
+    void getNextMaxNForEmptyDatabase() {
+        when(companyRepository.getMaxN()).thenReturn(null);
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+
+        Long received = companyService.getNextMaxN();
+
+        assertEquals(1L, received);
+    }
 }

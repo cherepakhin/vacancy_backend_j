@@ -1,9 +1,14 @@
 package ru.perm.v.vacancy_j.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 import java.util.Objects;
 
 public class VacancyDto extends Dto {
     private Long n = -1L;
+    @Size(min = 5, message = "Длина должна быть больше 5 символов.")
+    @NotEmpty
     private String title = "";
     private String description = "";
     private CompanyDto company = new CompanyDto();

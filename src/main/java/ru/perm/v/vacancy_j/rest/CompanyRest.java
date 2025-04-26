@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
+import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.service.CompanyService;
+
+import static java.lang.String.format;
 
 @RestController
 @RequestMapping("/company")
@@ -35,6 +38,19 @@ public class CompanyRest {
             String error = String.format("Company with n=%s not found.", n);
             log.error(error);
             return ResponseEntity.internalServerError().body(error);
+        }
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<?> create(@RequestBody CompanyDto companyDto) {
+        //TODO: valid companyDto
+        log.info(format("Create %s", companyDto));
+        try {
+            CompanyDto dto = companyService.create(companyDto);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }
