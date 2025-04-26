@@ -3,7 +3,6 @@ package ru.perm.v.vacancy_j.rest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
-import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.service.CompanyService;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -91,5 +90,35 @@ class CompanyRestTest {
         String message = String.format("Company update n=%s %s", N, companyDto);
 
         assertEquals("Company update n=10 CompanyDto{n='10, name='FOR UPDATE'}", message);
+    }
+
+    @Test
+    void errorOnCompanyServiceUpdate() {
+        Long N = 10L;
+        CompanyDto forUpdateDTO = new CompanyDto(N, "FOR UPDATE");
+        CompanyService companyService = mock(CompanyService.class);
+        CompanyRest companyRest = new CompanyRest(companyService);
+        try {
+            when(companyService.update(forUpdateDTO)).thenThrow(new Exception());
+        } catch (Exception e) {
+            fail();
+        }
+        Exception excpt = null; // fake test exception
+        try {
+            doThrow(new Exception("ERROR MESSAGE")).when(companyService).update(forUpdateDTO);
+        } catch (Exception e) {
+            excpt = e;
+        }
+
+        ResponseEntity<?> response = companyRest.update(N, forUpdateDTO);
+
+        assertEquals(500, response.getStatusCode().value());
+        assertEquals("ERROR MESSAGE", response.getBody());
+
+        try {
+            verify(companyService, times(1)).update(forUpdateDTO);
+        } catch (Exception e) {
+            fail();
+        }
     }
 }
