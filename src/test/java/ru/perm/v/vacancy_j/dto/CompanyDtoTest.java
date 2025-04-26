@@ -51,10 +51,16 @@ class CompanyDtoTest {
 
         assertEquals(2, listViolations.size());
 
-        ConstraintViolation<CompanyDto> violation = listViolations.get(0);
+        ConstraintViolation<CompanyDto> violation0 = listViolations.get(0);
 
-        assertEquals("name", violation.getPropertyPath().toString());
-        assertEquals("должно быть не меньше 5", violation.getMessage());
+        assertEquals("name", violation0.getPropertyPath().toString());
+        assertEquals("Длина должна быть больше 5 символов.", violation0.getMessage());
+
+        ConstraintViolation<CompanyDto> violation1 = listViolations.get(1);
+
+        assertEquals("name", violation1.getPropertyPath().toString());
+        assertEquals("не должно быть пустым", violation1.getMessage());
+
     }
 
     @Test
