@@ -1,5 +1,9 @@
 package ru.perm.v.vacancy_j.rest;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.service.CompanyService;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/company")
@@ -17,6 +25,8 @@ public class CompanyRest {
     private CompanyService companyService;
 
     Logger log = LoggerFactory.getLogger(CompanyRest.class);
+
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
 
     public CompanyRest() {
         super();
@@ -56,6 +66,19 @@ public class CompanyRest {
     public ResponseEntity<?> update(@PathVariable Long n, @RequestBody CompanyDto companyDto) {
         String message = String.format("Company update n=%s %s", n, companyDto);
         log.info(message);
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<CompanyDto>> violations = validator.validate(companyDto);
+        if (!violations.isEmpty()) {
+            List<ConstraintViolation<CompanyDto>> listViolations = violations.stream().toList();
+            String error = listViolationToString(listViolations);
+            return ResponseEntity.internalServerError().body(error);
+        }
+        try {
+            companyService.getByN(n);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
         try {
             CompanyDto dto = companyService.update(companyDto);
             return ResponseEntity.ok(dto);
@@ -63,5 +86,9 @@ public class CompanyRest {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
+    }
+
+    private String listViolationToString(List<ConstraintViolation<CompanyDto>> listViolations) {
+        return listViolations.stream().map(err -> err.getPropertyPath() + ":" + err.getMessage()).collect(Collectors.joining(","));
     }
 }

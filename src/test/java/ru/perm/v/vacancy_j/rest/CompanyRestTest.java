@@ -19,7 +19,7 @@ class CompanyRestTest {
         when(companyService.getByN(COMPANY_N)).thenReturn(companyDto);
         CompanyRest companyRest = new CompanyRest(companyService);
 
-        ResponseEntity ret = companyRest.getByN(1L);
+        ResponseEntity<?> ret = companyRest.getByN(1L);
 
         assertNotNull(ret.getBody());
         assertEquals(companyDto, ret.getBody());
@@ -61,12 +61,24 @@ class CompanyRestTest {
     }
 
     @Test
-    void updateForNotExist() throws Exception {
+    void errorOnUpdate() throws Exception {
         Long N = 10L;
         CompanyDto forUpdateDTO = new CompanyDto(N, "FOR UPDATE");
         CompanyService companyService = mock(CompanyService.class);
         CompanyRest companyRest = new CompanyRest(companyService);
         doThrow(new Exception("ERROR")).when(companyService).update(forUpdateDTO);
+
+        ResponseEntity<?> ret = companyRest.update(N, forUpdateDTO);
+        assertEquals("ERROR", ret.getBody());
+    }
+
+    @Test
+    void updateForNotExistN() throws Exception {
+        Long N = 10L;
+        CompanyDto forUpdateDTO = new CompanyDto(N, "FOR UPDATE");
+        CompanyService companyService = mock(CompanyService.class);
+        CompanyRest companyRest = new CompanyRest(companyService);
+        doThrow(new Exception("ERROR")).when(companyService).getByN(N);
 
         ResponseEntity<?> ret = companyRest.update(N, forUpdateDTO);
         assertEquals("ERROR", ret.getBody());
