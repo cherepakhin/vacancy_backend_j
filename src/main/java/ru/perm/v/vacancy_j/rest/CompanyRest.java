@@ -51,4 +51,17 @@ public class CompanyRest {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+
+    @PostMapping("/{n}")
+    public ResponseEntity<?> update(@PathVariable Long n, @RequestBody CompanyDto companyDto) {
+        String message = String.format("Company update n=%s %s", n, companyDto);
+        log.info(message);
+        try {
+            CompanyDto dto = companyService.update(companyDto);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
 }

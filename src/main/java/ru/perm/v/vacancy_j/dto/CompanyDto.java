@@ -44,7 +44,7 @@ public class CompanyDto extends Dto {
 
     @Override
     public String toString() {
-        return "CompanyDto{" + "n='" + getN() + '\'' +
+        return "CompanyDto{" + "n='" + getN() + ", " +
                 "name='" + name + '\'' +
                 '}';
     }
