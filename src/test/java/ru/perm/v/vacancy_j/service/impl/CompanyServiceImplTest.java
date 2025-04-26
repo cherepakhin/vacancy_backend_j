@@ -49,21 +49,22 @@ class CompanyServiceImplTest {
     }
 
     @Test
-    void getNextMaxN() {
+    void getNextN() {
         Long MAX_N = 100L;
         when(companyRepository.getMaxN()).thenReturn(MAX_N);
         CompanyService companyService = new CompanyServiceImpl(companyRepository);
 
-        Long received = companyService.getNextMaxN();
+        Long received = companyService.getNextN();
 
         assertEquals(MAX_N+1L, received);
     }
+
     @Test
-    void getNextMaxNForEmptyDatabase() {
+    void getNextNForEmptyDatabase() {
         when(companyRepository.getMaxN()).thenReturn(null);
         CompanyService companyService = new CompanyServiceImpl(companyRepository);
 
-        Long received = companyService.getNextMaxN();
+        Long received = companyService.getNextN();
 
         assertEquals(1L, received);
     }

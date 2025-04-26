@@ -11,6 +11,6 @@ public interface CompanyService {
 
     CompanyDto create(CompanyDto companyDto);
 
-    public Long getNextMaxN();
+    public Long getNextN();
 
 }

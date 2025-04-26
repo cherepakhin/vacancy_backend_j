@@ -48,12 +48,13 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public CompanyDto create(CompanyDto companyDto) {
         CompanyEntity companyEntity = companyMapper.toEntity(companyDto);
+        companyEntity.setN(getNextN());
         CompanyEntity createdEntity = companyRepository.save(companyEntity);
         return companyMapper.toDto(createdEntity);
     }
 
     @Override
-    public Long getNextMaxN() {
+    public Long getNextN() {
         Long nextN = companyRepository.getMaxN();
         if(nextN == null) {
             nextN = 0L;
