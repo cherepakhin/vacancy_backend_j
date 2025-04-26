@@ -12,6 +12,7 @@ import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
+import ru.perm.v.vacancy_j.entity.VacancySort;
 import ru.perm.v.vacancy_j.mapper.CompanyMapper;
 import ru.perm.v.vacancy_j.mapper.VacancyMapper;
 import ru.perm.v.vacancy_j.repository.IVacancyRepository;
@@ -65,7 +66,19 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<VacancyDto> getAll() {
-        List<VacancyEntity> entities = vacancyRepository.findAll(Sort.by(Sort.Order.asc("n")));
+        List<VacancyEntity> entities = vacancyRepository.findAll(Sort.by(Sort.Order.asc(VacancySort.N)));
+        return vacancyMapper.toListDto(entities);
+    }
+
+    @Override
+    public List<VacancyDto> getAll(String sortColumn) {
+        List<VacancyEntity> entities = vacancyRepository.findAll(Sort.by(Sort.Order.asc(sortColumn)));
+        return vacancyMapper.toListDto(entities);
+    }
+
+    @Override
+    public List<VacancyDto> getAll(VacancySort vacancySort) {
+        List<VacancyEntity> entities = vacancyRepository.findAll(Sort.by(Sort.Order.asc(vacancySort.toString())));
         return vacancyMapper.toListDto(entities);
     }
 

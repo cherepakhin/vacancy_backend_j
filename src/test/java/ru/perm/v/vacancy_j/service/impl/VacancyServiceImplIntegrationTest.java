@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
+import ru.perm.v.vacancy_j.entity.VacancySort;
 import ru.perm.v.vacancy_j.repository.IVacancyRepository;
 import ru.perm.v.vacancy_j.service.VacancyService;
 
@@ -23,7 +24,14 @@ public class VacancyServiceImplIntegrationTest {
     @Test
     void getAll() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
-        List<VacancyDto> vacancies =vacancyService.getAll();
+        List<VacancyDto> vacancies = vacancyService.getAll();
+        assertEquals(4, vacancies.size());
+    }
+
+    @Test
+    void getAllSortbyN() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        List<VacancyDto> vacancies = vacancyService.getAll();
         assertEquals(4, vacancies.size());
     }
 
@@ -90,4 +98,27 @@ public class VacancyServiceImplIntegrationTest {
         assertEquals(1L, vacancies.get(0).getN());
     }
 
+    @Test
+    void getAllSortByN() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        List<VacancyDto> vacancies = vacancyService.getAll(VacancySort.N);
+
+        assertEquals(4, vacancies.size());
+        assertEquals(1L, vacancies.get(0).getN());
+        assertEquals(2L, vacancies.get(1).getN());
+        assertEquals(3L, vacancies.get(2).getN());
+        assertEquals(4L, vacancies.get(3).getN());
+    }
+
+    @Test
+    void getAllSortByTitle() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        List<VacancyDto> vacancies = vacancyService.getAll(VacancySort.TITLE);
+
+        assertEquals(4, vacancies.size());
+        assertEquals(1L, vacancies.get(0).getN()); // Vacancy 1 Company 1
+        assertEquals(3L, vacancies.get(1).getN()); // Vacancy 1 Company 2
+        assertEquals(2L, vacancies.get(2).getN()); // Vacancy 2 Company 1
+        assertEquals(4L, vacancies.get(3).getN()); // Vacancy 2 Company 2
+    }
 }
