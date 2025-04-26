@@ -68,4 +68,21 @@ class CompanyServiceImplTest {
 
         assertEquals(1L, received);
     }
+
+    @Test
+    void createForValid() {
+        CompanyDto companyDto = new CompanyDto(0L, "NAME");
+
+        when(companyRepository.getMaxN()).thenReturn(200L);
+
+        CompanyEntity companyEntity = new CompanyEntity(201L, "NAME");
+        when(companyRepository.save(new CompanyEntity(201L, "NAME"))).thenReturn(companyEntity);
+
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+
+
+        CompanyDto createdDto = companyService.create(companyDto);
+
+        assertEquals(new CompanyDto(201L, "NAME"), createdDto);
+    }
 }
