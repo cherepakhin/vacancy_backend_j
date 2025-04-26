@@ -48,18 +48,7 @@ public class VacancyServiceImpl implements VacancyService {
         if (vacancies.isEmpty()) {
             throw new Exception("Vacancy not found");
         } else {
-            VacancyDto vacancyDto = new VacancyDto();
-            vacancyDto.setN(vacancies.get(0).getN());
-            vacancyDto.setTitle(vacancies.get(0).getTitle());
-            vacancyDto.setDescription(vacancies.get(0).getDescription());
-            CompanyEntity companyEntity = vacancies.get(0).getCompanyEntity();
-            CompanyMapper mapper = new CompanyMapper();
-            vacancyDto.setCompany(companyMapper.toDto(companyEntity));
-            //TODO add Source
-            vacancyDto.setSource("TODO");
-            //TODO add Comment
-            vacancyDto.setComment("");
-            //TODO add mapper?
+            VacancyDto vacancyDto = vacancyMapper.toDto(vacancies.get(0));
             return vacancyDto;
         }
     }
@@ -124,7 +113,6 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public VacancyDto update(VacancyDto vacancyDto) throws Exception {
-        //TODO: validate
         if (vacancyDto == null) {
             String error = "VacancyDto for update is null";
             log.info(error);
