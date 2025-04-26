@@ -3,11 +3,13 @@ package ru.perm.v.vacancy_j.service.impl;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
+import ru.perm.v.vacancy_j.entity.VacancySort;
 import ru.perm.v.vacancy_j.repository.IVacancyRepository;
 import ru.perm.v.vacancy_j.service.VacancyService;
 
@@ -72,7 +74,7 @@ public class VacancyServiceImplTest {
         companyEntity20.setName("COMPANY 20");
         vacancyEntity200.setCompanyEntity(companyEntity20);
 
-        when(vacancyRepository.findAll()).thenReturn(List.of(vacancyEntity100, vacancyEntity200));
+        when(vacancyRepository.findAll(Sort.by(Sort.Order.asc(VacancySort.N)))).thenReturn(List.of(vacancyEntity100, vacancyEntity200));
 
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
 
@@ -101,7 +103,7 @@ public class VacancyServiceImplTest {
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example<VacancyEntity> example = Example.of(query, matcher);
 
-        when(vacancyRepository.findAll(example)).thenReturn(List.of(vacancyEntity100));
+        when(vacancyRepository.findAll(example, Sort.by(Sort.Order.asc("n")))).thenReturn(List.of(vacancyEntity100));
 
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
 
