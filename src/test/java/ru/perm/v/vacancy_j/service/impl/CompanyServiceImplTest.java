@@ -7,6 +7,8 @@ import ru.perm.v.vacancy_j.repository.ICompanyRepository;
 import ru.perm.v.vacancy_j.service.CompanyService;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -71,14 +73,63 @@ class CompanyServiceImplTest {
 
     @Test
     void createForValid() {
-        CompanyDto companyDto = new CompanyDto(0L, "NAME");
+        CompanyDto companyDto = new CompanyDto(0L, "NAME12345");
         when(companyRepository.getMaxN()).thenReturn(200L);
-        CompanyEntity companyEntity = new CompanyEntity(201L, "NAME");
-        when(companyRepository.save(new CompanyEntity(201L, "NAME"))).thenReturn(companyEntity);
+        CompanyEntity companyEntity = new CompanyEntity(201L, "NAME12345");
+        when(companyRepository.save(new CompanyEntity(201L, "NAME12345"))).thenReturn(companyEntity);
         CompanyService companyService = new CompanyServiceImpl(companyRepository);
 
-        CompanyDto createdDto = companyService.create(companyDto);
+        CompanyDto createdDto = null;
+        try {
+            createdDto = companyService.create(companyDto);
+        } catch (Exception e) {
+            fail();
+        }
 
-        assertEquals(new CompanyDto(201L, "NAME"), createdDto);
+        assertEquals(new CompanyDto(201L, "NAME12345"), createdDto);
+    }
+
+    @Test
+    void createFor_NULL_Name() {
+        CompanyDto companyDto = new CompanyDto(null, null);
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+        boolean wasError = false;
+        String errorMessage = "";
+        try {
+            companyService.create(companyDto);
+        } catch (Exception e) {
+            wasError = true;
+            errorMessage = e.getMessage();
+        }
+
+        assertTrue(wasError);
+//        assertEquals("name не должно быть пустым", errorMessage);
+    }
+
+    @Test
+    void createForShortName() {
+        CompanyDto companyDto = new CompanyDto(null, "1234");
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+        boolean wasError = false;
+        String errorMessage = "";
+        try {
+            companyService.create(companyDto);
+        } catch (Exception e) {
+            wasError = true;
+            errorMessage = e.getMessage();
+        }
+
+        assertTrue(wasError);
+        assertEquals("Длина name в CompanyDto должна быть больше 5 символов.", errorMessage);
+    }
+
+    @Test
+    void exampleSetToString() {
+        Set<Integer> set = Set.of(1,2);
+// так тоже работает
+//        String s = set.stream().sorted().map(e -> e.toString()).reduce("", String::concat);
+        String s = set.stream().sorted().map(Object::toString).reduce("", String::concat);
+
+        assertEquals("12", s);
     }
 }

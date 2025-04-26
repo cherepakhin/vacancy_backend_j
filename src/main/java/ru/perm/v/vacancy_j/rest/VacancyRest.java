@@ -86,7 +86,7 @@ public class VacancyRest {
 
     @DeleteMapping("/{n}")
     public ResponseEntity<?> deleteByN(@PathVariable Long n) {
-        log.info(format("DELETE vacancy n= %s", n));
+        log.info(format("DELETE vacancy n=%s", n));
         try {
             // check for exist
             vacancyService.getByN(n);

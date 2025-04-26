@@ -9,7 +9,7 @@ public interface CompanyService {
     List<CompanyDto> getAll();
     List<CompanyDto> findByLikeName(String name);
 
-    CompanyDto create(CompanyDto companyDto);
+    CompanyDto create(CompanyDto companyDto) throws Exception;
 
     public Long getNextN();
 

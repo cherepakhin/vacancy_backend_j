@@ -49,22 +49,16 @@ class CompanyDtoTest {
 
         List<ConstraintViolation<CompanyDto>> listViolations = violations.stream().toList();
 
-        assertEquals(2, listViolations.size());
+        assertEquals(1, listViolations.size());
 
         ConstraintViolation<CompanyDto> violation0 = listViolations.get(0);
 
         assertEquals("name", violation0.getPropertyPath().toString());
-        assertEquals("Длина должна быть больше 5 символов.", violation0.getMessage());
-
-        ConstraintViolation<CompanyDto> violation1 = listViolations.get(1);
-
-        assertEquals("name", violation1.getPropertyPath().toString());
-        assertEquals("не должно быть пустым", violation1.getMessage());
-
+        assertEquals("Длина name в CompanyDto должна быть больше 5 символов.", violation0.getMessage());
     }
 
     @Test
-    void validShortName() {
+    void notValidShortName() {
         CompanyDto companyDto = new CompanyDto(1L, "123");
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
@@ -80,6 +74,27 @@ class CompanyDtoTest {
         ConstraintViolation<CompanyDto> violation = listViolations.get(0);
 
         assertEquals("name", violation.getPropertyPath().toString());
-        assertEquals("Длина должна быть больше 5 символов.", violation.getMessage());
+        assertEquals("Длина name в CompanyDto должна быть больше 5 символов.", violation.getMessage());
     }
+
+    @Test
+    void notValidNullName() {
+        CompanyDto companyDto = new CompanyDto(1L, null);
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<CompanyDto>> violations = validator.validate(companyDto);
+        if (violations.isEmpty()) {
+            fail();
+        }
+
+        List<ConstraintViolation<CompanyDto>> listViolations = violations.stream().toList();
+
+        assertEquals(1, listViolations.size());
+
+        ConstraintViolation<CompanyDto> violation = listViolations.get(0);
+
+        assertEquals("name", violation.getPropertyPath().toString());
+        assertEquals("не должно равняться null", violation.getMessage());
+    }
+
 }
