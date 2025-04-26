@@ -105,7 +105,7 @@ public class VacancyServiceImpl implements VacancyService {
 
         Specification<VacancyEntity> spec = VacancySpecifications.hasNGreaterThan(-1L);
 
-        if (criterySearch.getNn().size() > 0) {
+        if (!criterySearch.getNn().isEmpty()) {
             log.info("add NN to critery");
             spec = spec.and(VacancySpecifications.N_In(criterySearch.getNn()));
         }
@@ -142,7 +142,7 @@ public class VacancyServiceImpl implements VacancyService {
         }
 
         Optional<VacancyEntity> optionalVacancy = vacancyRepository.findById(vacancyDto.getN());
-        if (!optionalVacancy.isPresent()) {
+        if (optionalVacancy.isEmpty()) {
             String error = format("VacancyDto with N= %s not found", vacancyDto.getN());
             log.info(error);
             throw new Exception(error);

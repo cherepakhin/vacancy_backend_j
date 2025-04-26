@@ -7,24 +7,24 @@ public class VacancyDto extends Dto {
     private String title = "";
     private String description = "";
     private CompanyDto company = new CompanyDto();
-    private String source = "";
+    private String link = "";
     private String comment = "";
 
     public VacancyDto() {
         super();
     }
 
-    public VacancyDto(Long n, String title, String description, CompanyDto companyDto, String source, String comment) {
-        this(title, description, companyDto, source, comment);
+    public VacancyDto(Long n, String title, String description, CompanyDto companyDto, String link, String comment) {
+        this(title, description, companyDto, link, comment);
         this.n = n;
     }
 
-    public VacancyDto(String title, String description, CompanyDto companyDto, String source, String comment) {
+    public VacancyDto(String title, String description, CompanyDto companyDto, String link, String comment) {
         super();
         this.title = title;
         this.description = description;
         this.company = companyDto;
-        this.source = source;
+        this.link = link;
         this.comment = comment;
     }
 
@@ -63,11 +63,11 @@ public class VacancyDto extends Dto {
     }
 
     public String getSource() {
-        return source;
+        return link;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setSource(String link) {
+        this.link = link;
     }
 
     public String getComment() {
@@ -83,12 +83,12 @@ public class VacancyDto extends Dto {
         if (this == o) return true;
         if (!(o instanceof VacancyDto that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(company, that.company) && Objects.equals(source, that.source) && Objects.equals(comment, that.comment) ;
+        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(company, that.company) && Objects.equals(link, that.link) && Objects.equals(comment, that.comment) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), n, title, description, company, source, comment);
+        return Objects.hash(super.hashCode(), n, title, description, company, link, comment);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class VacancyDto extends Dto {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", company=" + company +
-                ", source='" + source + '\'' +
+                ", link='" + link + '\'' +
                 ", comment='" + comment +
                 '}';
     }
