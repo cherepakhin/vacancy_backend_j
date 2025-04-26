@@ -46,7 +46,7 @@ public class VacancyServiceImplIntegrationTest {
         CompanyDto companyDto = new CompanyDto(1L,"Company 1");
         VacancyDto vacancy = new VacancyDto(1L, "Vacancy 1 Company 1",
                 "Description Vacancy 1 Company 1", companyDto, "Link 1", "Comment 1");
-        assertEquals(vacancy,vacancies.get(0));
+        assertEquals(vacancy, vacancies.get(0));
     }
 
     @Test

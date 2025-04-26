@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface IVacancyRepository extends JpaRepository<VacancyEntity, Long>,
         JpaSpecificationExecutor<VacancyEntity> {
 
     List<VacancyEntity> findByN(Long n);
+    @Query("select max(n) from VacancyEntity")
+    Long getMaxN();
 }

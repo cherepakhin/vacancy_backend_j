@@ -124,6 +124,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public VacancyDto update(VacancyDto vacancyDto) throws Exception {
+        //TODO: validate
         if (vacancyDto == null) {
             String error = "VacancyDto for update is null";
             log.info(error);
@@ -167,5 +168,23 @@ public class VacancyServiceImpl implements VacancyService {
             log.info(error);
             throw new Exception(error);
         }
+    }
+
+    @Override
+    public Long getNextMaxN() {
+        Long nextN = vacancyRepository.getMaxN();
+        if(nextN == null) {
+            nextN = 0L;
+        }
+        return nextN + 1L;
+    }
+
+    @Override
+    public VacancyDto create(VacancyDto vacancyDto) {
+        //TODO: validate
+        VacancyEntity entity = vacancyMapper.toEntity(vacancyDto);
+        entity.setN(getNextMaxN());
+        VacancyEntity saved = vacancyRepository.save(entity);
+        return vacancyMapper.toDto(saved);
     }
 }

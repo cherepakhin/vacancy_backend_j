@@ -63,6 +63,18 @@ public class VacancyRest {
         }
     }
 
+    @PutMapping("/")
+    public ResponseEntity<?> create(@RequestBody VacancyDto vacancyDto) {
+        log.info(format("POST update vacancyDto %s", vacancyDto));
+        try {
+            VacancyDto dto = vacancyService.create(vacancyDto);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
     @PostMapping("/find")
     public ResponseEntity<?> findBy(@RequestBody VacancyCriterySearch vacancyCriterySearch) {
         log.info(format("find by %s", vacancyCriterySearch));

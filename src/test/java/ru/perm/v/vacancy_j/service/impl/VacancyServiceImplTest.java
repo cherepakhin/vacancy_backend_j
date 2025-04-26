@@ -167,4 +167,15 @@ public class VacancyServiceImplTest {
         verify(vacancyRepository, never()).deleteById(N);
         assertEquals("VacancyDto with N=100 not exist", err);
     }
+
+    @Test
+    void getMaxN() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        long MAX_N_FROM_DB = 1L;
+        when(vacancyRepository.getMaxN()).thenReturn(MAX_N_FROM_DB);
+
+        Long nextN = vacancyService.getNextMaxN();
+
+        assertEquals(MAX_N_FROM_DB + 1L, nextN);
+    }
 }

@@ -13,8 +13,8 @@ public interface VacancyService {
     List<VacancyDto> getAll(VacancySort vacancySort);
     List<VacancyDto> findByName(String name);
     List<VacancyDto> findByCritery(VacancyCriterySearch criterySearch);
-
     VacancyDto update(VacancyDto vacancyDto) throws Exception;
-
     void deleteByN(Long n) throws Exception;
+    VacancyDto create(VacancyDto vacancyDto);
+    public Long getNextMaxN();
 }
