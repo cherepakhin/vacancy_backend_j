@@ -8,7 +8,6 @@ import ru.perm.v.vacancy_j.service.CompanyService;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

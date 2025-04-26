@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
-import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.service.CompanyService;
-
-import static java.lang.String.format;
 
 @RestController
 @RequestMapping("/company")
@@ -18,6 +15,7 @@ public class CompanyRest {
 
     @Autowired
     private CompanyService companyService;
+
     Logger log = LoggerFactory.getLogger(CompanyRest.class);
 
     public CompanyRest() {
@@ -43,8 +41,8 @@ public class CompanyRest {
 
     @PutMapping("/")
     public ResponseEntity<?> create(@RequestBody CompanyDto companyDto) {
-        //TODO: valid companyDto
-        log.info(format("Create %s", companyDto));
+        String message = String.format("Create %s", companyDto);
+        log.info(message);
         try {
             CompanyDto dto = companyService.create(companyDto);
             return ResponseEntity.ok(dto);
