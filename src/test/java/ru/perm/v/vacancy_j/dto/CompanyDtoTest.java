@@ -1,8 +1,16 @@
 package ru.perm.v.vacancy_j.dto;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class CompanyDtoTest {
 
@@ -27,5 +35,45 @@ class CompanyDtoTest {
         CompanyDto companyDto = new CompanyDto();
         assertEquals("", companyDto.getName());
         assertEquals(-1L, companyDto.getN());
+    }
+
+    @Test
+    void validEmptyName() {
+        CompanyDto companyDto = new CompanyDto(1L, "");
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<CompanyDto>> violations = validator.validate(companyDto);
+        if (violations.isEmpty()) {
+            fail();
+        }
+
+        List<ConstraintViolation<CompanyDto>> listViolations = violations.stream().toList();
+
+        assertEquals(2, listViolations.size());
+
+        ConstraintViolation<CompanyDto> violation = listViolations.get(0);
+
+        assertEquals("name", violation.getPropertyPath().toString());
+        assertEquals("должно быть не меньше 5", violation.getMessage());
+    }
+
+    @Test
+    void validShortName() {
+        CompanyDto companyDto = new CompanyDto(1L, "123");
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<CompanyDto>> violations = validator.validate(companyDto);
+        if (violations.isEmpty()) {
+            fail();
+        }
+
+        List<ConstraintViolation<CompanyDto>> listViolations = violations.stream().toList();
+
+        assertEquals(1, listViolations.size());
+
+        ConstraintViolation<CompanyDto> violation = listViolations.get(0);
+
+        assertEquals("name", violation.getPropertyPath().toString());
+        assertEquals("Длина должна быть больше 5 символов.", violation.getMessage());
     }
 }
