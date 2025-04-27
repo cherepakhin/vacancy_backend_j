@@ -124,6 +124,27 @@ class VacancyRestTest {
     }
 
     @Test
+    void updateWithAnyExceptionInUpdate() throws Exception {
+        VacancyRest vacancyRest = new VacancyRest();
+        Long N = 2L;
+        VacancyDto vacancyDto = new VacancyDto();
+        vacancyDto.setN(N);
+        try {
+            when(mockVacancyService.update(vacancyDto)).thenThrow(new Exception("ERROR"));
+            when(mockVacancyService.getByN(N)).thenReturn(vacancyDto);
+            vacancyRest.setVacancyService(mockVacancyService);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        ResponseEntity<?> ret = vacancyRest.update(vacancyDto);
+
+        assertEquals(500, ret.getStatusCode().value());
+        assertEquals("ERROR", ret.getBody());
+        verify(mockVacancyService, times(1)).getByN(N);
+    }
+
+    @Test
     void getAll() {
         VacancyDto vacancyDto1 = new VacancyDto();
         vacancyDto1.setN(1L);
