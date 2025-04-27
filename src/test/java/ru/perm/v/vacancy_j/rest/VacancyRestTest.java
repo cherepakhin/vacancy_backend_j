@@ -110,7 +110,6 @@ class VacancyRestTest {
         vacancyDto.setN(N);
         try {
             when(mockVacancyService.getByN(N)).thenThrow(new Exception("ERROR"));
-            when(mockVacancyService.update(vacancyDto)).thenReturn(vacancyDto);
             vacancyRest.setVacancyService(mockVacancyService);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -120,7 +119,8 @@ class VacancyRestTest {
 
         assertEquals(500, ret.getStatusCode().value());
         assertEquals("ERROR", ret.getBody());
-        verify(mockVacancyService, never()).update(vacancyDto);
+        verify(mockVacancyService, never()).update(any());
+        verify(mockVacancyService, times(1)).getByN(N);
     }
 
     @Test
