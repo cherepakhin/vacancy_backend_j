@@ -164,7 +164,7 @@ class VacancyRestTest {
     }
 
     @Test
-    public void deleteByN() throws Exception {
+    void deleteByN() throws Exception {
         VacancyDto vacancyDto1 = new VacancyDto();
         Long N = 1L;
         vacancyDto1.setN(N);
@@ -178,7 +178,7 @@ class VacancyRestTest {
     }
 
     @Test
-    public void create() throws Exception {
+    void create() {
         VacancyDto vacancyDto1 = new VacancyDto();
         Long N = 1L;
         String TITLE = "TITLE";
@@ -196,14 +196,36 @@ class VacancyRestTest {
         vacancyDto1.setComment(COMMENT);
         VacancyRest vacancyRest = new VacancyRest();
         vacancyRest.setVacancyService(mockVacancyService);
-        when(mockVacancyService.create(vacancyDto1)).thenReturn(vacancyDto1);
+        try {
+            when(mockVacancyService.create(vacancyDto1)).thenReturn(vacancyDto1);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         ResponseEntity<?> response = vacancyRest.create(vacancyDto1);
 
         assertEquals(200, response.getStatusCode().value());
 
         VacancyDto receivedDTO = (VacancyDto) response.getBody();
         assertEquals(vacancyDto1, receivedDTO);
-        verify(mockVacancyService, times(1)).create(vacancyDto1);
+        try {
+            verify(mockVacancyService, times(1)).create(vacancyDto1);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
+    @Test
+    void createWithException() throws Exception {
+        VacancyDto vacancyDto1 = new VacancyDto();
+        vacancyDto1.setN(1L);
+        VacancyRest vacancyRest = new VacancyRest();
+        vacancyRest.setVacancyService(mockVacancyService);
+        when(mockVacancyService.create(vacancyDto1)).thenThrow(new Exception("ERROR"));
+        ResponseEntity<?> response = vacancyRest.create(vacancyDto1);
+
+        assertEquals(500, response.getStatusCode().value());
+        assertEquals("ERROR", response.getBody());
+
+        verify(mockVacancyService, times(1)).create(vacancyDto1);
     }
 }

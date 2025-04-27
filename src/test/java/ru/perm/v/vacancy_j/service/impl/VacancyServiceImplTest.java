@@ -193,7 +193,12 @@ public class VacancyServiceImplTest {
         VacancyDto vacancyDto = new VacancyDto(0L, "TITLE 100", "DESCRIPTION 100",
                 companyDto, "SOURCE 100", "COMMENT 100");
 
-        VacancyDto createdVacancy = vacancyService.create(vacancyDto);
+        VacancyDto createdVacancy = null;
+        try {
+            createdVacancy = vacancyService.create(vacancyDto);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
         assertEquals(
                 new VacancyDto(MAX_N_FROM_DB + 1L, "TITLE 100", "DESCRIPTION 100",
