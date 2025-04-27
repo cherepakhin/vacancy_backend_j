@@ -93,7 +93,7 @@ class VacancyRestTest {
         try {
             when(mockVacancyService.update(vacancyDto)).thenReturn(vacancyDto);
             vacancyRest.setVacancyService(mockVacancyService);
-            ResponseEntity ret = vacancyRest.update(vacancyDto);
+            ResponseEntity<?> ret = vacancyRest.update(vacancyDto);
             updatedDto = (VacancyDto) ret.getBody();
         } catch (Exception e) {
             fail(e.getMessage());
