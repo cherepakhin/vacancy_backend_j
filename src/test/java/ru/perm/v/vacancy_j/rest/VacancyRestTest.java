@@ -2,6 +2,7 @@ package ru.perm.v.vacancy_j.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
+import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.service.VacancyService;
@@ -174,5 +175,35 @@ class VacancyRestTest {
 
         assertEquals(500, response.getStatusCode().value());
         assertEquals("ERROR", response.getBody());
+    }
+
+    @Test
+    public void create() throws Exception {
+        VacancyDto vacancyDto1 = new VacancyDto();
+        Long N = 1L;
+        String TITLE = "TITLE";
+        String DESCRIPTION = "DESCRIPTION";
+        String LINK = "LINK";
+        String COMMENT = "COMMENT";
+        Long COMPANY_N = 10L;
+        String COMPANY_NAME = "COMPANY_NAME";
+        CompanyDto COMPANY_DTO = new CompanyDto(COMPANY_N, COMPANY_NAME);
+        vacancyDto1.setCompany(COMPANY_DTO);
+        vacancyDto1.setN(N);
+        vacancyDto1.setTitle(TITLE);
+        vacancyDto1.setDescription(DESCRIPTION);
+        vacancyDto1.setSource(LINK);
+        vacancyDto1.setComment(COMMENT);
+        VacancyRest vacancyRest = new VacancyRest();
+        vacancyRest.setVacancyService(mockVacancyService);
+        when(mockVacancyService.create(vacancyDto1)).thenReturn(vacancyDto1);
+        ResponseEntity<?> response = vacancyRest.create(vacancyDto1);
+
+        assertEquals(200, response.getStatusCode().value());
+
+        VacancyDto receivedDTO = (VacancyDto) response.getBody();
+        assertEquals(vacancyDto1, receivedDTO);
+        verify(mockVacancyService, times(1)).create(vacancyDto1);
+
     }
 }
