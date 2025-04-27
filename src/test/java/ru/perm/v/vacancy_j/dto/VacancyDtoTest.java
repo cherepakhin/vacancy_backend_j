@@ -75,4 +75,37 @@ class VacancyDtoTest {
         assertEquals(SOURCE, vacancyDto.getSource());
         assertEquals(COMMENT, vacancyDto.getComment());
     }
+
+    @Test
+    void testHashCodeForEqual() {
+        Long N = 10L;
+        String TITLE = "TITLE";
+        String DESCRIPTION = "DESCRIPTION";
+        Long COMPANY_N = 10L;
+        String COMPANY_NAME = "COMPANY";
+        String SOURCE = "SOURCE";
+        String COMMENT = "COMMENT";
+
+        VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+        VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+
+        assertEquals(vacancyDto1.hashCode(), vacancyDto2.hashCode());
+    }
+
+    @Test
+    void testHashCodeFor_NOT_Equal() {
+        Long N1 = 1L;
+        Long N2 = 2L;
+        String TITLE = "TITLE";
+        String DESCRIPTION = "DESCRIPTION";
+        Long COMPANY_N = 10L;
+        String COMPANY_NAME = "COMPANY";
+        String SOURCE = "SOURCE";
+        String COMMENT = "COMMENT";
+
+        VacancyDto vacancyDto1 = new VacancyDto(N1, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+        VacancyDto vacancyDto2 = new VacancyDto(N2, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+
+        assertNotEquals(vacancyDto1.hashCode(), vacancyDto2.hashCode());
+    }
 }
