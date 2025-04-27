@@ -12,6 +12,16 @@ public class VacancyCriterySearch {
      */
     String byName = "";
 
+    public VacancyCriterySearch() {
+        super();
+    }
+
+    public VacancyCriterySearch(List<Long> nn, String byName) {
+        this();
+        this.nn = nn;
+        this.byName = byName;
+    }
+
     public String getByName() {
         return byName;
     }

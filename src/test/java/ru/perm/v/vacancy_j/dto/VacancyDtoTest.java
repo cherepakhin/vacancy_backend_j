@@ -108,4 +108,53 @@ class VacancyDtoTest {
 
         assertNotEquals(vacancyDto1.hashCode(), vacancyDto2.hashCode());
     }
+
+    @Test
+    void testForEqual() {
+        Long N = 10L;
+        String TITLE = "TITLE";
+        String DESCRIPTION = "DESCRIPTION";
+        Long COMPANY_N = 10L;
+        String COMPANY_NAME = "COMPANY";
+        String SOURCE = "SOURCE";
+        String COMMENT = "COMMENT";
+
+        VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+        VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+
+        assertEquals(vacancyDto1, vacancyDto2);
+    }
+
+    @Test
+    void testFor_NOT_EqualByN() {
+        Long N1 = 1L;
+        Long N2 = 2L;
+        String TITLE = "TITLE";
+        String DESCRIPTION = "DESCRIPTION";
+        Long COMPANY_N = 10L;
+        String COMPANY_NAME = "COMPANY";
+        String SOURCE = "SOURCE";
+        String COMMENT = "COMMENT";
+
+        VacancyDto vacancyDto1 = new VacancyDto(N1, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+        VacancyDto vacancyDto2 = new VacancyDto(N2, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+
+        assertNotEquals(vacancyDto1, vacancyDto2);
+    }
+    @Test
+    void testFor_NOT_EqualByCompany() {
+        Long N = 1L;
+        String TITLE = "TITLE";
+        String DESCRIPTION = "DESCRIPTION";
+        Long COMPANY_N_10 = 10L;
+        Long COMPANY_N_20 = 20L;
+        String COMPANY_NAME = "COMPANY";
+        String SOURCE = "SOURCE";
+        String COMMENT = "COMMENT";
+
+        VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N_10, COMPANY_NAME), SOURCE, COMMENT);
+        VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N_20, COMPANY_NAME), SOURCE, COMMENT);
+
+        assertNotEquals(vacancyDto1, vacancyDto2);
+    }
 }
