@@ -47,6 +47,19 @@ class VacancyRestTest {
     }
 
     @Test
+    void getByNwithException() throws Exception {
+        Long N = 2L;
+        VacancyRest vacancyRest = new VacancyRest();
+        vacancyRest.setVacancyService(mockVacancyService);
+        when(mockVacancyService.getByN(N)).thenThrow(new Exception("ERROR"));
+
+        ResponseEntity<?> ret = vacancyRest.getByN(N);
+
+        assertEquals("ERROR", ret.getBody());
+        assertEquals(500, ret.getStatusCode().value());
+    }
+
+    @Test
     void findBy() {
         VacancyRest vacancyRest = new VacancyRest();
         vacancyRest.setVacancyService(mockVacancyService);
