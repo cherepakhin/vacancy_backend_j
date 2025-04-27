@@ -195,6 +195,25 @@ class VacancyRestTest {
     }
 
     @Test
+    void deleteForThrowServiceDelete() throws Exception {
+        VacancyDto vacancyDto1 = new VacancyDto();
+        Long N = 1L;
+        vacancyDto1.setN(N);
+        VacancyRest vacancyRest = new VacancyRest();
+        vacancyRest.setVacancyService(mockVacancyService);
+        when(mockVacancyService.getByN(N)).thenReturn(vacancyDto1);
+        doThrow(new Exception("ERROR")).when(mockVacancyService).deleteByN(N);
+
+        ResponseEntity<?> response = vacancyRest.deleteByN(N);
+
+        assertEquals(500, response.getStatusCode().value());
+        assertEquals("ERROR", response.getBody());
+
+        verify(mockVacancyService, times(1)).getByN(N);
+        verify(mockVacancyService, times(1)).deleteByN(N);
+    }
+
+    @Test
     void create() {
         VacancyDto vacancyDto1 = new VacancyDto();
         Long N = 1L;
