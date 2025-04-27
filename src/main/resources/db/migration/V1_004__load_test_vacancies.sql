@@ -1,3 +1,4 @@
+delete from vacancy;
 insert into vacancy(n, title, description, company_n)
     values (1,'Vacancy 1 Company 1', 'Description Vacancy 1 Company 1',1),
     (2,'Vacancy 2 Company 1', 'Description Vacancy 2 Company 1',1),
