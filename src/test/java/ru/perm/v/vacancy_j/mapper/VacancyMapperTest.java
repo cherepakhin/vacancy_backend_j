@@ -90,9 +90,9 @@ public class VacancyMapperTest {
         String VACANCY_DESCRIPTION_20 = "VACANCY_DESCRIPTION_20";
         String LINK_20="LINK_20";
         String COMMENT_20 = "COMMENT_20";
-        String STATUS = "STATUS";
+        String STATUS_20 = "STATUS_20";
         VacancyEntity entity200 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200, VACANCY_DESCRIPTION_20,
-                LINK_20, COMMENT_20, STATUS);
+                LINK_20, COMMENT_20, STATUS_20);
 
         List<VacancyDto> dtos = new VacancyMapper().toListDto(List.of(entity100, entity200));
 
@@ -108,6 +108,7 @@ public class VacancyMapperTest {
         vacancyDto10.setCompany(companyDto100);
         vacancyDto10.setSource("LINK_10");
         vacancyDto10.setComment("COMMENT_10");
+        vacancyDto10.setStatus("STATUS_10");
         assertEquals(vacancyDto10, dtos.get(0));
 
         CompanyDto companyDto200 = new CompanyDto();
@@ -122,6 +123,7 @@ public class VacancyMapperTest {
         vacancyDto20.setCompany(companyDto200);
         vacancyDto20.setSource("LINK_20");
         vacancyDto20.setComment(COMMENT_20);
+        vacancyDto20.setStatus("STATUS_20");
 
         assertEquals(vacancyDto20, dtos.get(1));
     }

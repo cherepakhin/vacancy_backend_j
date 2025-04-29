@@ -19,6 +19,7 @@ public class VacancyMapper implements IMapper<VacancyDto, VacancyEntity> {
         CompanyDto companyDto = companyMapper.toDto(entity.getCompanyEntity());
         dto.setCompany(companyDto);
         dto.setSource(entity.getLink());
+        dto.setStatus(entity.getStatus());
         return dto;
     }
 
@@ -31,6 +32,7 @@ public class VacancyMapper implements IMapper<VacancyDto, VacancyEntity> {
         vacancyEntity.setCompanyEntity(companyMapper.toEntity(vacancyDto.getCompany()));
         vacancyEntity.setLink(vacancyDto.getSource());
         vacancyEntity.setComment(vacancyDto.getComment());
+        vacancyEntity.setStatus(vacancyDto.getStatus());
         return vacancyEntity;
     }
 
