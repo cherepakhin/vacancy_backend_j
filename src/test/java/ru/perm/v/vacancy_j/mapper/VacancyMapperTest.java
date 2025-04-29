@@ -78,7 +78,9 @@ public class VacancyMapperTest {
         CompanyEntity companyEntity100 = new CompanyEntity(COMPANY_N_100, COMPANY_NAME_100);
         String LINK_10="LINK_10";
         String COMMENT_10 = "COMMENT_10";
-        VacancyEntity entity100 = new VacancyEntity(N10, VACANCY_TITLE_10,companyEntity100, VACANCY_DESCRIPTION_10, LINK_10, COMMENT_10);
+        String STATUS_10 = "STATUS_10";
+        VacancyEntity entity100 = new VacancyEntity(N10, VACANCY_TITLE_10,companyEntity100,
+                VACANCY_DESCRIPTION_10, LINK_10, COMMENT_10, STATUS_10);
 
         Long COMPANY_N_200 = 200L;
         String COMPANY_NAME_200 = "COMPANY_NAME_200";
@@ -88,7 +90,9 @@ public class VacancyMapperTest {
         String VACANCY_DESCRIPTION_20 = "VACANCY_DESCRIPTION_20";
         String LINK_20="LINK_20";
         String COMMENT_20 = "COMMENT_20";
-        VacancyEntity entity200 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200, VACANCY_DESCRIPTION_20, LINK_20, COMMENT_20);
+        String STATUS = "STATUS";
+        VacancyEntity entity200 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200, VACANCY_DESCRIPTION_20,
+                LINK_20, COMMENT_20, STATUS);
 
         List<VacancyDto> dtos = new VacancyMapper().toListDto(List.of(entity100, entity200));
 
@@ -135,6 +139,8 @@ public class VacancyMapperTest {
         String VACANCY_DESCRIPTION_10 = "VACANCY_DESCRIPTION_10";
         String LINK_10="LINK_10";
         String LINK_20="LINK_20";
+        String STATUS_10="STATUS_10";
+        String STATUS_20="STATUS_20";
 
         VacancyDto vacancyDto10 = new VacancyDto();
 
@@ -146,6 +152,7 @@ public class VacancyMapperTest {
 
         CompanyDto companyDto100 = new CompanyDto(COMPANY_N_100, COMPANY_NAME_100);
         vacancyDto10.setCompany(companyDto100);
+        vacancyDto10.setStatus(STATUS_10);
 
         VacancyDto vacancyDto20 = new VacancyDto();
 
@@ -163,14 +170,15 @@ public class VacancyMapperTest {
         String COMPANY_NAME_200 = "COMPANY_NAME_200";
         CompanyDto companyDto200 = new CompanyDto(COMPANY_N_200, COMPANY_NAME_200);
         vacancyDto20.setCompany(companyDto200);
+        vacancyDto20.setStatus(STATUS_20);
 
         List<VacancyEntity> entities = new VacancyMapper().toListEntity(List.of(vacancyDto10, vacancyDto20));
 
         CompanyEntity companyEntity100 = new CompanyEntity(COMPANY_N_100, COMPANY_NAME_100);
 
         CompanyEntity companyEntity200 = new CompanyEntity(COMPANY_N_200, COMPANY_NAME_200);
-        VacancyEntity vacancyEntity10 = new VacancyEntity(VACANCY_N_10, VACANCY_TITLE_10,companyEntity100, VACANCY_DESCRIPTION_10, LINK_10, COMMENT_10);
-        VacancyEntity vacancyEntity20 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200, VACANCY_DESCRIPTION_20, LINK_20, COMMENT_20);
+        VacancyEntity vacancyEntity10 = new VacancyEntity(VACANCY_N_10, VACANCY_TITLE_10,companyEntity100, VACANCY_DESCRIPTION_10, LINK_10, COMMENT_10, STATUS_10);
+        VacancyEntity vacancyEntity20 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200, VACANCY_DESCRIPTION_20, LINK_20, COMMENT_20, STATUS_20);
 
         assertEquals(vacancyEntity10, entities.get(0));
         assertEquals(vacancyEntity20, entities.get(1));

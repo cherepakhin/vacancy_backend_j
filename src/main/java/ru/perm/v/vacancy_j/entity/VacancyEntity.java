@@ -32,11 +32,15 @@ public class VacancyEntity {
     @Column(name = "comment", nullable = false)
     private String comment = "";
 
+    @Column(name = "status", nullable = false)
+    private String status = "";
+
     public VacancyEntity() {
         super();
     }
 
-    public VacancyEntity(Long n, String title, CompanyEntity companyEntity, String description, String link, String comment) {
+    public VacancyEntity(Long n, String title, CompanyEntity companyEntity, String description,
+                         String link, String comment, String status) {
         this();
         this.n = n;
         this.title = title;
@@ -44,6 +48,7 @@ public class VacancyEntity {
         this.description = description;
         this.link = link;
         this.comment = comment;
+        this.status = status;
     }
 
     public Long getN() {
@@ -94,27 +99,23 @@ public class VacancyEntity {
         this.comment = comment;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VacancyEntity that)) return false;
-        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(companyEntity, that.companyEntity) && Objects.equals(description, that.description) && Objects.equals(link, that.link) && Objects.equals(comment, that.comment);
+        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(companyEntity, that.companyEntity) && Objects.equals(description, that.description) && Objects.equals(link, that.link) && Objects.equals(comment, that.comment) && Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(n, title, companyEntity, description, link, comment);
-    }
-
-    @Override
-    public String toString() {
-        return "VacancyEntity{" +
-                "n=" + n +
-                ", title='" + title + '\'' +
-                ", companyEntity=" + companyEntity +
-                ", description='" + description + '\'' +
-                ", link='" + link + '\'' +
-                ", comment='" + comment + '\'' +
-                '}';
+        return Objects.hash(n, title, companyEntity, description, link, comment, status);
     }
 }

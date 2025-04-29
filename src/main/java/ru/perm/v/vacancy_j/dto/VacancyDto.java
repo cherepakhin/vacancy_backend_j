@@ -12,25 +12,28 @@ public class VacancyDto extends Dto {
     private String title = "";
     private String description = "";
     private CompanyDto company = new CompanyDto();
-    private String link = "";
+    private String source = "";
     private String comment = "";
+    private String status = "";
 
     public VacancyDto() {
         super();
     }
 
-    public VacancyDto(Long n, String title, String description, CompanyDto companyDto, String link, String comment) {
-        this(title, description, companyDto, link, comment);
+    public VacancyDto(Long n, String title, String description, CompanyDto companyDto,
+                      String source, String comment, String status) {
+        this(title, description, companyDto, source, comment, status);
         this.n = n;
     }
 
-    public VacancyDto(String title, String description, CompanyDto companyDto, String link, String comment) {
+    public VacancyDto(String title, String description, CompanyDto companyDto, String source, String comment, String status) {
         super();
         this.title = title;
         this.description = description;
         this.company = companyDto;
-        this.link = link;
+        this.source = source;
         this.comment = comment;
+        this.status = status;
     }
 
     @Override
@@ -68,11 +71,11 @@ public class VacancyDto extends Dto {
     }
 
     public String getSource() {
-        return link;
+        return source;
     }
 
-    public void setSource(String link) {
-        this.link = link;
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getComment() {
@@ -83,17 +86,25 @@ public class VacancyDto extends Dto {
         this.comment = comment;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VacancyDto that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(company, that.company) && Objects.equals(link, that.link) && Objects.equals(comment, that.comment) ;
+        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(company, that.company) && Objects.equals(source, that.source) && Objects.equals(comment, that.comment) && Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), n, title, description, company, link, comment);
+        return Objects.hash(super.hashCode(), n, title, description, company, source, comment, status);
     }
 
     @Override
@@ -103,8 +114,9 @@ public class VacancyDto extends Dto {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", company=" + company +
-                ", link='" + link + '\'' +
-                ", comment='" + comment +
+                ", source='" + source + '\'' +
+                ", comment='" + comment + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

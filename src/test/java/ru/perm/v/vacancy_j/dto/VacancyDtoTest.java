@@ -66,14 +66,16 @@ class VacancyDtoTest {
         String COMPANY_NAME = "COMPANY";
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
+        String STATUS = "STATUS";
 
-        VacancyDto vacancyDto = new VacancyDto(TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+        VacancyDto vacancyDto = new VacancyDto(TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS);
 
         assertEquals(TITLE, vacancyDto.getTitle());
         assertEquals(DESCRIPTION, vacancyDto.getDescription());
         assertEquals(new CompanyDto(COMPANY_N, COMPANY_NAME), vacancyDto.getCompany());
         assertEquals(SOURCE, vacancyDto.getSource());
         assertEquals(COMMENT, vacancyDto.getComment());
+        assertEquals(STATUS, vacancyDto.getStatus());
     }
 
     @Test
@@ -85,9 +87,12 @@ class VacancyDtoTest {
         String COMPANY_NAME = "COMPANY";
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
+        String STATUS = "STATUS";
 
-        VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
-        VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+        VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION,
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS);
+        VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION,
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS);
 
         assertEquals(vacancyDto1.hashCode(), vacancyDto2.hashCode());
     }
@@ -102,9 +107,12 @@ class VacancyDtoTest {
         String COMPANY_NAME = "COMPANY";
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
+        String STATUS = "STATUS";
 
-        VacancyDto vacancyDto1 = new VacancyDto(N1, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
-        VacancyDto vacancyDto2 = new VacancyDto(N2, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+        VacancyDto vacancyDto1 = new VacancyDto(N1, TITLE, DESCRIPTION,
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS);
+        VacancyDto vacancyDto2 = new VacancyDto(N2, TITLE, DESCRIPTION,
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS);
 
         assertNotEquals(vacancyDto1.hashCode(), vacancyDto2.hashCode());
     }
@@ -118,9 +126,12 @@ class VacancyDtoTest {
         String COMPANY_NAME = "COMPANY";
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
+        String STATUS = "STATUS";
 
-        VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
-        VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+        VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION,
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS);
+        VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION,
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS);
 
         assertEquals(vacancyDto1, vacancyDto2);
     }
@@ -135,9 +146,12 @@ class VacancyDtoTest {
         String COMPANY_NAME = "COMPANY";
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
+        String STATUS = "STATUS";
 
-        VacancyDto vacancyDto1 = new VacancyDto(N1, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
-        VacancyDto vacancyDto2 = new VacancyDto(N2, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT);
+        VacancyDto vacancyDto1 = new VacancyDto(N1, TITLE, DESCRIPTION,
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS);
+        VacancyDto vacancyDto2 = new VacancyDto(N2, TITLE, DESCRIPTION,
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS);
 
         assertNotEquals(vacancyDto1, vacancyDto2);
     }
@@ -151,9 +165,12 @@ class VacancyDtoTest {
         String COMPANY_NAME = "COMPANY";
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
+        String STATUS = "STATUS";
 
-        VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N_10, COMPANY_NAME), SOURCE, COMMENT);
-        VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION, new CompanyDto(COMPANY_N_20, COMPANY_NAME), SOURCE, COMMENT);
+        VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION,
+                new CompanyDto(COMPANY_N_10, COMPANY_NAME), SOURCE, COMMENT, STATUS);
+        VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION,
+                new CompanyDto(COMPANY_N_20, COMPANY_NAME), SOURCE, COMMENT, STATUS);
 
         assertNotEquals(vacancyDto1, vacancyDto2);
     }
