@@ -1,4 +1,4 @@
-### Backend проекта "Вакансии" на java и camunda
+### Backend проекта "Вакансии" на Java и Camunda
 
 #### Цель
 
@@ -16,12 +16,18 @@
 ./gradlew bootRun
 ````
 
-Порт приложения 8080
+Порт приложения 8080 установлен в application.yaml:
+
+````yaml
+server:
+  port: 8080
+
+````
 
 Rest:
 
 ````shell
-/api/echo/MESSAGE_ECHO
+http :8080/api/echo/MESSAGE_ECHO
 >MESSAGE_ECHO
 ````
 
@@ -83,4 +89,27 @@ http POST :8080/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
      }
 ````
 
+Тестовые запросы:
+
+````shell
+http :8080/api/echo/MESSAGE_ECHO
+
+MESSAGE_ECHO
+````
+
+````shell
 http :8080/api/vacancy/2
+
+{
+    "comment": "",
+    "company": {
+        "n": 1,
+        "name": "Company 1"
+    },
+    "description": "Description Vacancy 2 Company 1",
+    "n": 2,
+    "source": "",
+    "title": "Vacancy 2 Company 1"
+}
+
+````
