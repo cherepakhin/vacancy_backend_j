@@ -7,7 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
+import ru.perm.v.vacancy_j.entity.CompanyEntity;
+import ru.perm.v.vacancy_j.entity.VacancyEntity;
 import ru.perm.v.vacancy_j.entity.VacancySort;
+import ru.perm.v.vacancy_j.repository.ICompanyRepository;
 import ru.perm.v.vacancy_j.repository.IVacancyRepository;
 import ru.perm.v.vacancy_j.service.VacancyService;
 
@@ -20,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class VacancyServiceImplIntegrationTest {
     @Autowired
     private IVacancyRepository vacancyRepository;
+    @Autowired
+    private ICompanyRepository companyRepository;
 
     @Test
     void getAll() {
@@ -121,5 +126,22 @@ public class VacancyServiceImplIntegrationTest {
         assertEquals(3L, vacancies.get(1).getN()); // Vacancy 1 Company 2
         assertEquals(2L, vacancies.get(2).getN()); // Vacancy 2 Company 1
         assertEquals(4L, vacancies.get(3).getN()); // Vacancy 2 Company 2
+    }
+
+    @Test
+    void create() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+
+        VacancyEntity vacancyEntity = new VacancyEntity();
+        Long n = vacancyService.getNextMaxN();
+        vacancyEntity.setN(n);
+        vacancyEntity.setTitle("TEST TITIE");
+        vacancyEntity.setDescription("TEST DESCRIPTION(");
+        List<CompanyEntity> companies = companyRepository.findByN(1L);
+        vacancyEntity.setCompanyEntity(companies.get(0));
+
+        VacancyEntity saved = vacancyRepository.save(vacancyEntity);
+
+        assertEquals(n, saved.getN());
     }
 }

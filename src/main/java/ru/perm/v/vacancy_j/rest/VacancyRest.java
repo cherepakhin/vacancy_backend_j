@@ -65,7 +65,7 @@ public class VacancyRest {
 
     @PutMapping("/")
     public ResponseEntity<?> create(@RequestBody VacancyDto vacancyDto) {
-        log.info(format("POST update vacancyDto %s", vacancyDto));
+        log.info(format("Create vacancyDto %s", vacancyDto));
         try {
             VacancyDto dto = vacancyService.create(vacancyDto);
             return ResponseEntity.ok(dto);

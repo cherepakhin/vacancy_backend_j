@@ -9,7 +9,6 @@ import java.util.Objects;
 public class CompanyEntity {
     @Id
     @Column(name = "n", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long n = -1L;
     @Column(name = "name", nullable = false)
     private String name = "";

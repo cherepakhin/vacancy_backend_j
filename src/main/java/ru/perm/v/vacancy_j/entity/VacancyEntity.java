@@ -9,7 +9,7 @@ import java.util.Objects;
 public class VacancyEntity {
     @Id
     @Column(name = "n", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long n = -1L;
 
     //TODO: add date created, date modified

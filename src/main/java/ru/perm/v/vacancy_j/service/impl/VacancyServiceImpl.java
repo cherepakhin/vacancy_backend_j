@@ -169,9 +169,14 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public VacancyDto create(VacancyDto vacancyDto) {
         //TODO: validate
+        log.info(format("VacancyDTO fro create %s", vacancyDto));
         VacancyEntity entity = vacancyMapper.toEntity(vacancyDto);
-        entity.setN(getNextMaxN());
+        Long n = getNextMaxN();
+        entity.setN(n);
+        log.info(format("New entity %s", entity));
         VacancyEntity saved = vacancyRepository.save(entity);
+        log.info(format("Saved entity %s", entity));
+
         return vacancyMapper.toDto(saved);
     }
 }
