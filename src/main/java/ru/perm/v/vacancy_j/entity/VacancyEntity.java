@@ -118,4 +118,17 @@ public class VacancyEntity {
     public int hashCode() {
         return Objects.hash(n, title, companyEntity, description, link, comment, status);
     }
+
+    @Override
+    public String toString() {
+        return "VacancyEntity{" +
+                "n=" + n +
+                ", title='" + title + '\'' +
+                ", companyEntity=" + companyEntity +
+                ", description='" + description + '\'' +
+                ", link='" + link + '\'' +
+                ", comment='" + comment + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
