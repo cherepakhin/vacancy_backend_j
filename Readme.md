@@ -113,3 +113,25 @@ http :8080/api/vacancy/2
 }
 
 ````
+
+#### Сборка jar файла
+
+Подключен gradle plugin в build.gradle:
+
+````shell
+springBoot {
+    buildInfo()
+}
+````
+
+Сборка:
+
+````shell
+./gradlew bootJar
+````
+
+Запуск jar файла:
+
+````shell
+/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar vacancy_backend-0.0.1-SNAPSHOT.jar
+````
