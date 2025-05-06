@@ -12,3 +12,14 @@ spring:
   flyway:
     enabled: true
     generate_statistics: true
+
+server:
+  port: 443
+  servlet:
+    context-path: /api
+  include-message: always
+  ssl:
+    keyStore: classpath:keystore/
+    keyStorePassword: pass
+    keyStoreType: PKCS12
+    keyAlias: tomcat

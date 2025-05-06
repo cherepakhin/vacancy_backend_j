@@ -16,18 +16,18 @@
 ./gradlew bootRun
 ````
 
-Порт приложения 8080 установлен в application.yaml:
+Порт приложения 8090 установлен в application.yaml:
 
 ````yaml
 server:
-  port: 8080
+  port: 8098
 
 ````
 
 Rest:
 
 ````shell
-http :8080/api/echo/MESSAGE_ECHO
+http :8090/api/echo/MESSAGE_ECHO
 >MESSAGE_ECHO
 ````
 
@@ -46,7 +46,7 @@ http :8080/api/echo/MESSAGE_ECHO
  
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
-http POST :8080/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
+http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 
 Для работы с базой данных использован org.springframework.data.jpa.domain.Specification. Пример в ru.perm.v.vacancy_j.service.impl.VacancyServiceImpl.findByCritery(...) :
 
@@ -92,13 +92,14 @@ http POST :8080/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 Тестовые запросы:
 
 ````shell
-http :8080/api/echo/MESSAGE_ECHO
+http :8090/api/echo/MESSAGE_ECHO
 
 MESSAGE_ECHO
 ````
 
 ````shell
-http :8080/api/vacancy/2
+http http://192.168.1.20:8090/api/vacancy/2
+http http://127.0.0.1:8090/api/vacancy/2
 
 {
     "comment": "",
@@ -135,3 +136,29 @@ springBoot {
 ````shell
 /usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar vacancy_backend-0.0.1-SNAPSHOT.jar
 ````
+
+запуск на другом порту:
+
+````shell
+/usr/lib/jvm/java-17-openjdk-amd64/bin/java -Dserver.port=8090 -jar vacancy_backend-0.0.1-SNAPSHOT.jar
+````
+
+#### WAR
+
+Для создания _war_ файлв в build.gradle добавить:
+
+````shell
+apply plugin:'war'
+
+war {
+    enabled=true
+}
+
+````
+
+сборка:
+
+````shell
+./gradlew bootWar
+````
+
