@@ -44,7 +44,7 @@ http :8090/api/echo/MESSAGE_ECHO
 ./gradlew flywayMigrate -Dflyway.url=jdbc:postgresql://192.168.1.20:5432/vacancy -Dflyway.user=vasi -Dflyway.password=pass
 ````
  
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 
 http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 
@@ -162,3 +162,6 @@ war {
 ./gradlew bootWar
 ````
 
+#### Swagger
+
+Реализован интерфейс Swagger по адресу [http://localhost:8090/api/swagger-ui.html](http://localhost:8090/api/swagger-ui.html) 
