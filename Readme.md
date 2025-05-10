@@ -164,8 +164,8 @@ war {
 
 #### OpenApi
 
-Доступно по адресу http://127.0.0.1:8090/api/v3/api-docs
+Доступно по адресу http://127.0.0.1:8090/api/vacancy-api-docs
 
 #### Swagger
 
-Реализован интерфейс Swagger по адресу [http://localhost:8090/api/swagger-ui.html](http://localhost:8090/api/swagger-ui.html) 
+Реализован интерфейс Swagger по адресу [http://localhost:8090/api/swagger-ui/index.html](http://localhost:8090/api/swagger-ui/index.html) 
