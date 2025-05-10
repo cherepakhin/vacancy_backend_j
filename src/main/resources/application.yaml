@@ -18,3 +18,8 @@ spring:
 
 security:
   require-ssl: true
+
+springfox:
+  documentation:
+    swagger-ui:
+      base-url: vacancy
