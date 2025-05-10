@@ -1,5 +1,6 @@
 package ru.perm.v.vacancy_j.rest;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class EchoRest {
     Logger log = LoggerFactory.getLogger(EchoRest.class);
     @GetMapping("/{message}")
-//    @Operation(summary = "Echo controller", description = "Позволяет проверить REST сервис")
-    // @Parameter(description = "Тестовое сообщение", required = true)
-    public String echo( @PathVariable String message) {
+    @Operation(summary = "Echo controller", description = "Позволяет проверить REST сервис")
+    public String echo(
+            @Parameter(description = "Тестовое сообщение", required = true)
+            @PathVariable String message) {
         log.info("Echo message: {}", message);
         return message;
     }
