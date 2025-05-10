@@ -168,4 +168,4 @@ war {
 
 #### Swagger
 
-Реализован интерфейс Swagger по адресу [http://localhost:8090/api/swagger-ui/index.html](http://localhost:8090/api/swagger-ui/index.html) 
+Swagger доступен по адресу [http://localhost:8090/api/swagger-ui/index.html](http://localhost:8090/api/swagger-ui/index.html) 

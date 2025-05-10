@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/echo")
 @CrossOrigin(origins = "*")
-//@Tag(name = "Echo REST controller", description = "Controller for Echo test")
+@Tag(name = "Echo REST controller", description = "Controller for Echo test")
 public class EchoRest {
     Logger log = LoggerFactory.getLogger(EchoRest.class);
     @GetMapping("/{message}")
