@@ -2,7 +2,9 @@ package ru.perm.v.vacancy_j.dto;
 
 import java.util.Objects;
 
+//@ApiModel(description = "Абстрактный DTO")
 public abstract class Dto {
+//    @ApiModelProperty(notes = "Идентификатор DTO")
     private Long n = -1L;
 
     protected Dto() {

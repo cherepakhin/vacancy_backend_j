@@ -1,5 +1,10 @@
 package ru.perm.v.vacancy_j.rest;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -9,16 +14,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+//import io.swagger.annotations.*;
+
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.service.CompanyService;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/company")
 @CrossOrigin(origins = "*")
+
+//@Api(value = "CompanyRest" , tags = {"Контроллер для работы с компаниями"})
+//@SwaggerDefinition(tags = {
+//        @Tag(name = "Company Controller", description = "Контроллер для работы с компаниями")
+//})
 public class CompanyRest {
 
     @Autowired
@@ -38,7 +47,16 @@ public class CompanyRest {
     }
 
     @GetMapping("/{n}")
-    public ResponseEntity<?> getByN(@PathVariable Long n) {
+//    @ApiOperation(value = "Получить компанию по N",
+//            notes = "Получить компанию по идентификатору N",
+//            response = CompanyDto.class)
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "OK", response = CompanyDto.class),
+//            @ApiResponse(code = 404, message = "Ресурс не найден"),
+//            @ApiResponse(code = 500, message = "Внутренняя ошибка сервиса") })
+    public ResponseEntity<?> getByN(
+//            @ApiParam(value = "Номер компании", required = true)
+            @PathVariable Long n) {
         try {
             CompanyDto company = companyService.getByN(n);
             return ResponseEntity.ok(company);
