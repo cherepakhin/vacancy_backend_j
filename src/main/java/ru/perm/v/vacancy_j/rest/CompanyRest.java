@@ -1,33 +1,37 @@
 package ru.perm.v.vacancy_j.rest;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.Min;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-//import io.swagger.annotations.*;
-
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.service.CompanyService;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/company")
 @CrossOrigin(origins = "*")
 
-//@Api(value = "CompanyRest" , tags = {"Контроллер для работы с компаниями"})
-//@SwaggerDefinition(tags = {
-//        @Tag(name = "Company Controller", description = "Контроллер для работы с компаниями")
-//})
+@ApiResponses(@ApiResponse(responseCode = "200", useReturnTypeSchema = true))
+@Tag(name = "Company REST controller", description = "Контроллер для работы с компаниями")
+// Tag для группировки (на пример все GET запросы в одной секции)
 public class CompanyRest {
 
     @Autowired
@@ -46,16 +50,31 @@ public class CompanyRest {
         this.companyService = companyService;
     }
 
+    @GetMapping("/")
+    @Operation(summary = "Получить компанию по N",
+            description = "Получить компанию по идентификатору N"
+    )
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(companyService.getAll());
+    }
+
     @GetMapping("/{n}")
-//    @ApiOperation(value = "Получить компанию по N",
-//            notes = "Получить компанию по идентификатору N",
-//            response = CompanyDto.class)
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "OK", response = CompanyDto.class),
-//            @ApiResponse(code = 404, message = "Ресурс не найден"),
-//            @ApiResponse(code = 500, message = "Внутренняя ошибка сервиса") })
+    @Operation(summary = "Получить компанию по N",
+            description = "Получить компанию по идентификатору N"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CompanyDto.class))}
+            ),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
+    })
     public ResponseEntity<?> getByN(
-//            @ApiParam(value = "Номер компании", required = true)
+            @Parameter(description = "Номер компании", required = true)
+            @RequestParam(required = true, defaultValue = "-1")
+            @Validated @Min(-1)
             @PathVariable Long n) {
         try {
             CompanyDto company = companyService.getByN(n);

@@ -98,8 +98,14 @@ MESSAGE_ECHO
 ````
 
 ````shell
+http http://127.0.0.1:8090/api/company/2
+
+{
+    "n": 2,
+    "name": "Company 2"
+}
+
 http http://192.168.1.20:8090/api/vacancy/2
-http http://127.0.0.1:8090/api/vacancy/2
 
 {
     "comment": "",

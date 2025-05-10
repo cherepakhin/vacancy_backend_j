@@ -25,17 +25,18 @@ public class OpenAPIConfiguration {
         log.info(format("Environment: %s", environment));
     }
 
-    @Bean
-    public OpenAPI defineOpenAPI () {
-        Server server = new Server();
-        String serverUrl = "https://v.perm.ru/api";
-        server.setUrl(serverUrl);
-        server.setDescription("Development");
-
-        Info info = new Info()
-                .title("API для работы вакансиями.")
-                .version("1.0")
-                .description("API предоставляет REST сервисы для работы с вакансиями.");
-        return new OpenAPI().info(info).servers(List.of(server));
-    }
+// Кооментарий не удалять. Bean нужен при размещении на серврере.
+//    @Bean
+//    public OpenAPI defineOpenAPI () {
+//        Server server = new Server();
+//        String serverUrl = "https://v.perm.ru/api";
+//        server.setUrl(serverUrl);
+//        server.setDescription("Development");
+//
+//        Info info = new Info()
+//                .title("API для работы вакансиями.")
+//                .version("1.0")
+//                .description("API предоставляет REST сервисы для работы с вакансиями.");
+//        return new OpenAPI().info(info).servers(List.of(server));
+//    }
 }

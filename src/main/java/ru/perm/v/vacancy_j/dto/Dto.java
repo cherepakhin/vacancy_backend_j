@@ -1,10 +1,12 @@
 package ru.perm.v.vacancy_j.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.Objects;
 
-//@ApiModel(description = "Абстрактный DTO")
+@Schema(description = "Abstract DTO")
 public abstract class Dto {
-//    @ApiModelProperty(notes = "Идентификатор DTO")
+    @Schema(description = "ID DTO")
     private Long n = -1L;
 
     protected Dto() {

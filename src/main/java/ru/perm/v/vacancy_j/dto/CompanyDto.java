@@ -1,22 +1,16 @@
 package ru.perm.v.vacancy_j.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiModel;
-//import io.swagger.annotations.ApiModelProperty;
-//import io.swagger.annotations.ApiOperation;
-//import io.swagger.annotations.ApiParam;
-
 import java.util.Objects;
 
-//@Api(tags = "Описание компании")
-//@ApiModel(description = "Описание компании")
+@Schema(description = "Описание компании")
 public class CompanyDto extends Dto {
     @Size(min = 5, message = "Длина name в CompanyDto должна быть больше 5 символов.")
     @NotNull
-//    @ApiModelProperty(notes = "Название компании")
+    @Schema(description = "Название компании")
     private String name;
 
     public CompanyDto() {
