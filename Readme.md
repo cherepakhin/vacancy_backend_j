@@ -16,11 +16,11 @@
 ./gradlew bootRun
 ````
 
-Порт приложения 8090 установлен в application.yaml:
+Порт приложения 8443 установлен в application.yaml:
 
 ````yaml
 server:
-  port: 8098
+  port: 8443
 
 ````
 
@@ -92,20 +92,21 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 Тестовые запросы:
 
 ````shell
-http :8090/api/echo/MESSAGE_ECHO
+https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
 
 MESSAGE_ECHO
 ````
 
-````shell
-http http://127.0.0.1:8090/api/company/2
 
+````shell
+https://127.0.0.1:8443/api/company/2
+     
 {
     "n": 2,
     "name": "Company 2"
 }
 
-http http://192.168.1.20:8090/api/vacancy/2
+https://127.0.0.1:8443/api/vacancy/2
 
 {
     "comment": "",
@@ -119,6 +120,21 @@ http http://192.168.1.20:8090/api/vacancy/2
     "title": "Vacancy 2 Company 1"
 }
 
+https://127.0.0.1:8443/api/vacancy/
+[
+    {
+        "comment": "",
+        "company": {
+            "n": 1,
+            "name": "Company 1"
+        },
+        "description": "Description Vacancy 2 Company 1",
+        "n": 2,
+        "source": "",
+        "title": "Vacancy 2 Company 1"
+    },
+    ....
+]
 ````
 
 #### Сборка jar файла
@@ -136,6 +152,8 @@ springBoot {
 ````shell
 ./gradlew bootJar
 ````
+
+[./build_jar.sh](./build_jar.sh)
 
 Запуск jar файла:
 
@@ -168,10 +186,45 @@ war {
 ./gradlew bootWar
 ````
 
-#### OpenApi
-
-Доступно по адресу http://127.0.0.1:8090/api/vacancy-api-docs
-
 #### Swagger
 
-Swagger доступен по адресу [http://localhost:8090/api/swagger-ui/index.html](http://localhost:8090/api/swagger-ui/index.html) 
+Swagger доступен по адресу [https://127.0.0.1:8443/api/swagger-ui/index.html](https://127.0.0.1:8443/api/swagger-ui/index.html) 
+
+#### PROD запуск
+
+Выполнить [./build_jar.sh](./build_jar.sh). Файл build/libs/vacancy_backend-0.0.1-SNAPSHOT.jar скопировать на web сервер. Запустить backend:
+
+````shell
+/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar vacancy_backend-0.0.1-SNAPSHOT.jar
+````
+
+На этом же сервере разместить [~/prog/js/vacancy_frontend_17](https://github.com/cherepakhin/vacancy_frontend_17). Как заместить в проекте описано. (скопировать каталог vacancy_frontend_17/build в каталог apache2 /var/www/main/vacancies).
+
+#### Настройка HTTPS
+
+````yaml
+server:
+port: 8443
+ssl.key-store: /home/vasi/prog/sert/keystore.p12
+ssl.key-store-password: B..67
+ssl.keyStoreType: PKCS12
+ssl.keyAlias: tomcat
+security.require-ssl: true
+````
+
+Сертификат 	Let's Encrypt.
+
+На сервере (не на ноутбуке!!!) в папке /home/vasi/prog/sert.
+
+#### Запуск
+
+На сервере (не на ноутбуке, папка __v:~/temp/vacancy__):
+
+````shell
+v:~/temp/vacancy$ java -jar vacancy_backend-0.0.1-SNAPSHOT.jar
+````
+
+Для тестирования prod на https://v.perm.ru можно использовать https://httpie.io/app 
+
+![httpie](doc/httpie.png)
+

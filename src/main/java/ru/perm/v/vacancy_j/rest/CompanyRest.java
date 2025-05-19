@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 @RestController
 @RequestMapping("/company")
 @CrossOrigin(origins = "*")
@@ -76,11 +78,12 @@ public class CompanyRest {
             @RequestParam(required = true, defaultValue = "-1")
             @Validated @Min(-1)
             @PathVariable Long n) {
+        log.info(format("Get Company with n=%s", n));
         try {
             CompanyDto company = companyService.getByN(n);
             return ResponseEntity.ok(company);
         } catch (Exception e) {
-            String error = String.format("Company with n=%s not found.", n);
+            String error = format("Company with n=%s not found.", n);
             log.error(error);
             return ResponseEntity.internalServerError().body(error);
         }
@@ -88,7 +91,7 @@ public class CompanyRest {
 
     @PutMapping("/")
     public ResponseEntity<?> create(@RequestBody CompanyDto companyDto) {
-        String message = String.format("Create %s", companyDto);
+        String message = format("Create %s", companyDto);
         log.info(message);
         try {
             CompanyDto dto = companyService.create(companyDto);
@@ -101,7 +104,7 @@ public class CompanyRest {
 
     @PostMapping("/{n}")
     public ResponseEntity<?> update(@PathVariable Long n, @RequestBody CompanyDto companyDto) {
-        String message = String.format("Company update n=%s %s", n, companyDto);
+        String message = format("Company update n=%s %s", n, companyDto);
         log.info(message);
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<CompanyDto>> violations = validator.validate(companyDto);
