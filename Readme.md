@@ -224,7 +224,7 @@ security.require-ssl: true
 v:~/temp/vacancy$ java -jar vacancy_backend-0.0.1-SNAPSHOT.jar
 ````
 
-Для тестирования prod на https://v.perm.ru можно использовать https://httpie.io/app 
+Для тестирования prod на https://v.perm.ru можно использовать [https://httpie.io/app](https://httpie.io/app). Пример запроса GET на [https://v.perm.ru:8443/api/vacancy/](https://v.perm.ru:8443/api/vacancy/) :
 
 ![httpie](doc/httpie.png)
 
