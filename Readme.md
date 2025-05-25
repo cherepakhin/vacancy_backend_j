@@ -259,3 +259,6 @@ export default axios.create({
 });
 ````
 
+Версии:
+
+ветка v1 - сделано CRUD без авторизации
