@@ -91,12 +91,19 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 
 Тестовые запросы:
 
+Для HTTPS:
+
+````shell
+$ https https://v.perm.ru:8443/api/vacancy/
+````
+
+https - утилита из [https://httpie.io](https://httpie.io)
+
 ````shell
 https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
 
 MESSAGE_ECHO
 ````
-
 
 ````shell
 https://127.0.0.1:8443/api/company/2
@@ -224,7 +231,8 @@ security.require-ssl: true
 v:~/temp/vacancy$ java -jar vacancy_backend-0.0.1-SNAPSHOT.jar
 ````
 
+Сделан frontend [https://v.perm.ru/vacancies/](https://v.perm.ru/vacancies/). Проект с frontend в [https://github.com/cherepakhin/vacancy_frontend_17](https://github.com/cherepakhin/vacancy_frontend_17).
+
 Для тестирования prod на https://v.perm.ru можно использовать [https://httpie.io/app](https://httpie.io/app). Пример запроса GET на [https://v.perm.ru:8443/api/vacancy/](https://v.perm.ru:8443/api/vacancy/) :
 
 ![httpie](doc/httpie.png)
-

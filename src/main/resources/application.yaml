@@ -1,10 +1,10 @@
 spring:
   profiles:
-    active: prod
+    active: dev
   dataSource:
     url: jdbc:postgresql://192.168.1.20:5432/vacancy
-    username: vasi
-    password: pass
+    username: ${PG_USER:vasi}
+    password: ${PG_PASSWORD:pass}
   jpa:
     # show SQL statements in console.
     show-sql: true
