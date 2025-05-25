@@ -231,8 +231,21 @@ security.require-ssl: true
 v:~/temp/vacancy$ java -jar vacancy_backend-0.0.1-SNAPSHOT.jar
 ````
 
-Сделан frontend [https://v.perm.ru/vacancies/](https://v.perm.ru/vacancies/). Проект с frontend в [https://github.com/cherepakhin/vacancy_frontend_17](https://github.com/cherepakhin/vacancy_frontend_17).
-
 Для тестирования prod на https://v.perm.ru можно использовать [https://httpie.io/app](https://httpie.io/app). Пример запроса GET на [https://v.perm.ru:8443/api/vacancy/](https://v.perm.ru:8443/api/vacancy/) :
 
 ![httpie](doc/httpie.png)
+
+
+Сделан frontend [https://v.perm.ru/vacancies/](https://v.perm.ru/vacancies/). Проект с frontend в [https://github.com/cherepakhin/vacancy_frontend_17](https://github.com/cherepakhin/vacancy_frontend_17). Адрес backend во frontend  проекте указан в [http-common.js](https://github.com/cherepakhin/vacancy_frontend_17/blob/main/src/http-common.js):
+
+````shell
+export default axios.create({
+  baseURL: "https://v.perm.ru:8443/api",
+
+  mode: "no-cors",
+  headers: {
+    "Content-type": "application/json"
+  }
+});
+````
+
