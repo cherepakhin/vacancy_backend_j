@@ -106,8 +106,7 @@ MESSAGE_ECHO
 ````
 
 ````shell
-https://127.0.0.1:8443/api/company/2
-     
+https https://127.0.0.1:8443/api/company/2
 {
     "n": 2,
     "name": "Company 2"
@@ -235,6 +234,17 @@ v:~/temp/vacancy$ java -jar vacancy_backend-0.0.1-SNAPSHOT.jar
 
 ![httpie](doc/httpie.png)
 
+
+#### Тесты на prod
+
+````shell
+https https://v.perm.ru:8443/api/echo/MESSAGE_ECHO
+https https://v.perm.ru:8443/api/company/2     
+````
+
+HTTP (не httpS) запросы на prod не работают.
+
+#### Frontend
 
 Сделан frontend [https://v.perm.ru/vacancies/](https://v.perm.ru/vacancies/). Проект с frontend в [https://github.com/cherepakhin/vacancy_frontend_17](https://github.com/cherepakhin/vacancy_frontend_17). Адрес backend во frontend  проекте указан в [http-common.js](https://github.com/cherepakhin/vacancy_frontend_17/blob/main/src/http-common.js):
 
