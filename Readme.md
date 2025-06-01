@@ -4,6 +4,15 @@
 
 Создать приложение на Java и Camunda для проекта "Ищу работу"
 
+
+Установить имя и пароль для доступа к базе данных postgres:
+
+````shell
+export PG_USER=user
+export PG_PASSWORD=password
+
+````
+
 Прогон unit тестов:
 
 ````shell
@@ -262,3 +271,43 @@ export default axios.create({
 Версии:
 
 ветка v1 - сделано CRUD без авторизации
+ветка auth - авторизация REST
+
+### Размещение на linux сервере
+
+В файле [./doc/vacancy_backend.service](././doc/vacancy_backend.service) пример настройки сервиса для Linux.
+
+````shell
+[Unit]
+Description=Vacancy service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -Dserver.port=8443 -jar /home/vasi/temp/vacancy/vacancy_backend-0.0.1-SNAPSHOT.jar
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target
+````
+
+Манипуляции для настройки
+
+````shell
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable vacancy_backend.service
+$ sudo systemctl start vacancy_backend.service
+$ sudo systemctl status vacancy_backend.service
+
+● vacancy_backend.service - Vacancy service
+     Loaded: loaded (/etc/systemd/system/vacancy_backend.service; enabled; pres>
+     Active: active (running) 
+   Main PID: 2418855 (java)
+      Tasks: 42 (limit: 13882)
+     Memory: 279.2M (peak: 289.5M)
+        CPU: 26.100s
+     CGroup: /system.slice/vacancy_backend.service
+             └─2418855 /usr/lib/jvm/java-17-openjdk-amd64/bin/java -Dserver.por>
+
+````
+
