@@ -98,21 +98,75 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
      }
 ````
 
-Тестовые запросы:
+#### Тестовые запросы:
 
-Для HTTPS:
+Для HTTPS.
 
-Можно использовать swagger [https://127.0.0.1:8443/api/swagger-ui/index.htm](https://127.0.0.1:8443/api/swagger-ui/index.htm).
+__1.__ Можно использовать swagger [https://127.0.0.1:8443/api/swagger-ui/index.htm](https://127.0.0.1:8443/api/swagger-ui/index.htm).
+
+
+__2.__ Можно использовать утилиту HTTPIE  [https://httpie.io](https://httpie.io):
 
 ````shell
-$ https https://v.perm.ru:8443/api/vacancy/
+$ http --verify=no https://127.0.0.1:8443/api/company/2 | jq
+{
+  "n": 2,
+  "name": "Company 2"
+}
 ````
+
+````shell
+$ https https://v.perm.ru:8443/api/vacancy/2
+HTTP/1.1 200 
+Connection: keep-alive
+Content-Type: application/json
+Keep-Alive: timeout=60
+Transfer-Encoding: chunked
+Vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers
+
+{
+    "comment": "Comment 2",
+    "company": {
+        "n": 1,
+        "name": "Company 1"
+    },
+    "description": "Description Vacancy 2 Company 1",
+    "n": 2,
+    "source": "Link 21",
+    "status": "in_work",
+    "title": "Vacancy 2 Company 1"
+}
+
+$ http --verify=no https://v.perm.ru:8443/api/company/2 | jq
+{
+  "n": -1,
+  "name": "-"
+}
+````
+
 (работает на сервере, НЕ РАБОТАЕТ на ноуте)
 
-https - утилита из [https://httpie.io](https://httpie.io)
+__3.__ Ручные тестовые запросы HTTPS через CURL (использовать ключ --insecure):
 
+````shell
+curl -X 'GET' --insecure https://127.0.0.1:8443/api/company/2
+curl -X 'GET' --insecure https://192.168.1.57:8443/api/company/2 
+````
 
-Ручные тестовые запосы через браузер:
+форматированный вывод и статистика (использован jq):
+
+````shell
+curl -X 'GET' --insecure https://127.0.0.1:8443/api/company/2 | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    19    0    19    0     0    463      0 --:--:-- --:--:-- --:--:--   463
+{
+  "n": -1,
+  "name": "-"
+}
+````
+
+__4.__ Ручные тестовые запросы через браузер:
 [https://127.0.0.1:8443/api/company/2](https://127.0.0.1:8443/api/company/2)
 
 ````
@@ -155,25 +209,6 @@ https - утилита из [https://httpie.io](https://httpie.io)
     },
     ....
 ]
-````
-####  Ручные тестовые запросы через curl (использовать ключ --insecure):
-
-````shell
-curl -X 'GET' --insecure https://127.0.0.1:8443/api/company/2
-curl -X 'GET' --insecure https://192.168.1.57:8443/api/company/2
-````
-
-форматированный вывод и статистика (использован jq): 
-
-````shell
-curl -X 'GET' --insecure https://127.0.0.1:8443/api/company/2 | jq
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100    19    0    19    0     0    463      0 --:--:-- --:--:-- --:--:--   463
-{
-  "n": -1,
-  "name": "-"
-}
 ````
 
 #### Сборка jar файла
@@ -241,13 +276,15 @@ Swagger доступен по адресу [https://127.0.0.1:8443/api/swagger-u
 
 #### Настройка HTTPS
 
+Делается в секции __server__ [application.yaml](./src/main/resources/application.yaml):
 ````yaml
 server:
-port: 8443
-ssl.key-store: /home/vasi/prog/sert/keystore.p12
-ssl.key-store-password: B..67
-ssl.keyStoreType: PKCS12
-ssl.keyAlias: tomcat
+  port: 8443
+  ssl.key-store: /home/vasi/prog/sert/keystore.p12
+  ssl.key-store-password: B..67
+  ssl.keyStoreType: PKCS12
+  ssl.keyAlias: tomcat
+
 security.require-ssl: true
 ````
 
