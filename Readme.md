@@ -102,27 +102,29 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 
 Для HTTPS:
 
+Можно использовать swagger [https://127.0.0.1:8443/api/swagger-ui/index.htm](https://127.0.0.1:8443/api/swagger-ui/index.htm).
+
 ````shell
 $ https https://v.perm.ru:8443/api/vacancy/
 ````
+(работает на сервере, НЕ РАБОТАЕТ на ноуте)
 
 https - утилита из [https://httpie.io](https://httpie.io)
 
-````shell
-https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
 
-MESSAGE_ECHO
+Ручные тестовые запосы через браузер:
+[https://127.0.0.1:8443/api/company/2](https://127.0.0.1:8443/api/company/2)
+
 ````
-
-````shell
-https https://127.0.0.1:8443/api/company/2
 {
     "n": 2,
     "name": "Company 2"
 }
+````
 
-https://127.0.0.1:8443/api/vacancy/2
+[https://127.0.0.1:8443/api/vacancy/2](https://127.0.0.1:8443/api/vacancy/2)
 
+````
 {
     "comment": "",
     "company": {
@@ -134,8 +136,11 @@ https://127.0.0.1:8443/api/vacancy/2
     "source": "",
     "title": "Vacancy 2 Company 1"
 }
+````
 
-https://127.0.0.1:8443/api/vacancy/
+[https://127.0.0.1:8443/api/vacancy/](https://127.0.0.1:8443/api/vacancy/)
+
+````
 [
     {
         "comment": "",
@@ -150,6 +155,25 @@ https://127.0.0.1:8443/api/vacancy/
     },
     ....
 ]
+````
+####  Ручные тестовые запросы через curl (использовать ключ --insecure):
+
+````shell
+curl -X 'GET' --insecure https://127.0.0.1:8443/api/company/2
+curl -X 'GET' --insecure https://192.168.1.57:8443/api/company/2
+````
+
+форматированный вывод и статистика (использован jq): 
+
+````shell
+curl -X 'GET' --insecure https://127.0.0.1:8443/api/company/2 | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    19    0    19    0     0    463      0 --:--:-- --:--:-- --:--:--   463
+{
+  "n": -1,
+  "name": "-"
+}
 ````
 
 #### Сборка jar файла
@@ -243,7 +267,11 @@ v:~/temp/vacancy$ java -jar vacancy_backend-0.0.1-SNAPSHOT.jar
 
 ![httpie](doc/httpie.png)
 
+#### Ручные тесты на localhost через __браузер___
 
+[https://127.0.0.1:8443/api/echo/MESSAGE](https://127.0.0.1:8443/api/echo/MESSAGE)
+[https://127.0.0.1:8443/api/company/](https://127.0.0.1:8443/api/company/)
+    
 #### Тесты на prod
 
 ````shell

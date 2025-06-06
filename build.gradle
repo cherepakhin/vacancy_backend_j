@@ -30,6 +30,11 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.hibernate/hibernate-jpamodelgen
     compileOnly("org.hibernate:hibernate-jpamodelgen:6.6.5.Final")
+    // Spring Cache
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+    // Caffeine cache provider (recommended)
+    implementation 'com.github.ben-manes.caffeine:caffeine'
 
     // swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
