@@ -89,7 +89,7 @@ class CompanyRestTest {
         CompanyDto companyDto = new CompanyDto(N, "FOR UPDATE");
         String message = String.format("Company update n=%s %s", N, companyDto);
 
-        assertEquals("Company update n=10 CompanyDto{n='10, name='FOR UPDATE'}", message);
+        assertEquals("Company update n=10 CompanyDto{n=10, name='FOR UPDATE'}", message);
     }
 
     @Test

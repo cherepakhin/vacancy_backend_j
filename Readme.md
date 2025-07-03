@@ -99,6 +99,8 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 
 (Swagger работает через __HTTPS__)
 
+ Доступ на сервере [https://v.perm.ru:8443/api/swagger-ui/index.html](https://v.perm.ru:8443/api/swagger-ui/index.html).
+
 #### Тестовые запросы:
 
 __Для HTTPS.__
