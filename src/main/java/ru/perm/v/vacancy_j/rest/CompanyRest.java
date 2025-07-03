@@ -15,6 +15,10 @@ import jakarta.validation.constraints.Min;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +34,6 @@ import static java.lang.String.format;
 @RestController
 @RequestMapping("/company")
 @CrossOrigin(origins = "*")
-
-@ApiResponses(@ApiResponse(responseCode = "200", useReturnTypeSchema = true))
 @Tag(name = "Company REST controller", description = "Контроллер для работы с компаниями")
 // Tag для группировки (на пример все GET запросы в одной секции)
 public class CompanyRest {
@@ -43,6 +45,9 @@ public class CompanyRest {
 
     ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
 
+    private static final String COMPANIES_CACHE = "companies";
+    private static final String COMPANY_CACHE = "company";
+
     public CompanyRest() {
         super();
     }
@@ -50,14 +55,6 @@ public class CompanyRest {
     public CompanyRest(@Autowired CompanyService companyService) {
         this();
         this.companyService = companyService;
-    }
-
-    @GetMapping("/")
-    @Operation(summary = "Получить компанию по N",
-            description = "Получить компанию по идентификатору N"
-    )
-    public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(companyService.getAll());
     }
 
     @GetMapping("/{n}")
@@ -73,9 +70,10 @@ public class CompanyRest {
             ),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
     })
+    @Cacheable(value = COMPANY_CACHE, key = "#n", sync = true)
     public ResponseEntity<?> getByN(
             @Parameter(description = "Номер компании", required = true)
-            @RequestParam(required = true, defaultValue = "-1")
+// @RequestParam(required = true) - для запросов типа: /users/search?name=John. Здесь другой тип запроса /users/1
             @Validated @Min(-1)
             @PathVariable Long n) {
         log.info(format("Get Company with n=%s", n));
@@ -89,8 +87,35 @@ public class CompanyRest {
         }
     }
 
+    @GetMapping("/")
+    @Operation(summary = "Получить все компании",
+            description = "Получить список всех компаний"
+    )
+    @Cacheable(value = COMPANIES_CACHE, sync = true)
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(companyService.getAll());
+    }
+
     @PutMapping("/")
-    public ResponseEntity<?> create(@RequestBody CompanyDto companyDto) {
+    @Operation(summary = "Создать новую компанию",
+            description = "Создать новую компанию с параметрами из CompanyDTO"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CompanyDto.class))}
+            ),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
+    })
+    @Caching(
+            put = @CachePut(value = COMPANY_CACHE, key = "#result.body.n"),
+            evict = @CacheEvict(value = COMPANIES_CACHE, allEntries = true)
+    )
+    public ResponseEntity<?> create(
+            @Parameter(description = "Описание компании", required = true)
+            @RequestBody CompanyDto companyDto) {
         String message = format("Create %s", companyDto);
         log.info(message);
         try {
@@ -103,7 +128,27 @@ public class CompanyRest {
     }
 
     @PostMapping("/{n}")
-    public ResponseEntity<?> update(@PathVariable Long n, @RequestBody CompanyDto companyDto) {
+    @Operation(summary = "Изменить компанию",
+            description = "Изменить компанию с N и параметрами из CompanyDTO"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CompanyDto.class))}
+            ),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
+    })
+    @Caching(
+            put = @CachePut(value = COMPANY_CACHE, key = "#n"),
+            evict = @CacheEvict(value = COMPANIES_CACHE, allEntries = true)
+    )
+    public ResponseEntity<?> update(
+            @Parameter(description = "Id компании", required = true)
+            @PathVariable Long n,
+            @Parameter(description = "Описание компании", required = true)
+            @RequestBody CompanyDto companyDto) {
         String message = format("Company update n=%s %s", n, companyDto);
         log.info(message);
         Validator validator = validatorFactory.getValidator();
@@ -127,6 +172,33 @@ public class CompanyRest {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+
+    @DeleteMapping("/{n}")
+    @Operation(summary = "Удалить компанию",
+            description = "Удалить компанию"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CompanyDto.class))}
+            ),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
+    })
+    @Caching(
+            evict = {
+                    @CacheEvict(value = COMPANY_CACHE, key = "#n"),
+                    @CacheEvict(value = COMPANIES_CACHE, allEntries = true)
+            }
+    )
+    public ResponseEntity<?> delete(
+            @Parameter(description = "Id компании", required = true)
+            @PathVariable Long n) {
+        //TODO
+        return ResponseEntity.ok(format("Deleted n=%s", n));
+    }
+
 
     private String listViolationToString(List<ConstraintViolation<CompanyDto>> listViolations) {
         return listViolations.stream().map(err -> err.getPropertyPath() + ":" + err.getMessage()).collect(Collectors.joining(","));

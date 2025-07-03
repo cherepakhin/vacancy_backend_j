@@ -5,11 +5,11 @@
 Создать приложение на Java и Camunda для проекта "Ищу работу"
 
 
-Установить имя и пароль для доступа к базе данных postgres:
+ОБЯЗАТЕЛЬНО установить имя и пароль для доступа к базе данных postgres:
 
 ````shell
 export PG_USER=user
-export PG_PASSWORD=password
+export PG_PASSWORD=pass
 
 ````
 
@@ -31,13 +31,6 @@ export PG_PASSWORD=password
 server:
   port: 8443
 
-````
-
-Rest:
-
-````shell
-http :8090/api/echo/MESSAGE_ECHO
->MESSAGE_ECHO
 ````
 
 Использован flyway. Для обновления структуры базы данных выполнить:
@@ -98,22 +91,49 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
      }
 ````
 
+#### Swagger
+
+[https://127.0.0.1:8443/api/swagger-ui/index.html](https://127.0.0.1:8443/api/swagger-ui/index.html)
+
+![swagger](doc/swagger.png)
+
+(Swagger работает через __HTTPS__)
+
 #### Тестовые запросы:
 
-Для HTTPS.
+__Для HTTPS.__
 
 __1.__ Можно использовать swagger [https://127.0.0.1:8443/api/swagger-ui/index.htm](https://127.0.0.1:8443/api/swagger-ui/index.htm).
 
 
 __2.__ Можно использовать утилиту HTTPIE  [https://httpie.io](https://httpie.io):
 
+Для проверок на локальном компьютере. __КЛЮЧЕВОЙ ПАРАМЕТР__ --verify=no:
+
 ````shell
-$ http --verify=no https://127.0.0.1:8443/api/company/2 | jq
-{
-  "n": 2,
-  "name": "Company 2"
-}
+$ https --verify=no https://v:8443/api/echo/MESSAGE
+HTTP/1.1 200 
+Connection: keep-alive
+Content-Length: 7
+Content-Type: text/plain;charset=ISO-8859-1
+Keep-Alive: timeout=60
+Vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers
+
+MESSAGE
 ````
+
+````shell
+$ https --verify=no https://127.0.0.1:8443/api/company/ | jq
+[
+    {
+      "n": 2,
+      "name": "Company 2"
+    }
+]
+````
+
+При работе приложением на сервере этот параметр не нужен, т.к. на сервере https настроен.
+
 
 ````shell
 $ https https://v.perm.ru:8443/api/vacancy/2
@@ -316,7 +336,7 @@ https https://v.perm.ru:8443/api/echo/MESSAGE_ECHO
 https https://v.perm.ru:8443/api/company/2     
 ````
 
-HTTP (не httpS) запросы на prod не работают.
+Можно использовать swagger [https://127.0.0.1:8443/api/swagger-ui/index.html#/](https://127.0.0.1:8443/api/swagger-ui/index.html#/)
 
 #### Frontend
 

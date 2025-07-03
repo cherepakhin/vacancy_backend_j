@@ -4,7 +4,10 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
@@ -23,6 +26,8 @@ public class CompanyServiceImpl implements CompanyService {
     private ICompanyRepository companyRepository;
     private CompanyMapper companyMapper = new CompanyMapper();
 
+    Logger log = LoggerFactory.getLogger(CompanyServiceImpl.class);
+
     public CompanyServiceImpl() {
         super();
     }
@@ -32,7 +37,9 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @Cacheable(value = "company", key = "#n")
     public CompanyDto getByN(Long n) throws Exception {
+        log.info(format("get Company by n=%s", n));
         List<CompanyEntity> companies = companyRepository.findByN(n);
         if (companies.isEmpty()) {
             String err = format("Company N=%s not found", n);
