@@ -90,10 +90,10 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
         assertEquals(1L, vacancies.get(0).getN());
      }
 ````
-{#swagger}
+
 #### Swagger
 
-[https://127.0.0.1:8443/api/swagger-ui/index.html](https://127.0.0.1:8443/api/swagger-ui/index.html)
+Доступен по [https://127.0.0.1:8443/api/swagger-ui/index.html](https://127.0.0.1:8443/api/swagger-ui/index.html)
 
 ![swagger](doc/swagger.png)
 
