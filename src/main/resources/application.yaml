@@ -15,7 +15,11 @@ spring:
     enabled: true
     generate_statistics: true
     baseline-on-migrate: true
-
+  cache:
+    type: caffeine
+    cache-names: companies,company
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=10m
 server:
   port: 8443
   ssl.key-store: /home/vasi/prog/sert/keystore.p12

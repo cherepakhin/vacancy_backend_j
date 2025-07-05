@@ -70,7 +70,7 @@ public class CompanyRest {
             ),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
     })
-    @Cacheable(value = COMPANY_CACHE, key = "#n", sync = true)
+//TODO:  @Cacheable(value = COMPANY_CACHE, key = "#n", sync = true)
     public ResponseEntity<?> getByN(
             @Parameter(description = "Номер компании", required = true)
 // @RequestParam(required = true) - для запросов типа: /users/search?name=John. Здесь другой тип запроса /users/1
@@ -81,6 +81,7 @@ public class CompanyRest {
             CompanyDto company = companyService.getByN(n);
             return ResponseEntity.ok(company);
         } catch (Exception e) {
+            log.error(e.getMessage());
             String error = format("Company with n=%s not found.", n);
             log.error(error);
             return ResponseEntity.internalServerError().body(error);
