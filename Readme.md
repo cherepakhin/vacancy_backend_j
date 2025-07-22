@@ -175,7 +175,7 @@ springBoot {
 
 #### WAR
 
-Для создания _war_ файлв в build.gradle добавить:
+Для создания _war_ файлов в build.gradle добавить:
 
 ````shell
 apply plugin:'war'
@@ -223,6 +223,13 @@ security.require-ssl: true
 На сервере (не на ноутбуке!!!) в папке /home/vasi/prog/sert.
 
 #### Запуск
+
+Установить переменные для доступа к базе данных:
+
+````shell
+export PG_USER=vasi
+export PG_PASS=pass
+````
 
 На сервере (не на ноутбуке, папка __v:~/temp/vacancy__):
 

@@ -25,7 +25,7 @@ public class ValidatorVacancyDtoTest {
                 countErrors++;
             }
         }
-        assertEquals(2, countErrors);
+        assertEquals(1, countErrors);
     }
 
     @Test

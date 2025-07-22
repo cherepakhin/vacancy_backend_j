@@ -30,14 +30,15 @@ public class VacancyServiceImplIntegrationTest {
     void getAll() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         List<VacancyDto> vacancies = vacancyService.getAll();
-        assertEquals(4, vacancies.size());
+        assertEquals(6, vacancies.size());
     }
 
     @Test
     void getAllSortbyN() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         List<VacancyDto> vacancies = vacancyService.getAll();
-        assertEquals(4, vacancies.size());
+        assertEquals(6, vacancies.size());
+        //TODO: check sort
     }
 
     @Test
@@ -50,7 +51,7 @@ public class VacancyServiceImplIntegrationTest {
 
         CompanyDto companyDto = new CompanyDto(1L,"Company 1");
         VacancyDto vacancy = new VacancyDto(1L, "Vacancy 1 Company 1", "Description Vacancy 1 Company 1",
-                companyDto, "link1", "", "");
+                companyDto, "https://v.perm.ru/", "Comment 1", "in_work");
         assertEquals(vacancy, vacancies.get(0));
     }
 
@@ -109,11 +110,13 @@ public class VacancyServiceImplIntegrationTest {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         List<VacancyDto> vacancies = vacancyService.getAll(VacancySort.N);
 
-        assertEquals(4, vacancies.size());
+        assertEquals(6, vacancies.size());
         assertEquals(1L, vacancies.get(0).getN());
         assertEquals(2L, vacancies.get(1).getN());
         assertEquals(3L, vacancies.get(2).getN());
         assertEquals(4L, vacancies.get(3).getN());
+        assertEquals(5L, vacancies.get(4).getN());
+        assertEquals(6L, vacancies.get(5).getN());
     }
 
     @Test
@@ -121,11 +124,13 @@ public class VacancyServiceImplIntegrationTest {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         List<VacancyDto> vacancies = vacancyService.getAll(VacancySort.TITLE);
 
-        assertEquals(4, vacancies.size());
-        assertEquals(1L, vacancies.get(0).getN()); // Vacancy 1 Company 1
-        assertEquals(3L, vacancies.get(1).getN()); // Vacancy 1 Company 2
-        assertEquals(2L, vacancies.get(2).getN()); // Vacancy 2 Company 1
-        assertEquals(4L, vacancies.get(3).getN()); // Vacancy 2 Company 2
+        assertEquals(6, vacancies.size());
+        assertEquals(5L, vacancies.get(0).getN()); // Java-разработчик
+        assertEquals(6L, vacancies.get(1).getN()); // Kotlin/Java developer
+        assertEquals(1L, vacancies.get(2).getN()); // Vacancy 1 Company 1
+        assertEquals(3L, vacancies.get(3).getN()); // Vacancy 1 Company 2
+        assertEquals(2L, vacancies.get(4).getN()); // Vacancy 2 Company 1
+        assertEquals(4L, vacancies.get(5).getN()); // Vacancy 2 Company 2
     }
 
     @Test
