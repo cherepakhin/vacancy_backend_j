@@ -18,9 +18,8 @@ spring:
 
 server:
   port: 8443
-  ssl.key-store: /home/vasi/prog/sert/keystore.p12
+  ssl.key-store: /home/vasi/prog/java/vacancy_backend/src/main/resources/keystore/KeyStore.jks
   ssl.key-store-password: Bazilio67
   ssl.keyStoreType: PKCS12
-  ssl.keyAlias: tomcat
 
 security.require-ssl: true

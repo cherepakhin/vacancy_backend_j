@@ -18,6 +18,7 @@ class CompanyServiceImplTest {
     @Test
     void getByN() {
         CompanyEntity companyEntity = new CompanyEntity(100L, "NAME_100");
+
         when(companyRepository.findByN(100L)).thenReturn(List.of(companyEntity));
         CompanyService companyService = new CompanyServiceImpl(companyRepository);
 

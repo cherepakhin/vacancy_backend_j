@@ -4,6 +4,12 @@
 
 Создать приложение на Java и Camunda для проекта "Ищу работу"
 
+Использована Java 17:
+
+````shell
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+````
+
 Прогон unit тестов:
 
 ````shell
@@ -43,9 +49,6 @@ http :8090/api/echo/MESSAGE_ECHO
 
 ./gradlew flywayMigrate -Dflyway.url=jdbc:postgresql://192.168.1.20:5432/vacancy -Dflyway.user=vasi -Dflyway.password=pass
 ````
- 
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-
 http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 
 Для работы с базой данных использован org.springframework.data.jpa.domain.Specification. Пример в ru.perm.v.vacancy_j.service.impl.VacancyServiceImpl.findByCritery(...) :
@@ -91,7 +94,9 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 
 Тестовые запросы:
 
-Для HTTPS:
+Можно тестировать с помощью [https://www.postman.com/](https://www.postman.com/).
+
+Можно с httpie :
 
 ````shell
 $ https https://v.perm.ru:8443/api/vacancy/
