@@ -75,7 +75,6 @@ public class CompanyRest {
     })
     public ResponseEntity<?> getByN(
             @Parameter(description = "Номер компании", required = true)
-            @RequestParam(required = true, defaultValue = "-1")
             @Validated @Min(-1)
             @PathVariable Long n) {
         log.info(format("Get Company with n=%s", n));
