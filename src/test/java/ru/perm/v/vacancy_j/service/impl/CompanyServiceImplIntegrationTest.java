@@ -23,7 +23,7 @@ public class CompanyServiceImplIntegrationTest {
     void getAll() {
         CompanyService companyService  = new CompanyServiceImpl(companyRepository);
         List<CompanyDto> dtos = companyService.getAll();
-        assertEquals(3, dtos.size());
+        assertEquals(4, dtos.size());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class CompanyServiceImplIntegrationTest {
     void findByLikeName() {
         CompanyService companyService  = new CompanyServiceImpl(companyRepository);
         try {
-            List<CompanyDto> dtos = companyService.findByLikeName("Company%");
+            List<CompanyDto> dtos = companyService.findByLikeName("COMPANY%");
             assertEquals(2, dtos.size());
             assertEquals(1L, dtos.get(0).getN());
             assertEquals(2L, dtos.get(1).getN());
