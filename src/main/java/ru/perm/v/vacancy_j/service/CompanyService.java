@@ -14,4 +14,6 @@ public interface CompanyService {
     public Long getNextN();
 
     CompanyDto update(CompanyDto companyDto) throws Exception;
+
+    List<CompanyDto> findByExample(CompanyDto example);
 }

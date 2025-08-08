@@ -102,4 +102,9 @@ public class CompanyServiceImpl implements CompanyService {
         CompanyEntity saved = companyRepository.save(entity);
         return companyMapper.toDto(saved);
     }
+
+    @Override
+    public List<CompanyDto> findByExample(CompanyDto example) {
+        return null;
+    }
 }

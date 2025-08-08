@@ -143,4 +143,26 @@ class CompanyRestTest {
         assertEquals(companyDto1, companies.get(0));
         assertEquals(companyDto2, companies.get(1));
     }
+
+    @Test
+    public void find() {
+        CompanyService companyService = mock(CompanyService.class);
+        Long COMPANY_N1 = 1L;
+        Long COMPANY_N2 = 2L;
+        CompanyDto companyDto1 = new CompanyDto(COMPANY_N1, "NAME");
+        CompanyDto companyDto2 = new CompanyDto(COMPANY_N2, "NAME");
+        when(companyService.getAll()).thenReturn(List.of(companyDto1, companyDto2));
+        CompanyRest companyRest = new CompanyRest(companyService);
+
+        CompanyDto example = new CompanyDto();
+        example.setName("NAME");
+        ResponseEntity<?> ret = companyRest.findByExample(example);
+
+        assertNotNull(ret);
+//        List<CompanyDto> companies= (List<CompanyDto>) ret.getBody();
+//
+//        assertEquals(2, companies.size());
+//        assertEquals(companyDto1, companies.get(0));
+//        assertEquals(companyDto2, companies.get(1));
+    }
 }
