@@ -126,6 +126,7 @@ MESSAGE
 
 ````shell
 $ https --verify=no https://127.0.0.1:8443/api/company/ | jq
+(https --verify=no https://127.0.0.1:8443/api/company/ | jq)
 [
     {
       "n": 2,
@@ -139,6 +140,7 @@ $ https --verify=no https://127.0.0.1:8443/api/company/ | jq
 
 ````shell
 $ https https://v.perm.ru:8443/api/vacancy/2
+(https --verify=no https://127.0.0.1:8443/api/vacancy/2 | jq)
 HTTP/1.1 200 
 Connection: keep-alive
 Content-Type: application/json

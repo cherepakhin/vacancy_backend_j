@@ -94,6 +94,7 @@ public class CompanyRest {
     )
     @Cacheable(value = COMPANIES_CACHE, sync = true)
     public ResponseEntity<?> getAll() {
+        log.info("Get all companies");
         return ResponseEntity.ok(companyService.getAll());
     }
 

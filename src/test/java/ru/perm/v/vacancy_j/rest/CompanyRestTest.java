@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.service.CompanyService;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -120,5 +122,25 @@ class CompanyRestTest {
         } catch (Exception e) {
             fail();
         }
+    }
+
+    @Test
+    public void getAll() {
+        CompanyService companyService = mock(CompanyService.class);
+        Long COMPANY_N1 = 1L;
+        Long COMPANY_N2 = 2L;
+        CompanyDto companyDto1 = new CompanyDto(COMPANY_N1, "NAME");
+        CompanyDto companyDto2 = new CompanyDto(COMPANY_N2, "NAME");
+        when(companyService.getAll()).thenReturn(List.of(companyDto1, companyDto2));
+        CompanyRest companyRest = new CompanyRest(companyService);
+
+        ResponseEntity<?> ret = companyRest.getAll();
+
+        assertNotNull(ret);
+        List<CompanyDto> companies= (List<CompanyDto>) ret.getBody();
+
+        assertEquals(2, companies.size());
+        assertEquals(companyDto1, companies.get(0));
+        assertEquals(companyDto2, companies.get(1));
     }
 }

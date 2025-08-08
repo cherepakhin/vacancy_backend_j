@@ -30,27 +30,28 @@ public class VacancyServiceImplIntegrationTest {
     void getAll() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         List<VacancyDto> vacancies = vacancyService.getAll();
-        assertEquals(5, vacancies.size());
+        assertEquals(4, vacancies.size());
     }
 
     @Test
     void getAllSortbyN() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         List<VacancyDto> vacancies = vacancyService.getAll();
-        assertEquals(5, vacancies.size());
+        assertEquals(4, vacancies.size());
     }
 
     @Test
     void findByName() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
 
-        List<VacancyDto> vacancies = vacancyService.findByName("Vacancy 1 Company 1");
+        List<VacancyDto> vacancies = vacancyService.findByName("VACANCY_1_COMPANY_1");
 
         assertEquals(1, vacancies.size());
 
-        CompanyDto companyDto = new CompanyDto(1L,"Company 1");
-        VacancyDto vacancy = new VacancyDto(1L, "Vacancy 1 Company 1", "Description Vacancy 1 Company 1",
-                companyDto, "https://v.perm.ru/", "Comment 1", "in_work");
+        CompanyDto companyDto = new CompanyDto(1L,"COMPANY_1");
+        VacancyDto vacancy = new VacancyDto(1L, "NAME_VACANCY_1_COMPANY_1", "DESCRIPTION_VACANCY_1_COMPANY_1",
+                companyDto, "LINK_VACANCY_1_COMPANY_1", "COMMENT_VACANCY_1_COMPANY_1", "STATUS_VACANCY_1_COMPANY1");
+        assertEquals(companyDto, vacancies.get(0).getCompany());
         assertEquals(vacancy, vacancies.get(0));
     }
 
@@ -71,12 +72,12 @@ public class VacancyServiceImplIntegrationTest {
     void findByCriteryWithEqName() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         VacancyCriterySearch criterySearch = new VacancyCriterySearch();
-        criterySearch.setByName("Vacancy 1 Company 2");
+        criterySearch.setByName("NAME_VACANCY_1_COMPANY_1");
 
         List<VacancyDto> vacancies = vacancyService.findByCritery(criterySearch);
 
         assertEquals(1, vacancies.size());
-        assertEquals(3L, vacancies.get(0).getN());
+        assertEquals(1L, vacancies.get(0).getN());
     }
 
     @Test
@@ -97,7 +98,7 @@ public class VacancyServiceImplIntegrationTest {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         VacancyCriterySearch criterySearch = new VacancyCriterySearch();
         criterySearch.setNn(List.of(1L, 3L));
-        criterySearch.setByName("%Company 1");
+        criterySearch.setByName("%COMPANY_1");
         List<VacancyDto> vacancies = vacancyService.findByCritery(criterySearch);
 
         assertEquals(1, vacancies.size());
@@ -109,7 +110,7 @@ public class VacancyServiceImplIntegrationTest {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         List<VacancyDto> vacancies = vacancyService.getAll(VacancySort.N);
 
-        assertEquals(5, vacancies.size());
+        assertEquals(4, vacancies.size());
         assertEquals(1L, vacancies.get(0).getN());
         assertEquals(2L, vacancies.get(1).getN());
         assertEquals(3L, vacancies.get(2).getN());
@@ -121,12 +122,11 @@ public class VacancyServiceImplIntegrationTest {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         List<VacancyDto> vacancies = vacancyService.getAll(VacancySort.TITLE);
 
-        assertEquals(5, vacancies.size());
-        assertEquals(5L, vacancies.get(0).getN()); // Vacancy 1 Company 1
-        assertEquals(1L, vacancies.get(1).getN()); // Vacancy 1 Company 1
-        assertEquals(3L, vacancies.get(2).getN()); // Vacancy 1 Company 2
-        assertEquals(2L, vacancies.get(3).getN()); // Vacancy 2 Company 1
-        assertEquals(4L, vacancies.get(4).getN()); // Vacancy 2 Company 2
+        assertEquals(4, vacancies.size());
+        assertEquals(1L, vacancies.get(0).getN()); // Vacancy 1 Company 1
+        assertEquals(3L, vacancies.get(1).getN()); // Vacancy 1 Company 2
+        assertEquals(4L, vacancies.get(2).getN()); // Vacancy 2 Company 1
+        assertEquals(2L, vacancies.get(3).getN()); // Vacancy 2 Company 2
     }
 
     @Test
