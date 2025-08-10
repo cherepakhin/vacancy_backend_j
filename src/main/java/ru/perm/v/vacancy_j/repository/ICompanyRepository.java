@@ -18,7 +18,7 @@ public interface ICompanyRepository extends JpaRepository<CompanyEntity, Long>,
 
     List<CompanyEntity> findAll();
 
-    @Query("select c from CompanyEntity c where name like :name")
+    @Query("select c from CompanyEntity c where upper(name) like upper(:name)")
     List<CompanyEntity> findByLikeName(String name);
 
     @Query("select max(n) from CompanyEntity")
