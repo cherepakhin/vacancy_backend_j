@@ -41,16 +41,16 @@ public class VacancyServiceImplIntegrationTest {
     }
 
     @Test
-    void findByName() {
+    void findByTitle() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
 
-        List<VacancyDto> vacancies = vacancyService.findByName("VACANCY_1_COMPANY_1");
+        List<VacancyDto> vacancies = vacancyService.findByTitle("VACANCY 1 COMPANY 1");
 
         assertEquals(1, vacancies.size());
 
-        CompanyDto companyDto = new CompanyDto(1L,"COMPANY_1");
-        VacancyDto vacancy = new VacancyDto(1L, "NAME_VACANCY_1_COMPANY_1", "DESCRIPTION_VACANCY_1_COMPANY_1",
-                companyDto, "LINK_VACANCY_1_COMPANY_1", "COMMENT_VACANCY_1_COMPANY_1", "STATUS_VACANCY_1_COMPANY1", "");
+        CompanyDto companyDto = new CompanyDto(1L,"Company 1");
+        VacancyDto vacancy = new VacancyDto(1L, "Vacancy 1 Company 1", "Description Vacancy 1 Company 1",
+                companyDto, "https://v.perm.ru/", "Comment 1", "in_work", "10.08.2025");
         assertEquals(companyDto, vacancies.get(0).getCompany());
         assertEquals(vacancy, vacancies.get(0));
     }

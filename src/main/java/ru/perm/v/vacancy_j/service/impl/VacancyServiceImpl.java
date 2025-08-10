@@ -71,14 +71,15 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> findByName(String title) {
+    public List<VacancyDto> findByTitle(String title) {
         log.info(format("Find vacancy by title: %s", title));
         VacancyEntity query = new VacancyEntity();
         query.setTitle(title);
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withIgnorePaths("n", "companyEntity", "description", "link", "comment")
+                .withIgnorePaths("n", "companyEntity", "description", "link", "comment", "status", "dateChanged")
                 .withIncludeNullValues()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase();
         Example<VacancyEntity> example = Example.of(query, matcher);
         List<VacancyEntity> entities = vacancyRepository.findAll(example, Sort.by(Sort.Order.asc("n")));
         for (VacancyEntity v : entities) {

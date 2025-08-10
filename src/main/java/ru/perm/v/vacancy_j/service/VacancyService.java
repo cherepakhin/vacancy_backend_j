@@ -11,10 +11,10 @@ public interface VacancyService {
     List<VacancyDto> getAll();
     List<VacancyDto> getAll(String sortColumn);
     List<VacancyDto> getAll(VacancySort vacancySort);
-    List<VacancyDto> findByName(String name);
     List<VacancyDto> findByCritery(VacancyCriterySearch criterySearch);
     VacancyDto update(VacancyDto vacancyDto) throws Exception;
     void deleteByN(Long n) throws Exception;
     VacancyDto create(VacancyDto vacancyDto) throws Exception;
     public Long getNextMaxN();
+    List<VacancyDto> findByTitle(String s);
 }

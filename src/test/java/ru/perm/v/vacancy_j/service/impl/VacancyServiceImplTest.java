@@ -115,7 +115,7 @@ public class VacancyServiceImplTest {
 
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
 
-        List<VacancyDto> dtos = vacancyService.findByName(SEARCH_TITLE);
+        List<VacancyDto> dtos = vacancyService.findByTitle(SEARCH_TITLE);
 
         assertEquals(1, dtos.size());
         assertEquals(100L, dtos.get(0).getN());
