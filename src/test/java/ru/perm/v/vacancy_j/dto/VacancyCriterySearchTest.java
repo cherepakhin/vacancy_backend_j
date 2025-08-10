@@ -10,24 +10,24 @@ class VacancyCriterySearchTest {
 
     @Test
     void testEquals() {
-        VacancyCriterySearch critery1 = new VacancyCriterySearch(List.of(1L), "NAME");
-        VacancyCriterySearch critery2 = new VacancyCriterySearch(List.of(1L), "NAME");
+        VacancyCriterySearch critery1 = new VacancyCriterySearch(List.of(1L), "Title");
+        VacancyCriterySearch critery2 = new VacancyCriterySearch(List.of(1L), "Title");
 
         assertEquals(critery1, critery2);
     }
 
     @Test
     void testHashCode() {
-        VacancyCriterySearch critery1 = new VacancyCriterySearch(List.of(1L), "NAME");
-        VacancyCriterySearch critery2 = new VacancyCriterySearch(List.of(1L), "NAME");
+        VacancyCriterySearch critery1 = new VacancyCriterySearch(List.of(1L), "Title");
+        VacancyCriterySearch critery2 = new VacancyCriterySearch(List.of(1L), "Title");
 
         assertEquals(critery1.hashCode(), critery2.hashCode());
     }
 
     @Test
     void testNotEqual() {
-        VacancyCriterySearch critery1 = new VacancyCriterySearch(List.of(1L), "NAME");
-        VacancyCriterySearch critery2 = new VacancyCriterySearch(List.of(2L), "NAME");
+        VacancyCriterySearch critery1 = new VacancyCriterySearch(List.of(1L), "Title");
+        VacancyCriterySearch critery2 = new VacancyCriterySearch(List.of(2L), "Title");
 
         assertNotEquals(critery1, critery2);
     }

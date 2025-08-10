@@ -58,7 +58,7 @@ class VacancyRestDeepSeekTest {
         testVacancyDto1.setSource(LINK);
         testVacancyDto1.setComment(COMMENT);
         testSearchCriteria = new VacancyCriterySearch();
-        testSearchCriteria.setByName("Test");
+        testSearchCriteria.setByTitle("Test");
     }
 
     @Test

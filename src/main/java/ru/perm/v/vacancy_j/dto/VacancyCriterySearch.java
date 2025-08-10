@@ -10,24 +10,24 @@ public class VacancyCriterySearch {
     /**
      * for like use string with '%'. Example: criterySearch.setByName("%1");
      */
-    String byName = "";
+    String byTitle = "";
 
     public VacancyCriterySearch() {
         super();
     }
 
-    public VacancyCriterySearch(List<Long> nn, String byName) {
+    public VacancyCriterySearch(List<Long> nn, String byTitle) {
         this();
         this.nn = nn;
-        this.byName = byName;
+        this.byTitle = byTitle;
     }
 
-    public String getByName() {
-        return byName;
+    public String getByTitle() {
+        return byTitle;
     }
 
-    public void setByName(String byName) {
-        this.byName = byName;
+    public void setByTitle(String byTitle) {
+        this.byTitle = byTitle;
     }
 
     public List<Long> getNn() {
@@ -42,18 +42,18 @@ public class VacancyCriterySearch {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VacancyCriterySearch that)) return false;
-        return Objects.equals(byName, that.byName) && Objects.equals(nn, that.nn);
+        return Objects.equals(nn, that.nn) && Objects.equals(byTitle, that.byTitle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(byName, nn);
+        return Objects.hash(nn, byTitle);
     }
 
     @Override
     public String toString() {
         return "VacancyCriterySearch{" +
-                "byName='" + byName + '\'' +
+                "byTitle='" + byTitle + '\'' +
                 ", nn=" + nn +
                 '}';
     }

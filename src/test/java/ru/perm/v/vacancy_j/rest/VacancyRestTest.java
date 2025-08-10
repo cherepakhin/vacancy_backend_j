@@ -71,7 +71,7 @@ class VacancyRestTest {
         vacancyDto1.setN(2L);
 
         VacancyCriterySearch vacancyCriterySearch = new VacancyCriterySearch();
-        vacancyCriterySearch.setByName(SEARCH_NAME);
+        vacancyCriterySearch.setByTitle(SEARCH_NAME);
 
         when(mockVacancyService.findByCritery(vacancyCriterySearch)).thenReturn(List.of(vacancyDto1, vacancyDto2));
 

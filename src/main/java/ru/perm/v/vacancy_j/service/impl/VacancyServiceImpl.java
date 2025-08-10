@@ -99,9 +99,9 @@ public class VacancyServiceImpl implements VacancyService {
             spec = spec.and(VacancySpecifications.N_In(criterySearch.getNn()));
         }
 
-        if (!criterySearch.getByName().isEmpty()) {
+        if (!criterySearch.getByTitle().isEmpty()) {
             log.info("add NAME to critery");
-            spec = spec.and(VacancySpecifications.hasTitleLike(criterySearch.getByName()));
+            spec = spec.and(VacancySpecifications.hasTitleLike(criterySearch.getByTitle()));
         }
 
         List<VacancyEntity> entities = vacancyRepository.findAll(spec, Sort.by(Sort.Order.asc("n")));
