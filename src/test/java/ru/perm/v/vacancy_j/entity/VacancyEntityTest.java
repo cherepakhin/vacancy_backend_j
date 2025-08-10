@@ -2,6 +2,8 @@ package ru.perm.v.vacancy_j.entity;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -50,5 +52,6 @@ class VacancyEntityTest {
         assertEquals("", vacancyEntity.getTitle());
         assertEquals("", vacancyEntity.getDescription());
         assertEquals(new CompanyEntity(-1L,""), vacancyEntity.getCompanyEntity());
+        assertEquals(LocalDate.of(1970, 1, 1), vacancyEntity.getDateChanged());
     }
 }

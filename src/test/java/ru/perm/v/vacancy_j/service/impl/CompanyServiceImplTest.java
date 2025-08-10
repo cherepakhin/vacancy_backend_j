@@ -1,10 +1,16 @@
 package ru.perm.v.vacancy_j.service.impl;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import ru.perm.v.vacancy_j.dto.CompanyCriterySearch;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
+import ru.perm.v.vacancy_j.entity.VacancyEntity;
 import ru.perm.v.vacancy_j.repository.ICompanyRepository;
 import ru.perm.v.vacancy_j.service.CompanyService;
+import ru.perm.v.vacancy_j.specs.CompanySpecifications;
 
 import java.util.List;
 import java.util.Set;
@@ -152,5 +158,57 @@ class CompanyServiceImplTest {
 
         assertNotNull(updatedCompanyDto);
         assertEquals(new CompanyDto(1L, "SAVED_NAME_1"), updatedCompanyDto);
+    }
+
+    @Test
+    public void findByExample() {
+
+        CompanyCriterySearch criterySearch = new CompanyCriterySearch();
+        criterySearch.setNn(List.of(1L));
+        criterySearch.setByName("NAME_1");
+
+        Specification<CompanyEntity> spec = CompanySpecifications.hasNGreaterThan(-1L);
+        spec = spec.and(CompanySpecifications.N_In(List.of(1L)));
+        spec = spec.and(CompanySpecifications.hasNameLike("NAME_1"));
+
+        CompanyEntity companyEntity1 = new CompanyEntity(1L, "NAME_1");
+
+        when(companyRepository.findAll(spec, Sort.by(Sort.Order.asc("n")))
+        ).thenReturn(List.of(companyEntity1));
+//        when(companyRepository.findAll(any(Specification.class), eq(Sort.by(Sort.Order.asc("n"))))
+//        ).thenReturn(List.of(companyEntity1));
+
+//        when(companyRepository
+//                .findAll(any(Specification.class), eq(Sort.by(Sort.Order.asc("n"))))
+//        ).thenReturn(List.of(companyEntity1));
+
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+
+// с помощью ArgumentCaptor можно получить аргументы
+        ArgumentCaptor<Specification> captor = ArgumentCaptor.forClass(Specification.class);
+
+        List<CompanyDto> dtos = companyService.findByExample(criterySearch);
+
+//        assertEquals(1, dtos.size());
+
+// OK
+//        verify(companyRepository, times(1)).findAll(any(Specification.class), any(Sort.class));
+// OK
+//        verify(companyRepository, times(1)).findAll(any(Specification.class), eq(Sort.by(Sort.Order.asc("n"))));
+
+
+//        verify(mock).doSomething(argument.capture());
+//        assertEquals("John", argument.getValue().getName());
+
+        //error
+        // verify(companyRepository, times(1)).findAll(any(Specification.class), Sort.by(Sort.Order.asc("n")));
+
+//        verify(companyRepository, times(1)).findAll(eq(spec), eq(Sort.by(Sort.Order.asc("n"))));
+
+//        verify(companyRepository, times(1)).findAll(argument.capture(), eq(Sort.by(Sort.Order.asc("n"))));
+//        Specification s = argument.getValue();
+//        assertEquals(1, s.size());
+//        assertEquals(spec, s);
+//        verify(companyRepository, times(1)).findAll(spec, Sort.by(Sort.Order.asc("n")));
     }
 }

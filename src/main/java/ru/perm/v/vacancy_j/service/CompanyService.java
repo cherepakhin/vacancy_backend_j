@@ -1,5 +1,6 @@
 package ru.perm.v.vacancy_j.service;
 
+import ru.perm.v.vacancy_j.dto.CompanyCriterySearch;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 
 import java.util.List;
@@ -15,5 +16,5 @@ public interface CompanyService {
 
     CompanyDto update(CompanyDto companyDto) throws Exception;
 
-    List<CompanyDto> findByExample(CompanyDto example);
+    List<CompanyDto> findByExample(CompanyCriterySearch example);
 }

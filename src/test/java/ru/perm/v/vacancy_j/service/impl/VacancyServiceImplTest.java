@@ -12,6 +12,7 @@ import ru.perm.v.vacancy_j.entity.VacancySort;
 import ru.perm.v.vacancy_j.repository.IVacancyRepository;
 import ru.perm.v.vacancy_j.service.VacancyService;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -83,7 +84,15 @@ public class VacancyServiceImplTest {
         CompanyDto companyDto10 = new CompanyDto(10L, "COMPANY 10");
         CompanyDto companyDto20 = new CompanyDto(20L, "COMPANY 20");
         assertEquals(2, dtos.size());
-        assertEquals(new VacancyDto(100L, "TITLE 100", "DESCRIPTION 100", companyDto10, "SOURCE 100", "COMMENT 100", ""), dtos.get(0));
+        assertEquals(new VacancyDto(
+                100L,
+                "TITLE 100",
+                "DESCRIPTION 100",
+                companyDto10,
+                "SOURCE 100",
+                "COMMENT 100",
+                "STATUS 100",
+                ""), dtos.get(0));
     }
 
     @Test
@@ -117,7 +126,7 @@ public class VacancyServiceImplTest {
     void update() {
         CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
         VacancyEntity vacancyEntity100 = new VacancyEntity(100L, "TITLE 100",
-                companyEntity10, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100", "");
+                companyEntity10, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100", "", LocalDate.of(2000, 1, 1));
         when(vacancyRepository.existsById(100L)).thenReturn(true);
         when(vacancyRepository.findById(100L)).thenReturn(Optional.of(vacancyEntity100));
         when(vacancyRepository.save(vacancyEntity100)).thenReturn(vacancyEntity100);
@@ -125,7 +134,7 @@ public class VacancyServiceImplTest {
 
         CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
         VacancyDto vacancyDto = new VacancyDto(100L, "TITLE 100", "DESCRIPTION 100",
-                companyDto, "SOURCE 100", "COMMENT 100", "");
+                companyDto, "SOURCE 100", "COMMENT 100", "", "");
 
         VacancyDto updatedVacancyDto = null;
         try {
@@ -188,12 +197,13 @@ public class VacancyServiceImplTest {
         when(vacancyRepository.getMaxN()).thenReturn(MAX_N_FROM_DB);
         CompanyEntity companyEntity = new CompanyEntity(10L, "COMPANY 10");
         VacancyEntity vacancyEntity = new VacancyEntity(MAX_N_FROM_DB + 1L, "TITLE 100",
-                companyEntity, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100", "");
+                companyEntity, "DESCRIPTION 100", "SOURCE 100",
+                "COMMENT 100", "", LocalDate.of(2000, 1, 1));
         when(vacancyRepository.save(vacancyEntity)).thenReturn(vacancyEntity);
 
         CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
         VacancyDto vacancyDto = new VacancyDto(0L, "TITLE 100", "DESCRIPTION 100",
-                companyDto, "SOURCE 100", "COMMENT 100","");
+                companyDto, "SOURCE 100", "COMMENT 100","","");
 
         VacancyDto createdVacancy = null;
         try {
@@ -204,7 +214,7 @@ public class VacancyServiceImplTest {
 
         assertEquals(
                 new VacancyDto(MAX_N_FROM_DB + 1L, "TITLE 100", "DESCRIPTION 100",
-                        companyDto, "SOURCE 100", "COMMENT 100",""),
+                        companyDto, "SOURCE 100", "COMMENT 100","", ""),
                 createdVacancy
         );
 

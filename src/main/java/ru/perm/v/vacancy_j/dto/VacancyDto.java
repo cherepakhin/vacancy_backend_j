@@ -24,18 +24,21 @@ public class VacancyDto extends Dto {
     private String comment = "";
     @Schema(description = "Состояние (не откликался, в работе, не актуальна)")
     private String status = "";
+    @Schema(description = "Дата изменения")
+    private String dateModified = "";
 
     public VacancyDto() {
         super();
     }
 
     public VacancyDto(Long n, String title, String description, CompanyDto companyDto,
-                      String source, String comment, String status) {
-        this(title, description, companyDto, source, comment, status);
+                      String source, String comment, String status, String dateModified) {
+        this(title, description, companyDto, source, comment, status, dateModified);
         this.n = n;
     }
 
-    public VacancyDto(String title, String description, CompanyDto companyDto, String source, String comment, String status) {
+    public VacancyDto(String title, String description, CompanyDto companyDto, String source,
+                      String comment, String status, String dateModified) {
         super();
         this.title = title;
         this.description = description;
@@ -43,6 +46,7 @@ public class VacancyDto extends Dto {
         this.source = source;
         this.comment = comment;
         this.status = status;
+        this.dateModified = dateModified;
     }
 
     @Override
@@ -103,17 +107,25 @@ public class VacancyDto extends Dto {
         this.status = status;
     }
 
+    public String getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(String dateModified) {
+        this.dateModified = dateModified;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VacancyDto that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(company, that.company) && Objects.equals(source, that.source) && Objects.equals(comment, that.comment) && Objects.equals(status, that.status);
+        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(company, that.company) && Objects.equals(source, that.source) && Objects.equals(comment, that.comment) && Objects.equals(status, that.status) && Objects.equals(dateModified, that.dateModified);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), n, title, description, company, source, comment, status);
+        return Objects.hash(super.hashCode(), n, title, description, company, source, comment, status, dateModified);
     }
 
     @Override
@@ -126,6 +138,7 @@ public class VacancyDto extends Dto {
                 ", source='" + source + '\'' +
                 ", comment='" + comment + '\'' +
                 ", status='" + status + '\'' +
+                ", dateModified='" + dateModified + '\'' +
                 '}';
     }
 }

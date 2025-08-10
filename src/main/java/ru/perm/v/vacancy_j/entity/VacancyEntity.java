@@ -1,7 +1,11 @@
 package ru.perm.v.vacancy_j.entity;
 
 import jakarta.persistence.*;
+import ru.perm.v.vacancy_j.mapper.DateFormatter;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -35,12 +39,15 @@ public class VacancyEntity {
     @Column(name = "status", nullable = false)
     private String status = "";
 
+    @Column(name = "date_changed", nullable = false, columnDefinition = "TIMESTAMP")
+    private LocalDate dateChanged = LocalDate.of(1970, 1, 1);
+
     public VacancyEntity() {
         super();
     }
 
     public VacancyEntity(Long n, String title, CompanyEntity companyEntity, String description,
-                         String link, String comment, String status) {
+                         String link, String comment, String status, LocalDate dateChanged) {
         this();
         this.n = n;
         this.title = title;
@@ -49,6 +56,7 @@ public class VacancyEntity {
         this.link = link;
         this.comment = comment;
         this.status = status;
+        this.dateChanged = dateChanged;
     }
 
     public Long getN() {
@@ -107,20 +115,29 @@ public class VacancyEntity {
         this.status = status;
     }
 
+    public LocalDate getDateChanged() {
+        return dateChanged;
+    }
+
+    public void setDateChanged(LocalDate dateChanged) {
+        this.dateChanged = dateChanged;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VacancyEntity that)) return false;
-        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(companyEntity, that.companyEntity) && Objects.equals(description, that.description) && Objects.equals(link, that.link) && Objects.equals(comment, that.comment) && Objects.equals(status, that.status);
+        return Objects.equals(n, that.n) && Objects.equals(title, that.title) && Objects.equals(companyEntity, that.companyEntity) && Objects.equals(description, that.description) && Objects.equals(link, that.link) && Objects.equals(comment, that.comment) && Objects.equals(status, that.status) && Objects.equals(dateChanged, that.dateChanged);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(n, title, companyEntity, description, link, comment, status);
+        return Objects.hash(n, title, companyEntity, description, link, comment, status, dateChanged);
     }
 
     @Override
     public String toString() {
+
         return "VacancyEntity{" +
                 "n=" + n +
                 ", title='" + title + '\'' +
@@ -129,6 +146,7 @@ public class VacancyEntity {
                 ", link='" + link + '\'' +
                 ", comment='" + comment + '\'' +
                 ", status='" + status + '\'' +
+                ", dateChanged=" + DateFormatter.toString(dateChanged) +
                 '}';
     }
 }

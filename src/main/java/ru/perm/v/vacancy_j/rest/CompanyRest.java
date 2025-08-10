@@ -22,6 +22,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.perm.v.vacancy_j.dto.CompanyCriterySearch;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.service.CompanyService;
 
@@ -218,7 +219,7 @@ public class CompanyRest {
 //            put = @CachePut(value = COMPANY_CACHE, key = "#result.body.n"),
 //            evict = @CacheEvict(value = COMPANIES_CACHE, allEntries = true)
 //    )
-    public ResponseEntity<?> findByExample(@RequestBody CompanyDto example) {
+    public ResponseEntity<?> findByExample(@RequestBody CompanyCriterySearch example) {
         String message = format("Find company by example: %s", example);
         log.info(message);
         List<CompanyDto> companies = companyService.findByExample(example);

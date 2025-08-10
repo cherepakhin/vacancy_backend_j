@@ -8,12 +8,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import ru.perm.v.vacancy_j.dto.CompanyCriterySearch;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
+import ru.perm.v.vacancy_j.entity.VacancyEntity;
 import ru.perm.v.vacancy_j.mapper.CompanyMapper;
 import ru.perm.v.vacancy_j.repository.ICompanyRepository;
 import ru.perm.v.vacancy_j.service.CompanyService;
+import ru.perm.v.vacancy_j.specs.CompanySpecifications;
+import ru.perm.v.vacancy_j.specs.VacancySpecifications;
 
 import java.util.List;
 import java.util.Set;
@@ -104,7 +110,21 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<CompanyDto> findByExample(CompanyDto example) {
-        return null;
+    public List<CompanyDto> findByExample(CompanyCriterySearch criterySearch) {
+        log.info(format("Find companies by example: %s", criterySearch));
+        Specification<CompanyEntity> spec = CompanySpecifications.hasNGreaterThan(-1L);
+
+        if (criterySearch.getNn() != null && criterySearch.getNn().size() > 0) {
+            log.info("add NN to critery: " + criterySearch.getNn());
+            spec = spec.and(CompanySpecifications.N_In(criterySearch.getNn()));
+        }
+        if (!criterySearch.getByName().isEmpty()) {
+            log.info("add NAME to critery: " + criterySearch.getByName());
+            spec = spec.and(CompanySpecifications.hasNameLike(criterySearch.getByName()));
+        }
+
+        List<CompanyEntity> entities = companyRepository.findAll(spec, Sort.by(Sort.Order.asc("n")));
+
+        return companyMapper.toListDto(entities);
     }
 }
