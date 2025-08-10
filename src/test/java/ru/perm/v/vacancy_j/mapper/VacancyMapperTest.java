@@ -6,6 +6,7 @@ import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -80,7 +81,8 @@ public class VacancyMapperTest {
         String COMMENT_10 = "COMMENT_10";
         String STATUS_10 = "STATUS_10";
         VacancyEntity entity100 = new VacancyEntity(N10, VACANCY_TITLE_10,companyEntity100,
-                VACANCY_DESCRIPTION_10, LINK_10, COMMENT_10, STATUS_10);
+                VACANCY_DESCRIPTION_10, LINK_10, COMMENT_10, STATUS_10,
+                LocalDate.of(2021, 1, 1));
 
         Long COMPANY_N_200 = 200L;
         String COMPANY_NAME_200 = "COMPANY_NAME_200";
@@ -92,7 +94,8 @@ public class VacancyMapperTest {
         String COMMENT_20 = "COMMENT_20";
         String STATUS_20 = "STATUS_20";
         VacancyEntity entity200 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200, VACANCY_DESCRIPTION_20,
-                LINK_20, COMMENT_20, STATUS_20);
+                LINK_20, COMMENT_20, STATUS_20,
+                LocalDate.of(2021, 1, 1));
 
         List<VacancyDto> dtos = new VacancyMapper().toListDto(List.of(entity100, entity200));
 
@@ -179,8 +182,12 @@ public class VacancyMapperTest {
         CompanyEntity companyEntity100 = new CompanyEntity(COMPANY_N_100, COMPANY_NAME_100);
 
         CompanyEntity companyEntity200 = new CompanyEntity(COMPANY_N_200, COMPANY_NAME_200);
-        VacancyEntity vacancyEntity10 = new VacancyEntity(VACANCY_N_10, VACANCY_TITLE_10,companyEntity100, VACANCY_DESCRIPTION_10, LINK_10, COMMENT_10, STATUS_10);
-        VacancyEntity vacancyEntity20 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200, VACANCY_DESCRIPTION_20, LINK_20, COMMENT_20, STATUS_20);
+        VacancyEntity vacancyEntity10 = new VacancyEntity(VACANCY_N_10, VACANCY_TITLE_10,companyEntity100,
+                VACANCY_DESCRIPTION_10, LINK_10, COMMENT_10, STATUS_10,
+                LocalDate.of(2021, 1, 1));
+        VacancyEntity vacancyEntity20 = new VacancyEntity(VACANCY_N_20, VACANCY_TITLE_20,companyEntity200,
+                VACANCY_DESCRIPTION_20, LINK_20, COMMENT_20, STATUS_20,
+                LocalDate.of(2021, 1, 1));
 
         assertEquals(vacancyEntity10, entities.get(0));
         assertEquals(vacancyEntity20, entities.get(1));
