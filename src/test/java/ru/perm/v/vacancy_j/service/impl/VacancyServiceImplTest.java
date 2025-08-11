@@ -197,7 +197,7 @@ public class VacancyServiceImplTest {
         VacancyEntity vacancyEntity100 = new VacancyEntity(100L, "TITLE 100",
                 companyEntity10, "DESCRIPTION 100",
                 "SOURCE 100", "COMMENT 100", "",
-                LocalDate.of(2000, 1, 1));
+                LocalDate.of(2000, 12, 31));
         when(vacancyRepository.existsById(100L)).thenReturn(true);
         when(vacancyRepository.findById(100L)).thenReturn(Optional.of(vacancyEntity100));
         when(vacancyRepository.save(vacancyEntity100)).thenReturn(vacancyEntity100);
@@ -205,13 +205,13 @@ public class VacancyServiceImplTest {
 
         CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
         VacancyDto vacancyDto = new VacancyDto(100L, "TITLE 100", "DESCRIPTION 100",
-                companyDto, "SOURCE 100", "COMMENT 100", "", "");
+                companyDto, "SOURCE 100", "COMMENT 100", "", "31.12.2000");
 
         VacancyDto updatedVacancyDto = null;
         try {
             updatedVacancyDto = vacancyService.update(vacancyDto);
         } catch (Exception e) {
-            fail();
+            fail(e.getMessage());
         }
 
         assertNotNull(updatedVacancyDto);
