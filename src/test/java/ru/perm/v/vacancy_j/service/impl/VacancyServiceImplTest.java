@@ -270,12 +270,12 @@ public class VacancyServiceImplTest {
         CompanyEntity companyEntity = new CompanyEntity(10L, "COMPANY 10");
         VacancyEntity vacancyEntity = new VacancyEntity(MAX_N_FROM_DB + 1L, "TITLE 100",
                 companyEntity, "DESCRIPTION 100", "SOURCE 100",
-                "COMMENT 100", "", LocalDate.of(2000, 1, 1));
+                "COMMENT 100", "", LocalDate.of(2000, 12, 31));
         when(vacancyRepository.save(vacancyEntity)).thenReturn(vacancyEntity);
 
         CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
         VacancyDto vacancyDto = new VacancyDto(0L, "TITLE 100", "DESCRIPTION 100",
-                companyDto, "SOURCE 100", "COMMENT 100","","");
+                companyDto, "SOURCE 100", "COMMENT 100","","31.12.2000");
 
         VacancyDto createdVacancy = null;
         try {
@@ -286,7 +286,7 @@ public class VacancyServiceImplTest {
 
         assertEquals(
                 new VacancyDto(MAX_N_FROM_DB + 1L, "TITLE 100", "DESCRIPTION 100",
-                        companyDto, "SOURCE 100", "COMMENT 100","", ""),
+                        companyDto, "SOURCE 100", "COMMENT 100","", "31.12.2000"),
                 createdVacancy
         );
 
