@@ -118,12 +118,14 @@ public class VacancyServiceImplTest {
         VacancyEntity query = new VacancyEntity();
         query.setTitle(SEARCH_TITLE);
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withIgnorePaths("n", "companyEntity", "description", "link", "comment")
+                .withIgnorePaths("n", "companyEntity", "description", "link", "comment", "status", "dateChanged")
                 .withIncludeNullValues()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase();
         Example<VacancyEntity> example = Example.of(query, matcher);
 
-        when(vacancyRepository.findAll(example, Sort.by(Sort.Order.asc("n")))).thenReturn(List.of(vacancyEntity100));
+        when(vacancyRepository.findAll(example, Sort.by(Sort.Order.asc("n"))))
+                .thenReturn(List.of(vacancyEntity100));
 
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
 
