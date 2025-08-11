@@ -161,6 +161,21 @@ public class VacancyServiceImplTest {
     }
 
     @Test
+    void updateForNotExist_N_Vacancy() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        VacancyDto vacancyDto = new VacancyDto();
+        Long N = 100L;
+        vacancyDto.setN(N);
+        when(vacancyRepository.existsById(N)).thenReturn(false);
+        try {
+            vacancyService.update(vacancyDto);
+            fail();
+        } catch (Exception e) {
+            assertEquals("VacancyDto with N= 100 not exist", e.getMessage());
+        }
+    }
+
+    @Test
     void update() {
         CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
         VacancyEntity vacancyEntity100 = new VacancyEntity(100L, "TITLE 100",
