@@ -119,7 +119,7 @@ public class VacancyServiceImpl implements VacancyService {
             throw new Exception(error);
         }
         if (vacancyDto.getN() == null) {
-            String error = "\"ID VacancyDto for update is null\"";
+            String error = "ID VacancyDto for update is null";
             log.info(error);
             throw new Exception(error);
         }

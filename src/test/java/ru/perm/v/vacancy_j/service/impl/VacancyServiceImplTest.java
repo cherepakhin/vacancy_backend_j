@@ -148,6 +148,19 @@ public class VacancyServiceImplTest {
     }
 
     @Test
+    void updateForNull_N_Vacancy() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        VacancyDto vacancyDto = new VacancyDto();
+        vacancyDto.setN(null);
+        try {
+            vacancyService.update(vacancyDto);
+            fail();
+        } catch (Exception e) {
+            assertEquals("ID VacancyDto for update is null", e.getMessage());
+        }
+    }
+
+    @Test
     void update() {
         CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
         VacancyEntity vacancyEntity100 = new VacancyEntity(100L, "TITLE 100",
