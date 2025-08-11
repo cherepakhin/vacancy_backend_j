@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static ru.perm.v.vacancy_j.specs.VacancySpecifications.hasNGreaterThan;
 
 class VacancyServiceImplTest {
     IVacancyRepository vacancyRepository = mock(IVacancyRepository.class);
@@ -305,10 +306,10 @@ class VacancyServiceImplTest {
     void compareSpecification() {
         List<Long> listNN = List.of(1L, 2L);
 
-        Specification<VacancyEntity> spec1 = VacancySpecifications.hasNGreaterThan(-1L);
+        Specification<VacancyEntity> spec1 = hasNGreaterThan(-1L);
         spec1 = spec1.and(VacancySpecifications.N_In(listNN));
 
-        Specification<VacancyEntity> spec2 = VacancySpecifications.hasNGreaterThan(-1L);
+        Specification<VacancyEntity> spec2 = hasNGreaterThan(-1L);
         spec2 = spec2.and(VacancySpecifications.N_In(listNN));
 
         assertNotEquals(spec1, spec2);
@@ -358,7 +359,8 @@ class VacancyServiceImplTest {
 //                .thenReturn(List.of(vacancyEntity));
 
 // Поэтому так:
-        when(vacancyRepository.findAll(any(Specification.class), eq(Sort.by(Sort.Order.asc("n")))))
+        Specification<VacancyEntity> spec = any(Specification.class);
+        when(vacancyRepository.findAll(spec, eq(Sort.by(Sort.Order.asc("n")))))
                 .thenReturn(List.of(vacancyEntity));
 
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
