@@ -298,7 +298,54 @@ public class VacancyServiceImplTest {
     }
 
     @Test
+    // Тест сделан для проверки равенства спецификаций.
+    // В тестах хочется мокать запросы со specification, НО не получается.
+    // ОКАЗЫВАЕТСЯ SPECIFICATION НЕ EQUALS!!!
+    // Поэтому тесты с specification ПРИДЕТСЯ ДЕЛАТЬ через делать ANY().
+    void compareSpecification() {
+        List<Long> listNN = List.of(1L, 2L);
+
+        Specification<VacancyEntity> spec1 = VacancySpecifications.hasNGreaterThan(-1L);
+        spec1 = spec1.and(VacancySpecifications.N_In(listNN));
+
+        Specification<VacancyEntity> spec2 = VacancySpecifications.hasNGreaterThan(-1L);
+        spec2 = spec2.and(VacancySpecifications.N_In(listNN));
+
+        assertNotEquals(spec1, spec2);
+    }
+
+    @Test
     void findByCriteryWithListNN() {
+        CompanyEntity companyEntity = new CompanyEntity(10L, "COMPANY 10");
+        VacancyEntity vacancyEntity = new VacancyEntity(100L, "TITLE 100",
+                companyEntity, "DESCRIPTION 100", "SOURCE 100",
+                "COMMENT 100", "", LocalDate.of(2000, 12, 31));
+//  Specification нельзя вставить для mock (см. тест выше compareSpecification())
+//        Specification<VacancyEntity> spec = VacancySpecifications.hasNGreaterThan(-1L);
+        List<Long> listNN = List.of(1L, 2L);
+//        spec = spec.and(VacancySpecifications.N_In(listNN));
+
+//      Так не сработет:
+//        when(vacancyRepository.findAll(eq(spec), eq(Sort.by(Sort.Order.asc("n")))))
+//                .thenReturn(List.of(vacancyEntity));
+//      См. тест выше compareSpecification()
+// Поэтому any(Specification.class)
+        when(vacancyRepository.findAll(any(Specification.class), eq(Sort.by(Sort.Order.asc("n")))))
+                .thenReturn(List.of(vacancyEntity));
+
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        VacancyCriterySearch vacancyCriterySearch = new VacancyCriterySearch();
+        vacancyCriterySearch.setNn(listNN);
+
+        List<VacancyDto> dtos = vacancyService.findByCritery(vacancyCriterySearch);
+
+        assertEquals(1, dtos.size());
+        verify(vacancyRepository, times(1)).findAll(
+                any(Specification.class), eq(Sort.by(Sort.Order.asc("n"))));
+    }
+
+    @Test
+    void findByCriteryWithName() {
         CompanyEntity companyEntity = new CompanyEntity(10L, "COMPANY 10");
         VacancyEntity vacancyEntity = new VacancyEntity(100L, "TITLE 100",
                 companyEntity, "DESCRIPTION 100", "SOURCE 100",
@@ -309,7 +356,7 @@ public class VacancyServiceImplTest {
 
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         VacancyCriterySearch vacancyCriterySearch = new VacancyCriterySearch();
-        vacancyCriterySearch.setNn(List.of(1L, 2L));
+        vacancyCriterySearch.setByTitle("TITLE TEST");
 
         List<VacancyDto> dtos = vacancyService.findByCritery(vacancyCriterySearch);
 
