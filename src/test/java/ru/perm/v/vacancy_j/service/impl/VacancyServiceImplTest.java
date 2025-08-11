@@ -23,7 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class VacancyServiceImplTest {
+class VacancyServiceImplTest {
     IVacancyRepository vacancyRepository = mock(IVacancyRepository.class);
 
     @Test
@@ -225,7 +225,7 @@ public class VacancyServiceImplTest {
     }
 
     @Test
-    public void deleteForExist() {
+    void deleteForExist() {
         Long N = 100L;
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         when(vacancyRepository.existsById(N)).thenReturn(true);
@@ -239,7 +239,7 @@ public class VacancyServiceImplTest {
     }
 
     @Test
-    public void deleteForNotExist() {
+    void deleteForNotExist() {
         Long N = 100L;
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         when(vacancyRepository.existsById(N)).thenReturn(false);
@@ -351,6 +351,13 @@ public class VacancyServiceImplTest {
                 companyEntity, "DESCRIPTION 100", "SOURCE 100",
                 "COMMENT 100", "", LocalDate.of(2000, 12, 31));
 
+// Хочется так, но spec по equal не работает
+//        Specification<VacancyEntity> spec = VacancySpecifications.hasNGreaterThan(-1L);
+//        spec = spec.and(VacancySpecifications.hasTitleLike("TITLE TEST"));
+//        when(vacancyRepository.findAll(spec, eq(Sort.by(Sort.Order.asc("n")))))
+//                .thenReturn(List.of(vacancyEntity));
+
+// Поэтому так:
         when(vacancyRepository.findAll(any(Specification.class), eq(Sort.by(Sort.Order.asc("n")))))
                 .thenReturn(List.of(vacancyEntity));
 
