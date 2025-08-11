@@ -4,13 +4,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
+import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
 import ru.perm.v.vacancy_j.entity.VacancySort;
 import ru.perm.v.vacancy_j.repository.IVacancyRepository;
 import ru.perm.v.vacancy_j.service.VacancyService;
+import ru.perm.v.vacancy_j.specs.VacancySpecifications;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -275,7 +278,7 @@ public class VacancyServiceImplTest {
 
         CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
         VacancyDto vacancyDto = new VacancyDto(0L, "TITLE 100", "DESCRIPTION 100",
-                companyDto, "SOURCE 100", "COMMENT 100","","31.12.2000");
+                companyDto, "SOURCE 100", "COMMENT 100", "", "31.12.2000");
 
         VacancyDto createdVacancy = null;
         try {
@@ -286,11 +289,32 @@ public class VacancyServiceImplTest {
 
         assertEquals(
                 new VacancyDto(MAX_N_FROM_DB + 1L, "TITLE 100", "DESCRIPTION 100",
-                        companyDto, "SOURCE 100", "COMMENT 100","", "31.12.2000"),
+                        companyDto, "SOURCE 100", "COMMENT 100", "", "31.12.2000"),
                 createdVacancy
         );
 
         verify(vacancyRepository, times(1)).getMaxN();
         verify(vacancyRepository, times(1)).save(vacancyEntity);
+    }
+
+    @Test
+    void findByCriteryWithListNN() {
+        CompanyEntity companyEntity = new CompanyEntity(10L, "COMPANY 10");
+        VacancyEntity vacancyEntity = new VacancyEntity(100L, "TITLE 100",
+                companyEntity, "DESCRIPTION 100", "SOURCE 100",
+                "COMMENT 100", "", LocalDate.of(2000, 12, 31));
+
+        when(vacancyRepository.findAll(any(Specification.class), eq(Sort.by(Sort.Order.asc("n")))))
+                .thenReturn(List.of(vacancyEntity));
+
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        VacancyCriterySearch vacancyCriterySearch = new VacancyCriterySearch();
+        vacancyCriterySearch.setNn(List.of(1L, 2L));
+
+        List<VacancyDto> dtos = vacancyService.findByCritery(vacancyCriterySearch);
+
+        assertEquals(1, dtos.size());
+        verify(vacancyRepository, times(1)).findAll(
+                any(Specification.class), eq(Sort.by(Sort.Order.asc("n"))));
     }
 }
