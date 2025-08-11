@@ -137,10 +137,23 @@ public class VacancyServiceImplTest {
     }
 
     @Test
+    void updateForNullVacancy() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        try {
+            vacancyService.update(null);
+            fail();
+        } catch (Exception e) {
+            assertEquals("VacancyDto for update is null", e.getMessage());
+        }
+    }
+
+    @Test
     void update() {
         CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
         VacancyEntity vacancyEntity100 = new VacancyEntity(100L, "TITLE 100",
-                companyEntity10, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100", "", LocalDate.of(2000, 1, 1));
+                companyEntity10, "DESCRIPTION 100",
+                "SOURCE 100", "COMMENT 100", "",
+                LocalDate.of(2000, 1, 1));
         when(vacancyRepository.existsById(100L)).thenReturn(true);
         when(vacancyRepository.findById(100L)).thenReturn(Optional.of(vacancyEntity100));
         when(vacancyRepository.save(vacancyEntity100)).thenReturn(vacancyEntity100);
@@ -157,6 +170,7 @@ public class VacancyServiceImplTest {
             fail();
         }
 
+        assertNotNull(updatedVacancyDto);
         assertEquals(vacancyDto, updatedVacancyDto);
         verify(vacancyRepository, times(1)).existsById(100L);
         verify(vacancyRepository, times(1)).findById(100L);
