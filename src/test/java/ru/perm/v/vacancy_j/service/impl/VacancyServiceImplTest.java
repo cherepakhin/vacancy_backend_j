@@ -58,6 +58,7 @@ public class VacancyServiceImplTest {
         vacancyEntity100.setDescription("DESCRIPTION 100");
         vacancyEntity100.setLink("SOURCE 100");
         vacancyEntity100.setComment("COMMENT 100");
+        vacancyEntity100.setStatus("STATUS 100");
 
         CompanyEntity companyEntity10 = new CompanyEntity();
         companyEntity10.setN(10L);
@@ -73,6 +74,8 @@ public class VacancyServiceImplTest {
         companyEntity20.setN(20L);
         companyEntity20.setName("COMPANY 20");
         vacancyEntity200.setCompanyEntity(companyEntity20);
+        vacancyEntity200.setStatus("STATUS 200");
+        vacancyEntity200.setComment("COMMENT 200");
 
         when(vacancyRepository.findAll(Sort.by(Sort.Order.asc(VacancySort.N)))).thenReturn(List.of(vacancyEntity100, vacancyEntity200));
 
@@ -92,7 +95,16 @@ public class VacancyServiceImplTest {
                 "SOURCE 100",
                 "COMMENT 100",
                 "STATUS 100",
-                ""), dtos.get(0));
+                "01.01.1970"), dtos.get(0));
+        assertEquals(new VacancyDto(
+                200L,
+                "TITLE 200",
+                "DESCRIPTION 200",
+                companyDto20,
+                "SOURCE 200",
+                "COMMENT 200",
+                "STATUS 200",
+                "01.01.1970"), dtos.get(1));
     }
 
     @Test
