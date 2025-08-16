@@ -26,7 +26,6 @@ public class VacancyRest {
 
     Logger log = LoggerFactory.getLogger(VacancyRest.class);
 
-
     @GetMapping("/")
     public ResponseEntity<List<VacancyDto>> getAll() {
         log.info("get /vacancy/");

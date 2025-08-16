@@ -75,7 +75,7 @@ class VacancyRestTest {
 
         when(mockVacancyService.findByCritery(vacancyCriterySearch)).thenReturn(List.of(vacancyDto1, vacancyDto2));
 
-        ResponseEntity ret = vacancyRest.findBy(vacancyCriterySearch);
+        ResponseEntity<?> ret = vacancyRest.findBy(vacancyCriterySearch);
         List<VacancyDto> dtos= (List<VacancyDto>) ret.getBody();
 
         assertEquals(2, dtos.size());

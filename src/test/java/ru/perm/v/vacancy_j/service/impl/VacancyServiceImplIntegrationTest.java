@@ -52,7 +52,7 @@ public class VacancyServiceImplIntegrationTest {
 
         CompanyDto companyDto = new CompanyDto(1L,"Company 1");
         VacancyDto vacancy = new VacancyDto(1L, "Vacancy 1 Company 1", "Description Vacancy 1 Company 1",
-                companyDto, "https://v.perm.ru/", "Comment 1", "in_work", "10.08.2025");
+                companyDto, "https://v.perm.ru/", "Comment 1", "Не откликался", "01.08.2025");
         assertEquals(companyDto, vacancies.get(0).getCompany());
         assertEquals(vacancy, vacancies.get(0));
     }

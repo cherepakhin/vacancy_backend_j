@@ -360,6 +360,7 @@ class VacancyServiceImplTest {
 
 // Поэтому так:
         Specification<VacancyEntity> spec = any(Specification.class);
+
         when(vacancyRepository.findAll(spec, eq(Sort.by(Sort.Order.asc("n")))))
                 .thenReturn(List.of(vacancyEntity));
 

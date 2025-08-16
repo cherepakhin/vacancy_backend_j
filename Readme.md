@@ -113,6 +113,9 @@ __2.__ Можно использовать утилиту HTTPIE  [https://httpi
 Для проверок на локальном компьютере. __КЛЮЧЕВОЙ ПАРАМЕТР__ --verify=no:
 
 ````shell
+$ https --verify=no https://127.0.0.1:8443/api/echo/MESSAGE
+MESSAGE
+
 $ https --verify=no https://v:8443/api/echo/MESSAGE
 HTTP/1.1 200 
 Connection: keep-alive
