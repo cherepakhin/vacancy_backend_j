@@ -36,7 +36,7 @@ public class VacancyMapperTest {
         assertEquals(TITLE, vacancyDto.getTitle());
         assertEquals(COMPANY_N, vacancyDto.getCompany().getN());
         assertEquals(COMPANY_NAME, vacancyDto.getCompany().getName());
-        assertEquals("31.01.2020", vacancyDto.getDateModified());
+        assertEquals("31.01.2020", vacancyDto.getDateChanged());
     }
 
     @Test
@@ -51,13 +51,13 @@ public class VacancyMapperTest {
         Long VACANCY_N = 10L;
         String VACANCY_TITLE = "VACANCY_TITLE";
         String VACANCY_DESCRIPTION = "VACANCY_DESCRIPTION";
-        String DATE_MODIFIED = "31.01.2020";
+        String DATE_CHANGED = "31.01.2020";
 
         vacancyDto.setN(VACANCY_N);
         vacancyDto.setTitle(VACANCY_TITLE);
         vacancyDto.setDescription(VACANCY_DESCRIPTION);
         vacancyDto.setCompany(companyDto);
-        vacancyDto.setDateModified(DATE_MODIFIED);
+        vacancyDto.setDateChanged(DATE_CHANGED);
         VacancyMapper vacancyMapper = new VacancyMapper();
 
         VacancyEntity vacancyEntity = vacancyMapper.toEntity(vacancyDto);
@@ -116,7 +116,7 @@ public class VacancyMapperTest {
         vacancyDto10.setSource("LINK_10");
         vacancyDto10.setComment("COMMENT_10");
         vacancyDto10.setStatus("STATUS_10");
-        vacancyDto10.setDateModified("10.01.2021");
+        vacancyDto10.setDateChanged("10.01.2021");
         assertEquals(vacancyDto10, dtos.get(0));
 
         CompanyDto companyDto200 = new CompanyDto();
@@ -132,7 +132,7 @@ public class VacancyMapperTest {
         vacancyDto20.setSource("LINK_20");
         vacancyDto20.setComment(COMMENT_20);
         vacancyDto20.setStatus("STATUS_20");
-        vacancyDto20.setDateModified("20.01.2021");
+        vacancyDto20.setDateChanged("20.01.2021");
 
         assertEquals(vacancyDto20, dtos.get(1));
     }
@@ -161,7 +161,7 @@ public class VacancyMapperTest {
         vacancyDto10.setDescription(VACANCY_DESCRIPTION_10);
         vacancyDto10.setSource(LINK_10);
         vacancyDto10.setComment(COMMENT_10);
-        vacancyDto10.setDateModified(DATE_MODIFIED_10);
+        vacancyDto10.setDateChanged(DATE_MODIFIED_10);
 
         CompanyDto companyDto100 = new CompanyDto(COMPANY_N_100, COMPANY_NAME_100);
         vacancyDto10.setCompany(companyDto100);
@@ -179,7 +179,7 @@ public class VacancyMapperTest {
         vacancyDto20.setDescription(VACANCY_DESCRIPTION_20);
         vacancyDto20.setSource(LINK_20);
         vacancyDto20.setComment(COMMENT_20);
-        vacancyDto20.setDateModified(DATE_MODIFIED_20);
+        vacancyDto20.setDateChanged(DATE_MODIFIED_20);
 
         Long COMPANY_N_200 = 200L;
         String COMPANY_NAME_200 = "COMPANY_NAME_200";

@@ -107,11 +107,11 @@ public class VacancyDto extends Dto {
         this.status = status;
     }
 
-    public String getDateModified() {
+    public String getDateChanged() {
         return dateChanged;
     }
 
-    public void setDateModified(String dateChanged) {
+    public void setDateChanged(String dateChanged) {
         this.dateChanged = dateChanged;
     }
 

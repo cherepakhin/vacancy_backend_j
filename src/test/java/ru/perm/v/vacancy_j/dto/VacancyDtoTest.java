@@ -67,9 +67,9 @@ class VacancyDtoTest {
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
         String STATUS = "STATUS";
-        String DATE_MODIFIED = "2020-01-01";
+        String DATE_CHANGED = "2020-01-01";
 
-        VacancyDto vacancyDto = new VacancyDto(TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_MODIFIED);
+        VacancyDto vacancyDto = new VacancyDto(TITLE, DESCRIPTION, new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_CHANGED);
 
         assertEquals(TITLE, vacancyDto.getTitle());
         assertEquals(DESCRIPTION, vacancyDto.getDescription());
@@ -77,7 +77,7 @@ class VacancyDtoTest {
         assertEquals(SOURCE, vacancyDto.getSource());
         assertEquals(COMMENT, vacancyDto.getComment());
         assertEquals(STATUS, vacancyDto.getStatus());
-        assertEquals(DATE_MODIFIED, vacancyDto.getDateModified());
+        assertEquals(DATE_CHANGED, vacancyDto.getDateChanged());
     }
 
     @Test
@@ -90,12 +90,12 @@ class VacancyDtoTest {
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
         String STATUS = "STATUS";
-        String DATE_MODIFIED = "2020-01-01";
+        String DATE_CHANGED = "2020-01-01";
 
         VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION,
-                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_MODIFIED);
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_CHANGED);
         VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION,
-                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_MODIFIED);
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_CHANGED);
 
         assertEquals(vacancyDto1.hashCode(), vacancyDto2.hashCode());
     }
@@ -111,12 +111,12 @@ class VacancyDtoTest {
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
         String STATUS = "STATUS";
-        String DATE_MODIFIED = "2020-01-01";
+        String DATE_CHANGED = "2020-01-01";
 
         VacancyDto vacancyDto1 = new VacancyDto(N1, TITLE, DESCRIPTION,
-                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_MODIFIED);
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_CHANGED);
         VacancyDto vacancyDto2 = new VacancyDto(N2, TITLE, DESCRIPTION,
-                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_MODIFIED);
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_CHANGED);
 
         assertNotEquals(vacancyDto1.hashCode(), vacancyDto2.hashCode());
     }
@@ -131,12 +131,12 @@ class VacancyDtoTest {
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
         String STATUS = "STATUS";
-        String DATE_MODIFIED = "2020-01-01";
+        String DATE_CHANGED = "2020-01-01";
 
         VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION,
-                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_MODIFIED);
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_CHANGED);
         VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION,
-                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_MODIFIED);
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_CHANGED);
 
         assertEquals(vacancyDto1, vacancyDto2);
     }
@@ -152,12 +152,12 @@ class VacancyDtoTest {
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
         String STATUS = "STATUS";
-        String DATE_MODIFIED = "2020-01-01";
+        String DATE_CHANGED = "2020-01-01";
 
         VacancyDto vacancyDto1 = new VacancyDto(N1, TITLE, DESCRIPTION,
-                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_MODIFIED);
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_CHANGED);
         VacancyDto vacancyDto2 = new VacancyDto(N2, TITLE, DESCRIPTION,
-                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_MODIFIED);
+                new CompanyDto(COMPANY_N, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_CHANGED);
 
         assertNotEquals(vacancyDto1, vacancyDto2);
     }
@@ -172,12 +172,12 @@ class VacancyDtoTest {
         String SOURCE = "SOURCE";
         String COMMENT = "COMMENT";
         String STATUS = "STATUS";
-        String DATE_MODIFIED = "2020-01-01";
+        String DATE_CHANGED = "2020-01-01";
 
         VacancyDto vacancyDto1 = new VacancyDto(N, TITLE, DESCRIPTION,
-                new CompanyDto(COMPANY_N_10, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_MODIFIED);
+                new CompanyDto(COMPANY_N_10, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_CHANGED);
         VacancyDto vacancyDto2 = new VacancyDto(N, TITLE, DESCRIPTION,
-                new CompanyDto(COMPANY_N_20, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_MODIFIED);
+                new CompanyDto(COMPANY_N_20, COMPANY_NAME), SOURCE, COMMENT, STATUS, DATE_CHANGED);
 
         assertNotEquals(vacancyDto1, vacancyDto2);
     }

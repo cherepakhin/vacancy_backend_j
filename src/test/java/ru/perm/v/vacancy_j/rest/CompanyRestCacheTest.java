@@ -42,6 +42,7 @@ public class CompanyRestCacheTest {
         assertEquals(1L, dtos.get(0).getN());
         assertEquals(2L, dtos.get(1).getN());
 
-        verify(companyService, times(4)).getAll(); // почему 4 ? Должен работать cache
+        //TODO: почему 4? При прогоне одного теста все работает. При прогоне в./gradlew test НЕ РАБОТАЕТ
+        verify(companyService, times(4)).getAll();
     }
 }
