@@ -22,7 +22,7 @@ public class VacancyDto extends Dto {
     private String source = "";
     @Schema(description = "Комментарий")
     private String comment = "";
-    @Schema(description = "Состояние (не откликался, в работе, не актуальна)")
+    @Schema(description = "Состояние (in_plan, in_work, deleted)")
     private String status = "";
     @Schema(description = "Дата изменения")
     private String dateModified = "";
