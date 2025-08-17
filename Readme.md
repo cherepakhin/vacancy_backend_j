@@ -13,10 +13,24 @@ export PG_PASSWORD=pass
 
 ````
 
+### UNIT тестирование
+
 Прогон unit тестов:
 
 ````shell
 ./gradlew test
+````
+
+Интеграционные тесты исключены из фазы UNIT Тестирования в build.gradle:
+
+````shell
+test {
+    finalizedBy jacocoTestReport
+    filter {
+        //exclude a INTEGRATION test class.
+        excludeTestsMatching "*IntegrationTest"
+    }
+}
 ````
 
 Запуск приложения:
@@ -100,6 +114,7 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 (Swagger работает через __HTTPS__)
 
  Доступ на сервере [https://v.perm.ru:8443/api/swagger-ui/index.html](https://v.perm.ru:8443/api/swagger-ui/index.html).
+
 
 #### Тестовые запросы:
 
@@ -287,10 +302,6 @@ war {
 ./gradlew bootWar
 ````
 
-#### Swagger
-
-Swagger доступен по адресу [https://127.0.0.1:8443/api/swagger-ui/index.html](https://127.0.0.1:8443/api/swagger-ui/index.html) 
-
 #### PROD запуск
 
 Выполнить [./build_jar.sh](./build_jar.sh). Файл build/libs/vacancy_backend-0.0.1-SNAPSHOT.jar скопировать на web сервер. Запустить backend:
@@ -454,4 +465,15 @@ $ sudo systemctl status vacancy_backend.service
                 any(Specification.class), eq(Sort.by(Sort.Order.asc("n"))));
     }
     
+````
+
+### Прогон конкретного теста
+
+[Прогон конкретного теста с v.perm.ru](https://v.perm.ru/index.php/component/content/article/integrtestallure?catid=15&Itemid=101)
+
+````shell
+./gradlew test --tests '*AssumptionsTest'
+./gradlew test --tests ru.perm.v.vacancy_j.service.impl.CompanyServiceImplIntegrationTest
+./gradlew test --tests 'ru.perm.v.vacancy_j.service.impl.CompanyServiceImplIntegrationTest*'
+./gradlew test --tests '*Assumptions*'
 ````

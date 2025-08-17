@@ -55,6 +55,10 @@ jacoco {
 
 test {
     finalizedBy jacocoTestReport
+    filter {
+        //exclude a INTEGRATION test class.
+        excludeTestsMatching "*IntegrationTest"
+    }
 }
 
 
