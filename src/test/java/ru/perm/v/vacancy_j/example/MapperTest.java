@@ -10,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //тест простой конвертации JSON в объект
-public class MapperTest {
+class MapperTest {
 
     @Test
     void convertJsonArrayToList() throws JsonProcessingException {
@@ -21,5 +21,7 @@ public class MapperTest {
         });
 
         assertEquals(2, listCar.size());
+        assertEquals(new Car("Black", "BMW"), listCar.get(0));
+        assertEquals(new Car("Red", "FIAT"), listCar.get(1));
     }
 }
