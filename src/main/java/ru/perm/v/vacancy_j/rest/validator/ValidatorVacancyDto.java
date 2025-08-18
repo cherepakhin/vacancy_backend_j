@@ -24,6 +24,16 @@ public class ValidatorVacancyDto {
                 ret.add(String.format("field: %s, error: %s\n", validateErr.getPropertyPath(), validateErr.getMessage()));
             }
         }
+        if (!isValidStatus(dto)) {
+            ret.add(String.format(
+                    "field: status, error: %s\n",
+                    "status must be in_plan, in_work or deleted"
+            ));
+        }
         return ret;
+    }
+
+    protected static boolean isValidStatus(VacancyDto dto) {
+        return List.of("in_plan", "in_work", "deleted").contains(dto.getStatus());
     }
 }

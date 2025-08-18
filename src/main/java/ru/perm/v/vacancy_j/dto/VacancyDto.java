@@ -28,6 +28,7 @@ public class VacancyDto extends Dto {
     private String comment = "";
     @Schema(description = "Состояние (in_plan, in_work, deleted)")
     @NotNull
+    @NotEmpty
     private String status = "";
     @Schema(description = "Дата изменения")
     @NotNull

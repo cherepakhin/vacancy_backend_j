@@ -6,7 +6,7 @@ import ru.perm.v.vacancy_j.dto.VacancyDto;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ValidatorVacancyDtoTest {
     @Test
@@ -37,8 +37,7 @@ class ValidatorVacancyDtoTest {
 
         List<String> errors = validator.validate(dto);
 
-        assertEquals(1, errors.size());
-        assertEquals("field: title, error: Длина должна быть больше 5 символов.\n", errors.get(0));
+        assertTrue(errors.contains("field: title, error: Длина должна быть больше 5 символов.\n"));
     }
 
     @Test
@@ -46,12 +45,10 @@ class ValidatorVacancyDtoTest {
         ValidatorVacancyDto validator = new ValidatorVacancyDto();
         VacancyDto dto = new VacancyDto();
         dto.setDescription(null);
-        dto.setTitle("1234567890");
 
         List<String> errors = validator.validate(dto);
 
-        assertEquals(1, errors.size());
-        assertEquals("field: description, error: не должно равняться null\n", errors.get(0));
+        assertTrue(errors.contains("field: description, error: не должно равняться null\n"));
     }
 
     @Test
@@ -59,12 +56,10 @@ class ValidatorVacancyDtoTest {
         ValidatorVacancyDto validator = new ValidatorVacancyDto();
         VacancyDto dto = new VacancyDto();
         dto.setCompany(null);
-        dto.setTitle("1234567890");
 
         List<String> errors = validator.validate(dto);
 
-        assertEquals(1, errors.size());
-        assertEquals("field: company, error: не должно равняться null\n", errors.get(0));
+        assertTrue(errors.contains("field: company, error: не должно равняться null\n"));
     }
 
     @Test
@@ -76,8 +71,7 @@ class ValidatorVacancyDtoTest {
         dto.setStatus(null);
         List<String> errors = validator.validate(dto);
 
-        assertEquals(1, errors.size());
-        assertEquals("field: status, error: не должно равняться null\n", errors.get(0));
+        assertTrue(errors.contains("field: status, error: не должно равняться null\n"));
     }
 
     @Test
@@ -89,8 +83,19 @@ class ValidatorVacancyDtoTest {
         dto.setStatus("in_plan");
         List<String> errors = validator.validate(dto);
 
-        assertEquals(1, errors.size());
-        assertEquals("field: dateChanged, error: не должно быть пустым\n", errors.get(0));
+        assertTrue(errors.contains("field: dateChanged, error: не должно быть пустым\n"));
     }
 
+    @Test
+    void notValidStatus() {
+        ValidatorVacancyDto validator = new ValidatorVacancyDto();
+        VacancyDto dto = new VacancyDto();
+        dto.setStatus("1234567890");
+        dto.setTitle("1234567890");
+        dto.setDateChanged("2020-01-01");
+        List<String> errors = validator.validate(dto);
+
+        assertEquals(1, errors.size());
+        assertEquals("field: status, error: status must be in_plan, in_work or deleted\n", errors.get(0));
+    }
 }

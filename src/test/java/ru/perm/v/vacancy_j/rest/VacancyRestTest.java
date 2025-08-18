@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
+import ru.perm.v.vacancy_j.rest.validator.ValidatorVacancyDto;
 import ru.perm.v.vacancy_j.service.VacancyService;
 
 import java.util.List;
@@ -263,5 +264,64 @@ class VacancyRestTest {
         assertEquals("ERROR", response.getBody());
 
         verify(mockVacancyService, times(1)).create(vacancyDto1);
+    }
+
+    @Test
+    void updateNotValidForEmptyTitleVacancyDto() {
+        VacancyDto vacancyDto = new VacancyDto();
+        vacancyDto.setTitle("");
+
+        VacancyRest vacancyRest = new VacancyRest();
+        ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
+
+        assertEquals("field: title, error: Длина должна быть больше 5 символов.\n" +
+                "field: title, error: не должно быть пустым\n", errors.getBody());
+    }
+
+    @Test
+    void updateNotValidForShortTitleVacancyDto() {
+        VacancyDto vacancyDto = new VacancyDto();
+        vacancyDto.setTitle("1234");
+
+        VacancyRest vacancyRest = new VacancyRest();
+        ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
+
+        assertEquals("field: title, error: Длина должна быть больше 5 символов.\n", errors.getBody());
+    }
+
+    @Test
+    void updateNotValidForNullDateChangedVacancyDto() {
+        VacancyDto vacancyDto = new VacancyDto();
+        vacancyDto.setTitle("Title123");
+        vacancyDto.setDescription("Description123");
+        vacancyDto.setDateChanged(null);
+        VacancyRest vacancyRest = new VacancyRest();
+        ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
+
+        assertEquals("field: dateChanged, error: не должно равняться null\n" +
+                "field: dateChanged, error: не должно быть пустым\n", errors.getBody());
+    }
+    @Test
+    void updateNotValidForNullStatusVacancyDto() {
+        VacancyDto vacancyDto = new VacancyDto();
+        vacancyDto.setTitle("Title123");
+        vacancyDto.setDescription("Description123");
+        vacancyDto.setDateChanged("2021-01-01");
+        VacancyRest vacancyRest = new VacancyRest();
+        ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
+
+        assertEquals("field: status, error: не должно быть пустым\n", errors.getBody());
+    }
+    @Test
+    void updateNotValidForEmptyStatusVacancyDto() {
+        VacancyDto vacancyDto = new VacancyDto();
+        vacancyDto.setTitle("Title123");
+        vacancyDto.setDescription("Description123");
+        vacancyDto.setDateChanged("2021-01-01");
+        vacancyDto.setStatus("");
+        VacancyRest vacancyRest = new VacancyRest();
+        ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
+
+        assertEquals("field: status, error: не должно быть пустым\n", errors.getBody());
     }
 }
