@@ -2,6 +2,7 @@ package ru.perm.v.vacancy_j.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
@@ -14,17 +15,23 @@ public class VacancyDto extends Dto {
     @NotEmpty
     @Schema(description = "Короткое имя")
     private String title = "";
+
+    @NotNull
     @Schema(description = "Описание")
     private String description = "";
     @Schema(description = "Компания")
+    @NotNull
     private CompanyDto company = new CompanyDto();
     @Schema(description = "Источник, ссылка")
     private String source = "";
     @Schema(description = "Комментарий")
     private String comment = "";
     @Schema(description = "Состояние (in_plan, in_work, deleted)")
+    @NotNull
     private String status = "";
     @Schema(description = "Дата изменения")
+    @NotNull
+    @NotEmpty
     private String dateChanged = "";
 
     public VacancyDto() {

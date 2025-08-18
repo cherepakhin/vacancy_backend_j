@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ValidatorVacancyDto {
-    public List<String> validate(VacancyDto dto) {
+    public static List<String> validate(VacancyDto dto) {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.usingContext().getValidator();
         Set<ConstraintViolation<VacancyDto>> validates = validator.validate(dto);

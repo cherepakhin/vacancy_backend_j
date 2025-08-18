@@ -3,8 +3,6 @@ package ru.perm.v.vacancy_j.entity;
 import jakarta.persistence.*;
 import ru.perm.v.vacancy_j.mapper.DateFormatter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -16,7 +14,7 @@ public class VacancyEntity {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long n = -1L;
 
-    //TODO: add date created, date modified
+    //TODO: add history created, modified
 
     // short description
     @Column(name = "title", nullable = false)

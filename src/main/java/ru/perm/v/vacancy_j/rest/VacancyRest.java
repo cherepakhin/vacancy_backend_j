@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
+import ru.perm.v.vacancy_j.rest.validator.ValidatorVacancyDto;
 import ru.perm.v.vacancy_j.service.VacancyService;
 
 import java.util.List;
@@ -47,6 +48,15 @@ public class VacancyRest {
     @PostMapping("/")
     public ResponseEntity<?> update(@RequestBody VacancyDto vacancyDto) {
         log.info(format("POST update vacancyDto %s", vacancyDto));
+        List<String> errorsValidate=ValidatorVacancyDto.validate(vacancyDto);
+        if (!errorsValidate.isEmpty()){
+            String error = "";
+            for (int i = 0; i < errorsValidate.size(); i++) {
+                error += errorsValidate.get(i);
+            }
+
+            return ResponseEntity.badRequest().body(error);
+        }
         try {
             // check for exist
             vacancyService.getByN(vacancyDto.getN());

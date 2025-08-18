@@ -1,6 +1,7 @@
 package ru.perm.v.vacancy_j.rest.validator;
 
 import org.junit.jupiter.api.Test;
+import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 
 import java.util.List;
@@ -39,4 +40,57 @@ public class ValidatorVacancyDtoTest {
         assertEquals(1, errors.size());
         assertEquals("field: title, error: Длина должна быть больше 5 символов.\n", errors.get(0));
     }
+
+    @Test
+    void validateNotNullDesciption() {
+        ValidatorVacancyDto validator = new ValidatorVacancyDto();
+        VacancyDto dto = new VacancyDto();
+        dto.setDescription(null);
+        dto.setTitle("1234567890");
+
+        List<String> errors = validator.validate(dto);
+
+        assertEquals(1, errors.size());
+        assertEquals("field: description, error: не должно равняться null\n", errors.get(0));
+    }
+
+    @Test
+    void validateNotNullCompany() {
+        ValidatorVacancyDto validator = new ValidatorVacancyDto();
+        VacancyDto dto = new VacancyDto();
+        dto.setCompany(null);
+        dto.setTitle("1234567890");
+
+        List<String> errors = validator.validate(dto);
+
+        assertEquals(1, errors.size());
+        assertEquals("field: company, error: не должно равняться null\n", errors.get(0));
+    }
+
+    @Test
+    void validateNotNullStatus() {
+        ValidatorVacancyDto validator = new ValidatorVacancyDto();
+        VacancyDto dto = new VacancyDto();
+        dto.setCompany(new CompanyDto());
+        dto.setTitle("1234567890");
+        dto.setStatus(null);
+        List<String> errors = validator.validate(dto);
+
+        assertEquals(1, errors.size());
+        assertEquals("field: status, error: не должно равняться null\n", errors.get(0));
+    }
+
+    @Test
+    void validateNotNullDateChanged() {
+        ValidatorVacancyDto validator = new ValidatorVacancyDto();
+        VacancyDto dto = new VacancyDto();
+        dto.setCompany(new CompanyDto());
+        dto.setTitle("1234567890");
+        dto.setStatus("in_plan");
+        List<String> errors = validator.validate(dto);
+
+        assertEquals(1, errors.size());
+        assertEquals("field: dateChanged, error: не должно быть пустым\n", errors.get(0));
+    }
+
 }
