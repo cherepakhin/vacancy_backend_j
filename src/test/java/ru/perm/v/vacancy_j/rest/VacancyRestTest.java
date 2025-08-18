@@ -87,13 +87,20 @@ class VacancyRestTest {
     @Test
     void update() throws Exception {
         VacancyRest vacancyRest = new VacancyRest();
+        vacancyRest.setVacancyService(mockVacancyService);
         Long N = 2L;
         VacancyDto vacancyDto = new VacancyDto();
         vacancyDto.setN(N);
+        vacancyDto.setTitle("TITLE");
+        vacancyDto.setComment("COMMENT");
+        vacancyDto.setDescription("DESCRIPTION");
+        CompanyDto companyDto = new CompanyDto();
+        vacancyDto.setCompany(companyDto);
+        vacancyDto.setStatus("in_plan");
+        vacancyDto.setDateChanged("2021-01-01");
         VacancyDto updatedDto = null;
         try {
             when(mockVacancyService.update(vacancyDto)).thenReturn(vacancyDto);
-            vacancyRest.setVacancyService(mockVacancyService);
             ResponseEntity<?> ret = vacancyRest.update(vacancyDto);
             updatedDto = (VacancyDto) ret.getBody();
         } catch (Exception e) {
@@ -110,6 +117,13 @@ class VacancyRestTest {
         Long N = 2L;
         VacancyDto vacancyDto = new VacancyDto();
         vacancyDto.setN(N);
+        vacancyDto.setTitle("TITLE");
+        vacancyDto.setComment("COMMENT");
+        vacancyDto.setDescription("DESCRIPTION");
+        CompanyDto companyDto = new CompanyDto();
+        vacancyDto.setCompany(companyDto);
+        vacancyDto.setStatus("in_plan");
+        vacancyDto.setDateChanged("2021-01-01");
         try {
             when(mockVacancyService.getByN(N)).thenThrow(new Exception("ERROR"));
             vacancyRest.setVacancyService(mockVacancyService);
@@ -131,6 +145,14 @@ class VacancyRestTest {
         Long N = 2L;
         VacancyDto vacancyDto = new VacancyDto();
         vacancyDto.setN(N);
+        vacancyDto.setTitle("TITLE");
+        vacancyDto.setComment("COMMENT");
+        vacancyDto.setDescription("DESCRIPTION");
+        CompanyDto companyDto = new CompanyDto();
+        vacancyDto.setCompany(companyDto);
+        vacancyDto.setStatus("in_plan");
+        vacancyDto.setDateChanged("2021-01-01");
+
         try {
             when(mockVacancyService.update(vacancyDto)).thenThrow(new Exception("ERROR"));
             when(mockVacancyService.getByN(N)).thenReturn(vacancyDto);
@@ -270,18 +292,23 @@ class VacancyRestTest {
     void updateNotValidForEmptyTitleVacancyDto() {
         VacancyDto vacancyDto = new VacancyDto();
         vacancyDto.setTitle("");
+        vacancyDto.setDescription("Description123");
+        vacancyDto.setStatus("in_plan");
+        vacancyDto.setDateChanged("2021-01-01");
 
         VacancyRest vacancyRest = new VacancyRest();
         ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
 
-        assertEquals("field: title, error: Длина должна быть больше 5 символов.\n" +
-                "field: title, error: не должно быть пустым\n", errors.getBody());
+        assertEquals("field: title, error: Длина должна быть больше 5 символов.\n", errors.getBody());
     }
 
     @Test
     void updateNotValidForShortTitleVacancyDto() {
         VacancyDto vacancyDto = new VacancyDto();
         vacancyDto.setTitle("1234");
+        vacancyDto.setDescription("Description123");
+        vacancyDto.setStatus("in_plan");
+        vacancyDto.setDateChanged("2021-01-01");
 
         VacancyRest vacancyRest = new VacancyRest();
         ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
@@ -295,12 +322,13 @@ class VacancyRestTest {
         vacancyDto.setTitle("Title123");
         vacancyDto.setDescription("Description123");
         vacancyDto.setDateChanged(null);
+        vacancyDto.setStatus("in_plan");
         VacancyRest vacancyRest = new VacancyRest();
         ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
 
-        assertEquals("field: dateChanged, error: не должно равняться null\n" +
-                "field: dateChanged, error: не должно быть пустым\n", errors.getBody());
+        assertEquals("field: dateChanged, error: не должно быть пустым\n", errors.getBody());
     }
+
     @Test
     void updateNotValidForNullStatusVacancyDto() {
         VacancyDto vacancyDto = new VacancyDto();
@@ -310,7 +338,8 @@ class VacancyRestTest {
         VacancyRest vacancyRest = new VacancyRest();
         ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
 
-        assertEquals("field: status, error: не должно быть пустым\n", errors.getBody());
+        assertEquals("field: status, error: не должно быть пустым\n" +
+                "field: status, error: status must be in_plan, in_work or deleted\n", errors.getBody());
     }
     @Test
     void updateNotValidForEmptyStatusVacancyDto() {
@@ -322,6 +351,7 @@ class VacancyRestTest {
         VacancyRest vacancyRest = new VacancyRest();
         ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
 
-        assertEquals("field: status, error: не должно быть пустым\n", errors.getBody());
+        assertEquals("field: status, error: не должно быть пустым\n" +
+                "field: status, error: status must be in_plan, in_work or deleted\n", errors.getBody());
     }
 }

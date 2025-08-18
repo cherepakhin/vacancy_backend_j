@@ -55,7 +55,7 @@ public class VacancyRest {
                 error += errorsValidate.get(i);
             }
 
-            return ResponseEntity.badRequest().body(error);
+            return ResponseEntity.internalServerError().body(error);
         }
         try {
             // check for exist

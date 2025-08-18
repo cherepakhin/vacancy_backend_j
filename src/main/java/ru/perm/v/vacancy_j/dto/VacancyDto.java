@@ -12,11 +12,10 @@ public class VacancyDto extends Dto {
     @Schema(description = "ID вакансии")
     private Long n = -1L;
     @Size(min = 5, message = "Длина должна быть больше 5 символов.")
-    @NotEmpty
     @Schema(description = "Короткое имя")
     private String title = "";
 
-    @NotNull
+    @NotEmpty
     @Schema(description = "Описание")
     private String description = "";
     @Schema(description = "Компания")
@@ -27,11 +26,9 @@ public class VacancyDto extends Dto {
     @Schema(description = "Комментарий")
     private String comment = "";
     @Schema(description = "Состояние (in_plan, in_work, deleted)")
-    @NotNull
     @NotEmpty
     private String status = "";
     @Schema(description = "Дата изменения")
-    @NotNull
     @NotEmpty
     private String dateChanged = "";
 

@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
 
 public class ValidatorVacancyDto {
     public static List<String> validate(VacancyDto dto) {
+        if (dto == null) {
+            return List.of("dto is null");
+        }
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.usingContext().getValidator();
         Set<ConstraintViolation<VacancyDto>> validates = validator.validate(dto);
@@ -24,7 +27,7 @@ public class ValidatorVacancyDto {
                 ret.add(String.format("field: %s, error: %s\n", validateErr.getPropertyPath(), validateErr.getMessage()));
             }
         }
-        if (!isValidStatus(dto)) {
+        if (!isValidStatus(dto.getStatus())) {
             ret.add(String.format(
                     "field: status, error: %s\n",
                     "status must be in_plan, in_work or deleted"
@@ -33,7 +36,10 @@ public class ValidatorVacancyDto {
         return ret;
     }
 
-    protected static boolean isValidStatus(VacancyDto dto) {
-        return List.of("in_plan", "in_work", "deleted").contains(dto.getStatus());
+    protected static boolean isValidStatus(String status) {
+        if (status == null) {
+            return false;
+        }
+        return List.of("in_plan", "in_work", "deleted").contains(status);
     }
 }
