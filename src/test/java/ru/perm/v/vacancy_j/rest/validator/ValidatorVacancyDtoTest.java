@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ValidatorVacancyDtoTest {
+class ValidatorVacancyDtoTest {
     @Test
     void validateEmptyTitle() {
         ValidatorVacancyDto validator = new ValidatorVacancyDto();
@@ -42,7 +42,7 @@ public class ValidatorVacancyDtoTest {
     }
 
     @Test
-    void validateNotNullDesciption() {
+    void validateNotNullDescription() {
         ValidatorVacancyDto validator = new ValidatorVacancyDto();
         VacancyDto dto = new VacancyDto();
         dto.setDescription(null);
