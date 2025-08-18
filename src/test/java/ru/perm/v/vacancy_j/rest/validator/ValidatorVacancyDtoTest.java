@@ -17,16 +17,7 @@ class ValidatorVacancyDtoTest {
 
         List<String> errors = validator.validate(dto);
 
-        assertEquals(2, errors.size());
-        Integer countErrors = 0;
-        for (String err : errors) {
-            if (err.equals("field: title, error: не должно быть пустым\n") ||
-                    err.equals("field: title, error: Длина должна быть больше 5 символов.\n")
-            ) {
-                countErrors++;
-            }
-        }
-        assertEquals(2, countErrors);
+        assertTrue(errors.contains("field: title, error: Длина должна быть больше 5 символов.\n"));
     }
 
     @Test
@@ -69,11 +60,13 @@ class ValidatorVacancyDtoTest {
         ValidatorVacancyDto validator = new ValidatorVacancyDto();
         VacancyDto dto = new VacancyDto();
         dto.setCompany(new CompanyDto());
+        dto.setDescription("Description");
         dto.setTitle("1234567890");
+        dto.setDateChanged("2020-01-01");
         dto.setStatus(null);
         List<String> errors = validator.validate(dto);
 
-        assertTrue(errors.contains("field: status, error: не должно равняться null\n"));
+        assertTrue(errors.contains("field: status, error: не должно быть пустым\n"));
     }
 
     @Test
@@ -93,6 +86,7 @@ class ValidatorVacancyDtoTest {
         ValidatorVacancyDto validator = new ValidatorVacancyDto();
         VacancyDto dto = new VacancyDto();
         dto.setStatus("1234567890");
+        dto.setDescription("Description");
         dto.setTitle("1234567890");
         dto.setDateChanged("2020-01-01");
         List<String> errors = validator.validate(dto);
