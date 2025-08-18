@@ -44,11 +44,13 @@ class ValidatorVacancyDtoTest {
     void validateNotNullDescription() {
         ValidatorVacancyDto validator = new ValidatorVacancyDto();
         VacancyDto dto = new VacancyDto();
+        dto.setTitle("1234567890");
+        dto.setStatus("in_plan");
         dto.setDescription(null);
+        dto.setDateChanged("2020-01-01");
 
         List<String> errors = validator.validate(dto);
-
-        assertTrue(errors.contains("field: description, error: не должно равняться null\n"));
+        assertTrue(errors.contains("field: description, error: не должно быть пустым\n"));
     }
 
     @Test
