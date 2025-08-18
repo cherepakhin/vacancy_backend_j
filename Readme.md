@@ -33,6 +33,14 @@ test {
 }
 ````
 
+Тестирование с отчетом jacoco (jacoco.sh):
+
+````shell
+ ./gradlew test jacocoTestReport
+````
+
+Результат в build/reports/jacoco/test/html/index.html.
+
 Запуск приложения:
 
 ````shell

@@ -16,17 +16,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@Transactional
+//@Transactional
 class CompanyRestCacheTest {
 //    @Autowired
 //    private CompanyService companyService;
 
-//    @MockitoBean
-//    private CompanyService companyService;
+    @MockitoBean
+    private CompanyService companyService;
 
     @Test
     public void checkCountCallforGetALL() {
-        CompanyService companyService = mock(CompanyService.class);
+//        CompanyService companyService = mock(CompanyService.class);
         CompanyRest companyRest = new CompanyRest(companyService);
         CompanyDto companyDto1 = new CompanyDto();
         companyDto1.setN(1L);
