@@ -73,7 +73,8 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getAll(VacancySort vacancySort) {
+    public List<VacancyDto> getAll(VacancySort vacancySort) throws Exception {
+        valdateSortColumn(vacancySort.toString());
         List<VacancyEntity> entities = vacancyRepository.findAll(Sort.by(Sort.Order.asc(vacancySort.toString())));
         return vacancyMapper.toListDto(entities);
     }

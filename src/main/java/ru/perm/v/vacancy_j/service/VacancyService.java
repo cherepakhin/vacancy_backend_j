@@ -10,7 +10,7 @@ public interface VacancyService {
     VacancyDto getByN(Long n) throws Exception;
     List<VacancyDto> getAll();
     List<VacancyDto> getAll(String sortColumn) throws Exception;
-    List<VacancyDto> getAll(VacancySort vacancySort);
+    List<VacancyDto> getAll(VacancySort vacancySort) throws Exception;
     List<VacancyDto> findByCritery(VacancyCriterySearch criterySearch);
     VacancyDto update(VacancyDto vacancyDto) throws Exception;
     void deleteByN(Long n) throws Exception;
