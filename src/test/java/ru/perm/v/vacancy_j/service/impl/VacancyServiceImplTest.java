@@ -111,6 +111,74 @@ class VacancyServiceImplTest {
                 "01.01.1970"), dtos.get(1));
     }
 
+
+    @Test
+    void getAllSortByColumnN() {
+        VacancyEntity vacancyEntity100 = new VacancyEntity();
+        vacancyEntity100.setN(100L);
+
+        VacancyEntity vacancyEntity200 = new VacancyEntity();
+        vacancyEntity200.setN(200L);
+
+        String sortColumn = "n";
+        when(vacancyRepository.findAll(Sort.by(Sort.Order.asc(sortColumn)))).thenReturn(List.of(vacancyEntity100, vacancyEntity200));
+
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+
+        List<VacancyDto> dtos = null;
+        try {
+            dtos = vacancyService.getAll(sortColumn);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        assertEquals(2, dtos.size());
+        assertEquals(100L, dtos.get(0).getN());
+        assertEquals(200L, dtos.get(1).getN());
+
+        verify(vacancyRepository, times(1)).findAll(Sort.by(Sort.Order.asc(sortColumn)));
+    }
+
+    @Test
+    void getAllSortByColumnName() {
+        VacancyEntity vacancyEntity100 = new VacancyEntity();
+        vacancyEntity100.setN(100L);
+
+        VacancyEntity vacancyEntity200 = new VacancyEntity();
+        vacancyEntity200.setN(200L);
+
+        String sortColumn = "title";
+        when(vacancyRepository.findAll(Sort.by(Sort.Order.asc(sortColumn)))).thenReturn(List.of(vacancyEntity100, vacancyEntity200));
+
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+
+        List<VacancyDto> dtos = null;
+        try {
+            dtos = vacancyService.getAll(sortColumn);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        assertEquals(2, dtos.size());
+        assertEquals(100L, dtos.get(0).getN());
+        assertEquals(200L, dtos.get(1).getN());
+
+        verify(vacancyRepository, times(1)).findAll(Sort.by(Sort.Order.asc(sortColumn)));
+    }
+
+    @Test
+    void validateSortByErrorColumn() {
+        VacancyServiceImpl vacancyService = new VacancyServiceImpl(vacancyRepository);
+        String errorMessage = "";
+        try {
+            vacancyService.valdateSortColumn("ERROR_NAME_COLUMN");
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+        }
+
+        assertEquals("Name sort column ERROR_NAME_COLUMN is wrong.", errorMessage);
+    }
+
     @Test
     void findByName() {
         String SEARCH_TITLE = "SEARCH_TITLE";

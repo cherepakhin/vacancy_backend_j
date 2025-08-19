@@ -17,6 +17,7 @@ import ru.perm.v.vacancy_j.service.VacancyService;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest
 @Transactional
@@ -110,7 +111,12 @@ public class VacancyServiceImplIntegrationTest {
     @Test
     void getAllSortByN() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
-        List<VacancyDto> vacancies = vacancyService.getAll(VacancySort.N);
+        List<VacancyDto> vacancies = null;
+        try {
+            vacancies = vacancyService.getAll(VacancySort.N);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
         assertEquals(4, vacancies.size());
         assertEquals(1L, vacancies.get(0).getN());
@@ -122,7 +128,12 @@ public class VacancyServiceImplIntegrationTest {
     @Test
     void getAllSortByTitle() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
-        List<VacancyDto> vacancies = vacancyService.getAll(VacancySort.TITLE);
+        List<VacancyDto> vacancies = null;
+        try {
+            vacancies = vacancyService.getAll(VacancySort.TITLE);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
         assertEquals(4, vacancies.size());
         assertEquals(1L, vacancies.get(0).getN()); // Vacancy 1 Company 1

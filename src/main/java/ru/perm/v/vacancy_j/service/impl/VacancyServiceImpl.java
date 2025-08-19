@@ -59,9 +59,17 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getAll(String sortColumn) {
+    public List<VacancyDto> getAll(String sortColumn) throws Exception {
+        valdateSortColumn(sortColumn);
         List<VacancyEntity> entities = vacancyRepository.findAll(Sort.by(Sort.Order.asc(sortColumn)));
         return vacancyMapper.toListDto(entities);
+    }
+
+    public void valdateSortColumn(String sortColumn) throws Exception {
+        if (!sortColumn.equals("n") &&
+                !sortColumn.equals("title") ) {
+            throw new IllegalArgumentException(format("Name sort column %s is wrong.", sortColumn));
+        }
     }
 
     @Override
