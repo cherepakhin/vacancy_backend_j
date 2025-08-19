@@ -99,7 +99,7 @@ public class CompanyServiceImpl implements CompanyService {
         // for check exist company
         List<CompanyEntity> companies = companyRepository.findByN(companyDto.getN());
         if (companies.size() == 0) {
-            String err = format("Company N=%s not found", companyDto.getN());
+            String err = format("Company N=%s not found.", companyDto.getN());
             throw new Exception(err);
         }
         CompanyEntity entity = companyMapper.toEntity(companyDto);
@@ -129,7 +129,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public void delete(Long n) throws Exception {
         if (!isExist(n)) {
-            throw new Exception(format("Company not found %s", n));
+            throw new Exception(format("Company n=%s not found.", n));
         }
         companyRepository.deleteById(n);
     }

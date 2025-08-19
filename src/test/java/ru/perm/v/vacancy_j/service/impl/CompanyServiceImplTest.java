@@ -8,6 +8,7 @@ import ru.perm.v.vacancy_j.dto.CompanyCriterySearch;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
+import ru.perm.v.vacancy_j.mapper.DateFormatter;
 import ru.perm.v.vacancy_j.repository.ICompanyRepository;
 import ru.perm.v.vacancy_j.service.CompanyService;
 import ru.perm.v.vacancy_j.specs.CompanySpecifications;
@@ -15,6 +16,7 @@ import ru.perm.v.vacancy_j.specs.CompanySpecifications;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -42,22 +44,50 @@ class CompanyServiceImplTest {
     void getByN_with_ExceptionNotFound() {
         doThrow(new RuntimeException("CompanyServiceImpl.getByN. NotFound: 100")).when(companyRepository).findByN(100L);
         CompanyService companyService = new CompanyServiceImpl(companyRepository);
-        boolean okTest = false;
         String expectedMessage = "";
         try {
             companyService.getByN(100L);
         } catch (Exception e) {
-            okTest = true;
             expectedMessage = e.getMessage();
         }
 
-        assertTrue(okTest);
         assertEquals("CompanyServiceImpl.getByN. NotFound: 100", expectedMessage);
     }
 
     @Test
+    void getAll() {
+        CompanyEntity companyEntity100 = new CompanyEntity(100L, "NAME_100");
+        CompanyEntity companyEntity200 = new CompanyEntity(200L, "NAME_200");
+
+        when(companyRepository.findAll()).thenReturn(List.of(companyEntity100, companyEntity200));
+
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+
+        List<CompanyDto> companies = companyService.getAll();
+
+        assertEquals(2, companies.size());
+        assertEquals(new CompanyDto(100L, "NAME_100"), companies.get(0));
+        assertEquals(new CompanyDto(200L, "NAME_200"), companies.get(1));
+    }
+
+    @Test
+    void findByLikeName() {
+        CompanyEntity companyEntity100 = new CompanyEntity(100L, "NAME_100");
+        CompanyEntity companyEntity200 = new CompanyEntity(200L, "NAME_200");
+        String NAME = "NAME";
+        when(companyRepository.findByLikeName(NAME)).thenReturn(List.of(companyEntity100, companyEntity200));
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+
+        List<CompanyDto> companies = companyService.findByLikeName(NAME);
+
+        assertEquals(2, companies.size());
+        assertEquals(new CompanyDto(100L, "NAME_100"), companies.get(0));
+        assertEquals(new CompanyDto(200L, "NAME_200"), companies.get(1));
+    }
+
+    @Test
     void getNextN() {
-        Long MAX_N = 100L;
+        long MAX_N = 100L;
         when(companyRepository.getMaxN()).thenReturn(MAX_N);
         CompanyService companyService = new CompanyServiceImpl(companyRepository);
 
@@ -99,16 +129,13 @@ class CompanyServiceImplTest {
         CompanyDto companyDto = new CompanyDto(null, null);
         CompanyService companyService = new CompanyServiceImpl(companyRepository);
         boolean wasError = false;
-        String errorMessage = "";
         try {
             companyService.create(companyDto);
         } catch (Exception e) {
             wasError = true;
-            errorMessage = e.getMessage();
         }
 
         assertTrue(wasError);
-//        assertEquals("name не должно быть пустым", errorMessage);
     }
 
     @Test
@@ -161,6 +188,25 @@ class CompanyServiceImplTest {
     }
 
     @Test
+    void updateForNotExist() {
+        Long N = 1L;
+        when(companyRepository.findByN(N)).thenReturn(emptyList());
+
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+        Exception exception = null;
+        try {
+            companyService.update(new CompanyDto(N, "NEW_NAME_1"));
+        } catch (Exception e) {
+            exception = e;
+        }
+
+        assertNotNull(exception);
+        assertEquals("Company N=1 not found.",exception.getMessage());
+
+        verify(companyRepository, never()).save(any(CompanyEntity.class));
+    }
+
+    @Test
     public void findByExample() {
 
         CompanyCriterySearch criterySearch = new CompanyCriterySearch();
@@ -210,5 +256,33 @@ class CompanyServiceImplTest {
 //        assertEquals(1, s.size());
 //        assertEquals(spec, s);
 //        verify(companyRepository, times(1)).findAll(spec, Sort.by(Sort.Order.asc("n")));
+    }
+
+    @Test
+    void deleteExist() {
+        Long N = 100L;
+        when(companyRepository.existsById(N)).thenReturn(true);
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+        boolean okTest = false;
+        try {
+            companyService.delete(N);
+            okTest = true;
+        } catch (Exception e) {
+            fail();
+        }
+
+        assertTrue(okTest);
+
+        verify(companyRepository, times(1)).deleteById(N);
+    }
+    @Test
+    void deleteNotExist() {
+        Long N = 100L;
+        when(companyRepository.existsById(N)).thenReturn(false);
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+        Exception exception = assertThrows(Exception.class, () -> companyService.delete(N));
+
+        assertEquals("Company n=100 not found.", exception.getMessage());
+        verify(companyRepository, never()).deleteById(N);
     }
 }
