@@ -205,7 +205,18 @@ public class CompanyRest {
     public ResponseEntity<?> delete(
             @Parameter(description = "Id компании", required = true)
             @PathVariable Long n) {
-        //TODO
+        try {
+            companyService.getByN(n);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+        try {
+            companyService.delete(n);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
         return ResponseEntity.ok(format("Deleted n=%s", n));
     }
 

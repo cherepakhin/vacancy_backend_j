@@ -63,7 +63,7 @@ class CompanyRestTest {
         CompanyDto createdCompanyDTO = new CompanyDto(100L, "CREATED_COMPANY");
         when(companyService.create(companyDTO)).thenReturn(createdCompanyDTO);
 
-        ResponseEntity<?> companyFromRest =  companyRest.create(companyDTO);
+        ResponseEntity<?> companyFromRest = companyRest.create(companyDTO);
 
         assertEquals(createdCompanyDTO, companyFromRest.getBody());
     }
@@ -206,7 +206,7 @@ class CompanyRestTest {
         ResponseEntity<?> ret = companyRest.getAll();
 
         assertNotNull(ret);
-        List<CompanyDto> companies= (List<CompanyDto>) ret.getBody();
+        List<CompanyDto> companies = (List<CompanyDto>) ret.getBody();
 
         assertEquals(2, companies.size());
         assertEquals(companyDto1, companies.get(0));
@@ -228,10 +228,55 @@ class CompanyRestTest {
         ResponseEntity<?> ret = companyRest.findByExample(example);
 
         assertNotNull(ret);
-        List<CompanyDto> companies= (List<CompanyDto>) ret.getBody();
+        List<CompanyDto> companies = (List<CompanyDto>) ret.getBody();
 
         assertEquals(2, companies.size());
         assertEquals(companyDto1, companies.get(0));
         assertEquals(companyDto2, companies.get(1));
+    }
+
+    @Test
+    public void delete() throws Exception {
+        CompanyService companyService = mock(CompanyService.class);
+        doNothing().when(companyService).delete(1L);
+        CompanyRest companyRest = new CompanyRest(companyService);
+        Long COMPANY_N = 1L;
+
+        try {
+            companyRest.delete(COMPANY_N);
+        } catch (Exception e) {
+            fail();
+        }
+        verify(companyService, times(1)).delete(COMPANY_N);
+    }
+
+    @Test
+    public void deleteOnNotExist() throws Exception {
+        CompanyService companyService = mock(CompanyService.class);
+        doNothing().when(companyService).delete(1L);
+        CompanyRest companyRest = new CompanyRest(companyService);
+        Long COMPANY_N = 1L;
+        doThrow(new Exception("ERROR MESSAGE")).when(companyService).getByN(COMPANY_N);
+
+        try {
+            companyRest.delete(COMPANY_N);
+        } catch (Exception e) {
+            fail();
+        }
+
+        verify(companyService, never()).delete(COMPANY_N);
+    }
+
+    @Test
+    public void deleteWithOtherErrorInService() throws Exception {
+        Long COMPANY_N = 1L;
+        CompanyService companyService = mock(CompanyService.class);
+        doThrow(new Exception("ERROR")).when(companyService).delete(COMPANY_N);
+        CompanyRest companyRest = new CompanyRest(companyService);
+        Exception excpt = null;
+        ResponseEntity<?> responseEntity = companyRest.delete(COMPANY_N);
+
+        verify(companyService, times(1)).delete(COMPANY_N);
+        assertEquals("ERROR", responseEntity.getBody());
     }
 }

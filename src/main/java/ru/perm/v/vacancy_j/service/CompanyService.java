@@ -17,4 +17,6 @@ public interface CompanyService {
     CompanyDto update(CompanyDto companyDto) throws Exception;
 
     List<CompanyDto> findByExample(CompanyCriterySearch example);
+
+    void delete(Long n) throws Exception;
 }
