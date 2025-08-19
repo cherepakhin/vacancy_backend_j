@@ -44,6 +44,18 @@ class CompanyRestTest {
     }
 
     @Test
+    void notFoundOnGetByN() throws Exception {
+        CompanyService companyService = mock(CompanyService.class);
+        doThrow(new Exception("ERROR")).when(companyService).getByN(1L);
+        CompanyRest companyRest = new CompanyRest(companyService);
+
+        ResponseEntity<?> responseEntity = companyRest.getByN(1L);
+
+        assertTrue(responseEntity.getStatusCode().is5xxServerError());
+        assertEquals("Company with n=1 not found.", responseEntity.getBody());
+    }
+
+    @Test
     void updateForExist() throws Exception {
         Long N = 10L;
         CompanyDto forUpdateDTO = new CompanyDto(N, "FOR UPDATE");
