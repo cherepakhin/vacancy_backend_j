@@ -55,6 +55,20 @@ class VacancyServiceImplTest {
     }
 
     @Test
+    void getByNNotFound() {
+        Long N = 100L;
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        when(vacancyRepository.findByN(N)).thenReturn(Collections.emptyList());
+
+        try {
+            vacancyService.getByN(N);
+            fail();
+        } catch (Exception e) {
+            assertEquals("Vacancy with N " + N + " not found.", e.getMessage());
+        }
+    }
+
+    @Test
     void getAll() {
         VacancyEntity vacancyEntity100 = new VacancyEntity();
         vacancyEntity100.setN(100L);

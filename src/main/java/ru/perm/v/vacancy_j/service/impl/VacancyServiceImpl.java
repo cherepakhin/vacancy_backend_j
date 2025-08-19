@@ -27,9 +27,8 @@ import static java.lang.String.format;
 public class VacancyServiceImpl implements VacancyService {
     @Autowired
     private IVacancyRepository vacancyRepository;
-    private CompanyMapper companyMapper = new CompanyMapper();
 
-    private VacancyMapper vacancyMapper = new VacancyMapper();
+    private final VacancyMapper vacancyMapper = new VacancyMapper();
 
     Logger log = LoggerFactory.getLogger(VacancyServiceImpl.class);
 
@@ -45,7 +44,7 @@ public class VacancyServiceImpl implements VacancyService {
     public VacancyDto getByN(Long n) throws Exception {
         List<VacancyEntity> vacancies = vacancyRepository.findByN(n);
         if (vacancies.isEmpty()) {
-            throw new Exception("Vacancy not found");
+            throw new Exception(format("Vacancy with N %s not found.", n));
         } else {
             VacancyDto vacancyDto = vacancyMapper.toDto(vacancies.get(0));
             return vacancyDto;
