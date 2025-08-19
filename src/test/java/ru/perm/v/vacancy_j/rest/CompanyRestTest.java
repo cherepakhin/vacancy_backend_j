@@ -56,6 +56,34 @@ class CompanyRestTest {
     }
 
     @Test
+    void create() throws Exception {
+        CompanyDto companyDTO = new CompanyDto(10L, "COMPANY");
+        CompanyService companyService = mock(CompanyService.class);
+        CompanyRest companyRest = new CompanyRest(companyService);
+        CompanyDto createdCompanyDTO = new CompanyDto(100L, "CREATED_COMPANY");
+        when(companyService.create(companyDTO)).thenReturn(createdCompanyDTO);
+
+        ResponseEntity<?> companyFromRest =  companyRest.create(companyDTO);
+
+        assertEquals(createdCompanyDTO, companyFromRest.getBody());
+    }
+
+    @Test
+    void exceptionOnCreate() throws Exception {
+        Long N = 10L;
+        CompanyDto companyDTO = new CompanyDto(N, "FOR UPDATE");
+
+        CompanyService companyService = mock(CompanyService.class);
+        doThrow(new Exception("ERROR")).when(companyService).create(companyDTO);
+        CompanyRest companyRest = new CompanyRest(companyService);
+
+        ResponseEntity<?> responseEntity = companyRest.create(companyDTO);
+
+        assertTrue(responseEntity.getStatusCode().is5xxServerError());
+        assertEquals("ERROR", responseEntity.getBody());
+    }
+
+    @Test
     void updateForExist() throws Exception {
         Long N = 10L;
         CompanyDto forUpdateDTO = new CompanyDto(N, "FOR UPDATE");
