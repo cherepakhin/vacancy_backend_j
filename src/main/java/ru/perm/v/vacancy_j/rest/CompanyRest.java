@@ -121,6 +121,13 @@ public class CompanyRest {
             @RequestBody CompanyDto companyDto) {
         String message = format("Create %s", companyDto);
         log.info(message);
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<CompanyDto>> violations = validator.validate(companyDto);
+        if (!violations.isEmpty()) {
+            List<ConstraintViolation<CompanyDto>> listViolations = violations.stream().toList();
+            String error = listViolationToString(listViolations);
+            return ResponseEntity.internalServerError().body(error);
+        }
         try {
             CompanyDto dto = companyService.create(companyDto);
             return ResponseEntity.ok(dto);
@@ -234,6 +241,6 @@ public class CompanyRest {
     }
 
     private String listViolationToString(List<ConstraintViolation<CompanyDto>> listViolations) {
-        return listViolations.stream().map(err -> err.getPropertyPath() + ":" + err.getMessage()).collect(Collectors.joining(","));
+        return listViolations.stream().map(err -> err.getPropertyPath() + ": " + err.getMessage()).collect(Collectors.joining(","));
     }
 }

@@ -84,6 +84,20 @@ class CompanyRestTest {
     }
 
     @Test
+    void exceptionShortNameOnCreate() throws Exception {
+        Long N = 10L;
+        CompanyDto companyDTO = new CompanyDto(N, "1234");
+
+        CompanyService companyService = mock(CompanyService.class);
+        CompanyRest companyRest = new CompanyRest(companyService);
+
+        ResponseEntity<?> responseEntity = companyRest.create(companyDTO);
+
+        assertTrue(responseEntity.getStatusCode().is5xxServerError());
+        assertEquals("name: Длина name в CompanyDto должна быть больше 5 символов.", responseEntity.getBody());
+    }
+
+    @Test
     void updateForExist() throws Exception {
         Long N = 10L;
         CompanyDto forUpdateDTO = new CompanyDto(N, "FOR UPDATE");
