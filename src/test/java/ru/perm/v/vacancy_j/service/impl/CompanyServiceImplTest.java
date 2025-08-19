@@ -42,16 +42,25 @@ class CompanyServiceImplTest {
 
     @Test
     void getByN_with_ExceptionNotFound() {
-        doThrow(new RuntimeException("CompanyServiceImpl.getByN. NotFound: 100")).when(companyRepository).findByN(100L);
+        doReturn(emptyList()).when(companyRepository).findByN(100L);
         CompanyService companyService = new CompanyServiceImpl(companyRepository);
-        String expectedMessage = "";
+        String errorMessage = "";
         try {
             companyService.getByN(100L);
         } catch (Exception e) {
-            expectedMessage = e.getMessage();
+            errorMessage = e.getMessage();
         }
+        assertEquals("Company N=100 not found", errorMessage);
+    }
 
-        assertEquals("CompanyServiceImpl.getByN. NotFound: 100", expectedMessage);
+    @Test
+    void getByN_with_ExceptionNotFoundWithAssertThrow() {
+        doThrow(new RuntimeException("CompanyServiceImpl.getByN. NotFound: 100")).when(companyRepository).findByN(100L);
+        CompanyService companyService = new CompanyServiceImpl(companyRepository);
+
+        assertThrows(Exception.class, () -> {
+            companyService.getByN(100L);
+        });
     }
 
     @Test
