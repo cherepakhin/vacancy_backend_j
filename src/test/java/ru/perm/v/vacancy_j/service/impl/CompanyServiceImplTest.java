@@ -58,9 +58,11 @@ class CompanyServiceImplTest {
         doThrow(new RuntimeException("CompanyServiceImpl.getByN. NotFound: 100")).when(companyRepository).findByN(100L);
         CompanyService companyService = new CompanyServiceImpl(companyRepository);
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             companyService.getByN(100L);
         });
+
+        assertEquals("CompanyServiceImpl.getByN. NotFound: 100", exception.getMessage());
     }
 
     @Test
