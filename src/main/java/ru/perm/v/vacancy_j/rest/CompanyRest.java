@@ -77,7 +77,7 @@ public class CompanyRest {
 // @RequestParam(required = true) - для запросов типа: /users/search?name=John. Здесь другой тип запроса /users/1
             @Validated @Min(-1)
             @PathVariable Long n) {
-        log.info(format("Get Company with n=%s", n));
+        log.info("Get Company with n=" + n);
         try {
             CompanyDto company = companyService.getByN(n);
             return ResponseEntity.ok(company);
@@ -221,34 +221,27 @@ public class CompanyRest {
     }
 
     @PostMapping("/find")
-//    @Operation(summary = "Создать новую компанию",
-//            description = "Создать новую компанию с параметрами из CompanyDTO"
-//    )
-//    @ApiResponses(value = {
-//            @ApiResponse(
-//                    responseCode = "200",
-//                    description = "Ok",
-//                    content = {@Content(mediaType = "application/json",
-//                            schema = @Schema(implementation = CompanyDto.class))}
-//            ),
-//            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
-//    })
+    @Operation(summary = "Создать новую компанию",
+            description = "Создать новую компанию с параметрами из CompanyDTO"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CompanyDto.class))}
+            ),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
+    })
 //    @Caching(
 //            put = @CachePut(value = COMPANY_CACHE, key = "#result.body.n"),
 //            evict = @CacheEvict(value = COMPANIES_CACHE, allEntries = true)
 //    )
-    public ResponseEntity<?> findByExample(@RequestBody CompanyCriterySearch example) {
+    public ResponseEntity<List<CompanyDto>> findByExample(@RequestBody CompanyCriterySearch example) {
         String message = format("Find company by example: %s", example);
         log.info(message);
         List<CompanyDto> companies = companyService.findByExample(example);
         return ResponseEntity.ok(companies);
-//        try {
-//            CompanyDto dto = companyService.create(companyDto);
-//            return ResponseEntity.ok(dto);
-//        } catch (Exception e) {
-//            log.error(e.getMessage());
-//            return ResponseEntity.internalServerError().body(e.getMessage());
-//        }
     }
 
     private String listViolationToString(List<ConstraintViolation<CompanyDto>> listViolations) {
