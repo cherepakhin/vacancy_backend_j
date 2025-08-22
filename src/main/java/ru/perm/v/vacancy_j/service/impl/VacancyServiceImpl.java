@@ -12,9 +12,9 @@ import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
 import ru.perm.v.vacancy_j.entity.VacancySort;
-import ru.perm.v.vacancy_j.mapper.CompanyMapper;
 import ru.perm.v.vacancy_j.mapper.VacancyMapper;
 import ru.perm.v.vacancy_j.repository.IVacancyRepository;
+import ru.perm.v.vacancy_j.rest.validator.ValidatorVacancyDto;
 import ru.perm.v.vacancy_j.service.VacancyService;
 import ru.perm.v.vacancy_j.specs.VacancySpecifications;
 
@@ -66,7 +66,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     public void valdateSortColumn(String sortColumn) throws Exception {
         if (!sortColumn.equals("n") &&
-                !sortColumn.equals("title") ) {
+                !sortColumn.equals("title")) {
             throw new IllegalArgumentException(format("Name sort column %s is wrong.", sortColumn));
         }
     }
@@ -118,7 +118,31 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
+    public VacancyDto create(VacancyDto vacancyDto) throws Exception {
+        log.info(format("VacancyDTO for create %s", vacancyDto));
+
+        List<String> violations = ValidatorVacancyDto.validate(vacancyDto);
+        if (violations.size() > 0) {
+            String errors = "";
+            for (String s : violations) {
+                errors += s + "\n";
+            }
+            throw new Exception(errors);
+        }
+
+        VacancyEntity entity = vacancyMapper.toEntity(vacancyDto);
+        Long n = getNextMaxN();
+        entity.setN(n);
+        log.info(format("New entity %s", entity));
+        VacancyEntity saved = vacancyRepository.save(entity);
+        log.info(format("Saved entity %s", entity));
+
+        return vacancyMapper.toDto(saved);
+    }
+
+    @Override
     public VacancyDto update(VacancyDto vacancyDto) throws Exception {
+        //TODO: validate
         if (vacancyDto == null) {
             String error = "VacancyDto for update is null";
             log.info(error);
@@ -167,23 +191,9 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public Long getNextMaxN() {
         Long nextN = vacancyRepository.getMaxN();
-        if(nextN == null) {
+        if (nextN == null) {
             nextN = 0L;
         }
         return nextN + 1L;
-    }
-
-    @Override
-    public VacancyDto create(VacancyDto vacancyDto) {
-        //TODO: validate
-        log.info(format("VacancyDTO fro create %s", vacancyDto));
-        VacancyEntity entity = vacancyMapper.toEntity(vacancyDto);
-        Long n = getNextMaxN();
-        entity.setN(n);
-        log.info(format("New entity %s", entity));
-        VacancyEntity saved = vacancyRepository.save(entity);
-        log.info(format("Saved entity %s", entity));
-
-        return vacancyMapper.toDto(saved);
     }
 }
