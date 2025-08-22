@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import ru.perm.v.vacancy_j.dto.CompanyCriterySearch;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
+import ru.perm.v.vacancy_j.exceptions.CompanyServiceException;
 import ru.perm.v.vacancy_j.mapper.CompanyMapper;
 import ru.perm.v.vacancy_j.repository.ICompanyRepository;
 import ru.perm.v.vacancy_j.service.CompanyService;
@@ -47,7 +48,7 @@ public class CompanyServiceImpl implements CompanyService {
         List<CompanyEntity> companies = companyRepository.findByN(n);
         if (companies.isEmpty()) {
             String err = format("Company N=%s not found", n);
-            throw new Exception(err);
+            throw new CompanyServiceException(err);
         } else {
             return companyMapper.toDto(companies.get(0));
         }
