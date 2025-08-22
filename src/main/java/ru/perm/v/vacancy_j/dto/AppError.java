@@ -46,7 +46,7 @@ public class AppError {
     public String toString() {
         return "AppError{" +
                 "statusCode=" + statusCode +
-                ", message='" + message + '\'' +
+                ", message='" + message + "'" +
                 '}';
     }
 }
