@@ -18,4 +18,14 @@ public class ValidatorCompanyDtoTest {
         assertTrue(errors.size() == 1);
         assertEquals("field: name, error: Длина name в CompanyDto должна быть больше 5 символов.\n", errors.get(0));
     }
+
+    @Test
+    void validateNullName() {
+        ValidatorCompanyDto validator = new ValidatorCompanyDto();
+        CompanyDto dto = new CompanyDto();
+        dto.setName(null);
+        List<String> errors = validator.validate(dto);
+        assertTrue(errors.size() == 1);
+        assertEquals("field: name, error: не должно равняться null\n", errors.get(0));
+    }
 }

@@ -9,7 +9,6 @@ import ru.perm.v.vacancy_j.dto.CompanyDto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class ValidatorCompanyDto {
     public List<String> validate(CompanyDto dto) {
@@ -17,11 +16,11 @@ public class ValidatorCompanyDto {
         Validator validator = validatorFactory.usingContext().getValidator();
         Set<ConstraintViolation<CompanyDto>> validates = validator.validate(dto);
         List<String> ret = new ArrayList<>();
-        if (validates.size() > 0) {
-//            StringBuilder err = new StringBuilder(String.format("%s. Errors: ", dto.toString()));
-            List<ConstraintViolation<CompanyDto>> errors = validates.stream().collect(Collectors.toList());
+        if (!validates.isEmpty()) {
+            List<ConstraintViolation<CompanyDto>> errors = validates.stream().toList();
             for (ConstraintViolation<CompanyDto> validateErr : errors) {
-                ret.add(String.format("field: %s, error: %s\n", validateErr.getPropertyPath(), validateErr.getMessage()));
+                ret.add("field: " + validateErr.getPropertyPath() + ", error: " +
+                        validateErr.getMessage() + "\n");
             }
         }
         return ret;
