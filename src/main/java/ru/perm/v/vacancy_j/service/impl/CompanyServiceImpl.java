@@ -38,6 +38,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     public CompanyServiceImpl(ICompanyRepository companyRepository) {
+        this();
         this.companyRepository = companyRepository;
     }
 

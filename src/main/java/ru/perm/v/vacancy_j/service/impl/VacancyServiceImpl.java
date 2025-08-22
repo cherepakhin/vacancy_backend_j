@@ -37,6 +37,7 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     public VacancyServiceImpl(IVacancyRepository vacancyRepository) {
+        this();
         this.vacancyRepository = vacancyRepository;
     }
 
