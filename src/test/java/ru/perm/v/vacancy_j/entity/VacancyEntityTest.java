@@ -32,15 +32,33 @@ class VacancyEntityTest {
 
     @Test
     void testEquals() {
-        VacancyEntity vacancyEntity = new VacancyEntity();
-        vacancyEntity.setN(10L);
-        vacancyEntity.setTitle("test");
+        CompanyEntity companyEntity = new CompanyEntity();
+        companyEntity.setN(10L);
 
         VacancyEntity vacancyEntity1 = new VacancyEntity();
         vacancyEntity1.setN(10L);
         vacancyEntity1.setTitle("test");
+        vacancyEntity1.setCompanyEntity(companyEntity);
 
-        assertEquals(vacancyEntity, vacancyEntity1);
+        VacancyEntity vacancyEntity2 = new VacancyEntity();
+        vacancyEntity2.setN(10L);
+        vacancyEntity2.setTitle("test");
+        vacancyEntity2.setCompanyEntity(companyEntity);
+
+        assertEquals(vacancyEntity1, vacancyEntity2);
+    }
+
+    @Test
+    void testEqualsSelf() {
+        CompanyEntity companyEntity = new CompanyEntity();
+        companyEntity.setN(10L);
+
+        VacancyEntity vacancyEntity1 = new VacancyEntity();
+        vacancyEntity1.setN(10L);
+        vacancyEntity1.setTitle("test");
+        vacancyEntity1.setCompanyEntity(companyEntity);
+
+        assertEquals(vacancyEntity1, vacancyEntity1);
     }
 
     @Test
