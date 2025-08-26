@@ -518,18 +518,17 @@ class VacancyServiceImplTest {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
 
         CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
-        VacancyDto vacancyDto = new VacancyDto(0L, "TITLE 100", "DESCRIPTION 100",
+        VacancyDto vacancyDto = new VacancyDto(0L, "", "DESCRIPTION 100",
                 companyDto, "SOURCE 100", "COMMENT 100", "in_plan", "31.12.2000");
 
-        VacancyDto createdVacancy = null;
+        String errorMessage= "";
         try {
-            createdVacancy = vacancyService.create(vacancyDto);
+            vacancyService.create(vacancyDto);
         } catch (Exception e) {
-            fail(e.getMessage());
+            errorMessage = e.getMessage();
         }
 
-
-//        verify(vacancyRepository, times(1)).getMaxN();
-//        verify(vacancyRepository, times(1)).save(vacancyEntity);
+        assertEquals("field: title, error: Длина должна быть больше 5 символов.\n\n", errorMessage);
+        verify(vacancyRepository, never()).save(any(VacancyEntity.class));
     }
 }
