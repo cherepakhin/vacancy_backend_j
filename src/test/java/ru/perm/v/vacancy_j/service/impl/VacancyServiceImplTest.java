@@ -512,4 +512,24 @@ class VacancyServiceImplTest {
 
         verify(vacancyRepository, times(1)).findAll(Sort.by(Sort.Order.asc(VacancySort.TITLE)));
     }
+
+    @Test
+    void createNotValidForShortTitle() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+
+        CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
+        VacancyDto vacancyDto = new VacancyDto(0L, "TITLE 100", "DESCRIPTION 100",
+                companyDto, "SOURCE 100", "COMMENT 100", "in_plan", "31.12.2000");
+
+        VacancyDto createdVacancy = null;
+        try {
+            createdVacancy = vacancyService.create(vacancyDto);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+
+//        verify(vacancyRepository, times(1)).getMaxN();
+//        verify(vacancyRepository, times(1)).save(vacancyEntity);
+    }
 }
