@@ -338,6 +338,23 @@ class VacancyServiceImplTest {
     }
 
     @Test
+    void deleteWhenThrow() {
+        Long N = 100L;
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        when(vacancyRepository.existsById(N)).thenReturn(true);
+        doThrow(new RuntimeException("ERROR")).when(vacancyRepository).deleteById(N);
+        String err = null;
+        try {
+            vacancyService.deleteByN(N);
+        } catch (Exception e) {
+            err = e.getMessage();
+        }
+
+        verify(vacancyRepository, times(1)).deleteById(N);
+        assertEquals("Error for delete n=100: ERROR", err);
+    }
+
+    @Test
     void getMaxN() {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         long MAX_N_FROM_DB = 1L;
