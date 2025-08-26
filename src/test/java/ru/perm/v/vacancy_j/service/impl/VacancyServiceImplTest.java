@@ -381,10 +381,10 @@ class VacancyServiceImplTest {
     }
 
     @Test
-    // Тест сделан для проверки равенства спецификаций.
-    // В тестах хочется мокать запросы со specification, НО не получается.
-    // ОКАЗЫВАЕТСЯ SPECIFICATION НЕ EQUALS!!!
-    // Поэтому тесты с specification ПРИДЕТСЯ ДЕЛАТЬ через делать ANY().
+        // Тест сделан для проверки равенства спецификаций.
+        // В тестах хочется мокать запросы со specification, НО не получается.
+        // ОКАЗЫВАЕТСЯ SPECIFICATION НЕ EQUALS!!!
+        // Поэтому тесты с specification ПРИДЕТСЯ ДЕЛАТЬ через делать ANY().
     void compareSpecification() {
         List<Long> listNN = List.of(1L, 2L);
 
@@ -518,10 +518,11 @@ class VacancyServiceImplTest {
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
 
         CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
-        VacancyDto vacancyDto = new VacancyDto(0L, "", "DESCRIPTION 100",
+        String EMPTY_TITLE = "";
+        VacancyDto vacancyDto = new VacancyDto(0L, EMPTY_TITLE, "DESCRIPTION 100",
                 companyDto, "SOURCE 100", "COMMENT 100", "in_plan", "31.12.2000");
 
-        String errorMessage= "";
+        String errorMessage = "";
         try {
             vacancyService.create(vacancyDto);
         } catch (Exception e) {
@@ -531,4 +532,15 @@ class VacancyServiceImplTest {
         assertEquals("field: title, error: Длина должна быть больше 5 символов.\n\n", errorMessage);
         verify(vacancyRepository, never()).save(any(VacancyEntity.class));
     }
+
+    @Test
+    void getMaxNforStart() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        when(vacancyRepository.getMaxN()).thenReturn(null);
+
+        Long nextN = vacancyService.getNextMaxN();
+
+        assertEquals(1L, nextN);
+    }
+
 }
