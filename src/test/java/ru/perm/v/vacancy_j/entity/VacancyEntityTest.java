@@ -54,4 +54,17 @@ class VacancyEntityTest {
         assertEquals(new CompanyEntity(-1L,""), vacancyEntity.getCompanyEntity());
         assertEquals(LocalDate.of(1970, 1, 1), vacancyEntity.getDateChanged());
     }
+
+    @Test
+    void checkHashCode() {
+        VacancyEntity vacancyEntity = new VacancyEntity();
+        vacancyEntity.setN(10L);
+        vacancyEntity.setTitle("test");
+
+        VacancyEntity vacancyEntity1 = new VacancyEntity();
+        vacancyEntity1.setN(10L);
+        vacancyEntity1.setTitle("test");
+
+        assertEquals(vacancyEntity.hashCode(), vacancyEntity1.hashCode());
+    }
 }
