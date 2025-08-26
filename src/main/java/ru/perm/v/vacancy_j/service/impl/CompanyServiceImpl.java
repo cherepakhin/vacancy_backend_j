@@ -130,17 +130,9 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void delete(Long n) throws Exception {
-        if (!isExist(n)) {
+        if (!companyRepository.existsById(n)) {
             throw new Exception(format("Company n=%s not found.", n));
         }
         companyRepository.deleteById(n);
-    }
-
-    private Boolean isExist(Long n) {
-        if (companyRepository.existsById(n)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }
