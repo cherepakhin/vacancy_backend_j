@@ -456,4 +456,32 @@ class VacancyServiceImplTest {
         verify(vacancyRepository, times(1)).findAll(
                 any(Specification.class), eq(Sort.by(Sort.Order.asc("n"))));
     }
+
+    @Test
+    void getAllWithVacancySortN() {
+        VacancyEntity vacancyEntity100 = new VacancyEntity();
+        vacancyEntity100.setN(100L);
+
+        VacancyEntity vacancyEntity200 = new VacancyEntity();
+        vacancyEntity200.setN(200L);
+
+        String sortColumn = "n";
+        when(vacancyRepository.findAll(Sort.by(Sort.Order.asc(sortColumn)))).thenReturn(List.of(vacancyEntity100, vacancyEntity200));
+
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+
+        List<VacancyDto> dtos = null;
+
+        try {
+            dtos = vacancyService.getAll(VacancySort.N);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        assertEquals(2, dtos.size());
+        assertEquals(100L, dtos.get(0).getN());
+        assertEquals(200L, dtos.get(1).getN());
+
+        verify(vacancyRepository, times(1)).findAll(Sort.by(Sort.Order.asc(sortColumn)));
+    }
 }
