@@ -18,6 +18,7 @@ import ru.perm.v.vacancy_j.rest.validator.ValidatorVacancyDto;
 import ru.perm.v.vacancy_j.service.VacancyService;
 import ru.perm.v.vacancy_j.specs.VacancySpecifications;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -135,6 +136,7 @@ public class VacancyServiceImpl implements VacancyService {
         Long n = getNextMaxN();
         entity.setN(n);
         log.info(format("New entity %s", entity));
+        entity.setDateChanged(LocalDateTime.now().toLocalDate());
         VacancyEntity saved = vacancyRepository.save(entity);
         log.info(format("Saved entity %s", entity));
 
@@ -168,6 +170,7 @@ public class VacancyServiceImpl implements VacancyService {
             throw new Exception(error);
         }
         VacancyEntity entity = vacancyMapper.toEntity(vacancyDto);
+        entity.setDateChanged(LocalDateTime.now().toLocalDate());
         VacancyEntity saved = vacancyRepository.save(entity);
         return vacancyMapper.toDto(saved);
     }

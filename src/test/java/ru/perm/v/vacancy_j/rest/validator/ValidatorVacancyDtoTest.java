@@ -76,6 +76,7 @@ class ValidatorVacancyDtoTest {
         dto.setCompany(new CompanyDto());
         dto.setTitle("1234567890");
         dto.setStatus("in_plan");
+        dto.setDescription("Description");
         List<String> errors = validator.validate(dto);
 
         assertTrue(errors.contains("field: dateChanged, error: не должно быть пустым\n"));

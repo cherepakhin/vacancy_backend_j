@@ -11,11 +11,13 @@ import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.CompanyEntity;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
 import ru.perm.v.vacancy_j.entity.VacancySort;
+import ru.perm.v.vacancy_j.mapper.DateFormatter;
 import ru.perm.v.vacancy_j.repository.IVacancyRepository;
 import ru.perm.v.vacancy_j.service.VacancyService;
 import ru.perm.v.vacancy_j.specs.VacancySpecifications;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -288,10 +290,10 @@ class VacancyServiceImplTest {
         when(vacancyRepository.findById(100L)).thenReturn(Optional.of(vacancyEntity100));
         when(vacancyRepository.save(vacancyEntity100)).thenReturn(vacancyEntity100);
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
-
+        LocalDate today = LocalDateTime.now().toLocalDate();
         CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
         VacancyDto vacancyDto = new VacancyDto(100L, "TITLE 100", "DESCRIPTION 100",
-                companyDto, "SOURCE 100", "COMMENT 100", "", "31.12.2000");
+                companyDto, "SOURCE 100", "COMMENT 100", "", DateFormatter.toString(today));
 
         VacancyDto updatedVacancyDto = null;
         try {
@@ -373,12 +375,13 @@ class VacancyServiceImplTest {
         CompanyEntity companyEntity = new CompanyEntity(10L, "COMPANY 10");
         VacancyEntity vacancyEntity = new VacancyEntity(MAX_N_FROM_DB + 1L, "TITLE 100",
                 companyEntity, "DESCRIPTION 100", "SOURCE 100",
-                "COMMENT 100", "in_plan", LocalDate.of(2000, 12, 31));
+                "COMMENT 100", "in_plan", LocalDateTime.now().toLocalDate());
         when(vacancyRepository.save(vacancyEntity)).thenReturn(vacancyEntity);
-
+        LocalDate today = LocalDateTime.now().toLocalDate();
         CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
         VacancyDto vacancyDto = new VacancyDto(0L, "TITLE 100", "DESCRIPTION 100",
-                companyDto, "SOURCE 100", "COMMENT 100", "in_plan", "31.12.2000");
+                companyDto, "SOURCE 100", "COMMENT 100", "in_plan",
+                DateFormatter.toString(today));
 
         VacancyDto createdVacancy = null;
         try {
@@ -389,7 +392,8 @@ class VacancyServiceImplTest {
 
         assertEquals(
                 new VacancyDto(MAX_N_FROM_DB + 1L, "TITLE 100", "DESCRIPTION 100",
-                        companyDto, "SOURCE 100", "COMMENT 100", "in_plan", "31.12.2000"),
+                        companyDto, "SOURCE 100", "COMMENT 100", "in_plan",
+                        DateFormatter.toString(today)),
                 createdVacancy
         );
 

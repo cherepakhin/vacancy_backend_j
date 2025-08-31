@@ -1,6 +1,5 @@
 package ru.perm.v.vacancy_j.rest;
 
-import jakarta.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +47,8 @@ public class VacancyRest {
     @PostMapping("/")
     public ResponseEntity<?> update(@RequestBody VacancyDto vacancyDto) {
         log.info(format("POST update vacancyDto %s", vacancyDto));
-        List<String> errorsValidate=ValidatorVacancyDto.validate(vacancyDto);
-        if (!errorsValidate.isEmpty()){
+        List<String> errorsValidate = ValidatorVacancyDto.validate(vacancyDto);
+        if (!errorsValidate.isEmpty()) {
             String error = "";
             for (int i = 0; i < errorsValidate.size(); i++) {
                 error += errorsValidate.get(i);
@@ -76,7 +75,6 @@ public class VacancyRest {
     @PutMapping("/")
     public ResponseEntity<?> create(@RequestBody VacancyDto vacancyDto) {
         log.info(format("Create vacancyDto %s", vacancyDto));
-
         try {
             VacancyDto dto = vacancyService.create(vacancyDto);
             return ResponseEntity.ok(dto);

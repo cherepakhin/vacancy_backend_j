@@ -297,6 +297,7 @@ class VacancyRestTest {
         vacancyDto.setDateChanged("2021-01-01");
 
         VacancyRest vacancyRest = new VacancyRest();
+        vacancyRest.setVacancyService(mockVacancyService);
         ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
 
         assertEquals("field: title, error: Длина должна быть больше 5 символов.\n", errors.getBody());
