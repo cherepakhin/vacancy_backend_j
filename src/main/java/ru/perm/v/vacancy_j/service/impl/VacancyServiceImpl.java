@@ -169,6 +169,12 @@ public class VacancyServiceImpl implements VacancyService {
             log.info(error);
             throw new Exception(error);
         }
+
+        if (!optionalVacancy.isPresent()) {
+            String error = format("VacancyEntity not present");
+            log.info(error);
+            throw new Exception(error);
+        }
         VacancyEntity entity = vacancyMapper.toEntity(vacancyDto);
         entity.setDateChanged(LocalDateTime.now().toLocalDate());
         VacancyEntity saved = vacancyRepository.save(entity);

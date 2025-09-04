@@ -281,21 +281,25 @@ class VacancyServiceImplTest {
 
     @Test
     void update() {
+        Long VACANCY_N = 100L;
         CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
-        VacancyEntity vacancyEntity100 = new VacancyEntity(100L, "TITLE 100",
+        VacancyEntity vacancyEntity100 = new VacancyEntity(VACANCY_N, "TITLE 100",
                 companyEntity10, "DESCRIPTION 100",
                 "SOURCE 100", "COMMENT 100", "",
                 LocalDate.of(2000, 12, 31));
-        when(vacancyRepository.existsById(100L)).thenReturn(true);
-        when(vacancyRepository.findById(100L)).thenReturn(Optional.of(vacancyEntity100));
+        vacancyEntity100.setDateChanged(LocalDateTime.now().toLocalDate());
+        when(vacancyRepository.existsById(VACANCY_N)).thenReturn(true);
+        when(vacancyRepository.findById(VACANCY_N)).thenReturn(Optional.of(vacancyEntity100));
         when(vacancyRepository.save(vacancyEntity100)).thenReturn(vacancyEntity100);
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
         LocalDate today = LocalDateTime.now().toLocalDate();
+
         CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
-        VacancyDto vacancyDto = new VacancyDto(100L, "TITLE 100", "DESCRIPTION 100",
+        VacancyDto vacancyDto = new VacancyDto(VACANCY_N, "TITLE 100", "DESCRIPTION 100",
                 companyDto, "SOURCE 100", "COMMENT 100", "", DateFormatter.toString(today));
 
         VacancyDto updatedVacancyDto = null;
+
         try {
             updatedVacancyDto = vacancyService.update(vacancyDto);
         } catch (Exception e) {
@@ -304,8 +308,8 @@ class VacancyServiceImplTest {
 
         assertNotNull(updatedVacancyDto);
         assertEquals(vacancyDto, updatedVacancyDto);
-        verify(vacancyRepository, times(1)).existsById(100L);
-        verify(vacancyRepository, times(1)).findById(100L);
+        verify(vacancyRepository, times(1)).existsById(VACANCY_N);
+        verify(vacancyRepository, times(1)).findById(VACANCY_N);
         verify(vacancyRepository, times(1)).save(vacancyEntity100);
     }
 
