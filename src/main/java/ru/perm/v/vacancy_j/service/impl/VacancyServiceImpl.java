@@ -145,7 +145,6 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public VacancyDto update(VacancyDto vacancyDto) throws Exception {
-        //TODO: validate
         if (vacancyDto == null) {
             String error = "VacancyDto for update is null";
             log.info(error);
@@ -171,7 +170,7 @@ public class VacancyServiceImpl implements VacancyService {
         }
 
         if (!optionalVacancy.isPresent()) {
-            String error = format("VacancyEntity not present");
+            String error = "VacancyEntity not present";
             log.info(error);
             throw new Exception(error);
         }

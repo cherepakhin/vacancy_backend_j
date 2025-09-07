@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hibernate.internal.util.collections.CollectionHelper.listOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static ru.perm.v.vacancy_j.specs.VacancySpecifications.hasNGreaterThan;
@@ -568,4 +569,45 @@ class VacancyServiceImplTest {
         assertEquals(1L, nextN);
     }
 
+    @Test
+    void getAllWithSort() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        CompanyEntity companyEntity = new CompanyEntity(10L, "COMPANY 10");
+        VacancyEntity entity1 = new VacancyEntity(100L, "TITLE 100", companyEntity, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100", "", LocalDate.of(2000, 12, 31));
+        VacancyEntity entity2  = new VacancyEntity(200L, "TITLE 200", companyEntity, "DESCRIPTION 200", "SOURCE 200", "COMMENT 200", "", LocalDate.of(2000, 12, 31));
+        try {
+            when(vacancyRepository.findAll(Sort.by(Sort.Order.asc("n")))).thenReturn(listOf(entity1, entity2));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+        List<VacancyDto> dtos = null;
+        try {
+            dtos = vacancyService.getAll("n");
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        assertEquals(2, dtos.size());
+    }
+
+    @Test
+    void getAllWithVacancySort() {
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+        CompanyEntity companyEntity = new CompanyEntity(10L, "COMPANY 10");
+        VacancyEntity entity1 = new VacancyEntity(100L, "TITLE 100", companyEntity, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100", "", LocalDate.of(2000, 12, 31));
+        VacancyEntity entity2  = new VacancyEntity(200L, "TITLE 200", companyEntity, "DESCRIPTION 200", "SOURCE 200", "COMMENT 200", "", LocalDate.of(2000, 12, 31));
+        try {
+            when(vacancyRepository.findAll(Sort.by(Sort.Order.asc("n")))).thenReturn(listOf(entity1, entity2));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+        List<VacancyDto> dtos = null;
+        try {
+            dtos = vacancyService.getAll(VacancySort.N);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        assertEquals(2, dtos.size());
+    }
 }
