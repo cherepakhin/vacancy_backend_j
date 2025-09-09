@@ -71,7 +71,8 @@ public class CompanyRest {
             ),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
     })
-//TODO:  @Cacheable(value = COMPANY_CACHE, key = "#n", sync = true)
+
+    @Cacheable(value = COMPANY_CACHE, key = "#n")
     public ResponseEntity<?> getByN(
             @Parameter(description = "Номер компании", required = true)
 // @RequestParam(required = true) - для запросов типа: /users/search?name=John. Здесь другой тип запроса /users/1
@@ -151,9 +152,9 @@ public class CompanyRest {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
     })
     @Caching(
-            put = @CachePut(value = COMPANY_CACHE, key = "#n"),
             evict = @CacheEvict(value = COMPANIES_CACHE, allEntries = true)
     )
+    @CacheEvict(value = COMPANY_CACHE, key = "#n")
     public ResponseEntity<?> update(
             @Parameter(description = "Id компании", required = true)
             @PathVariable Long n,
@@ -197,11 +198,9 @@ public class CompanyRest {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
     })
     @Caching(
-            evict = {
-                    @CacheEvict(value = COMPANY_CACHE, key = "#n"),
-                    @CacheEvict(value = COMPANIES_CACHE, allEntries = true)
-            }
+            evict = @CacheEvict(value = COMPANIES_CACHE, allEntries = true)
     )
+    @CacheEvict(value = COMPANY_CACHE, key = "#n")
     public ResponseEntity<?> delete(
             @Parameter(description = "Id компании", required = true)
             @PathVariable Long n) {
@@ -221,8 +220,8 @@ public class CompanyRest {
     }
 
     @PostMapping("/find")
-    @Operation(summary = "Создать новую компанию",
-            description = "Создать новую компанию с параметрами из CompanyDTO"
+    @Operation(summary = "Найти компании по критериям",
+            description = "Найти компании по критериям"
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -233,12 +232,8 @@ public class CompanyRest {
             ),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
     })
-//    @Caching(
-//            put = @CachePut(value = COMPANY_CACHE, key = "#result.body.n"),
-//            evict = @CacheEvict(value = COMPANIES_CACHE, allEntries = true)
-//    )
     public ResponseEntity<List<CompanyDto>> findByExample(@RequestBody CompanyCriterySearch example) {
-        String message = format("Find company by example: %s", example);
+        String message = format("Find companies by example: %s", example);
         log.info(message);
         List<CompanyDto> companies = companyService.findByExample(example);
         return ResponseEntity.ok(companies);

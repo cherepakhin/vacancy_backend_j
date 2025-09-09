@@ -192,6 +192,19 @@ $ http --verify=no https://v.perm.ru:8443/api/company/2 | jq
   "n": -1,
   "name": "-"
 }
+
+$ echo "{\"nn\": [1,2]}" | https --verify=no POST https://127.0.0.1:8443/api/company/find
+[
+    {
+        "n": 1,
+        "name": "Company 1"
+    },
+    {
+        "n": 2,
+        "name": "Company 2"
+    }
+]
+
 ````
 
 (работает на сервере, НЕ РАБОТАЕТ на ноуте)
@@ -359,10 +372,18 @@ v:~/temp/vacancy$ java -jar vacancy_backend-0.0.1-SNAPSHOT.jar
 
 ````shell
 https https://v.perm.ru:8443/api/echo/MESSAGE_ECHO
-https https://v.perm.ru:8443/api/company/2     
+https https://v.perm.ru:8443/api/company/2
+echo "{\"nn\": [2]}" | https --verify=no POST https://127.0.0.1:8443/api/company/find     
 ````
 
 Можно использовать swagger [https://127.0.0.1:8443/api/swagger-ui/index.html#/](https://127.0.0.1:8443/api/swagger-ui/index.html#/)
+
+Без HTTPS проверки сертификатов:
+
+````shell
+https --verify=no https://v.perm.ru:8443/api/echo/MESSAGE_ECHO
+curl -k https://v.perm.ru:8443/api/echo/MESSAGE_ECHO
+````
 
 #### Frontend
 
