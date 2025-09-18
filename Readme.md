@@ -55,25 +55,26 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 
 ````java
     public List<VacancyDto> findByCritery(VacancyCriterySearch criterySearch) {
-        log.info(format("Find vacancy by criterySearch: %s", criterySearch));
+    log.info(format("Find vacancy by criterySearch: %s", criterySearch));
 
-        Specification<VacancyEntity> spec = VacancySpecifications.hasNGreaterThan(-1L);
+    Specification<VacancyEntity> spec = VacancySpecifications.hasNGreaterThan(-1L);
 
-        if (criterySearch.getNn().size() > 0) {
-            log.info("add NN to critery");
-            spec = spec.and(VacancySpecifications.N_In(criterySearch.getNn()));
-        }
+    if (criterySearch.getNn().size() > 0) {
+        log.info("add NN to critery");
+        spec = spec.and(VacancySpecifications.N_In(criterySearch.getNn()));
+    }
 
-        if (!criterySearch.getByName().isEmpty()) {
-            log.info("add NAME to critery");
-            spec = spec.and(VacancySpecifications.hasTitleLike(criterySearch.getByName()));
-        }
+    if (!criterySearch.getByName().isEmpty()) {
+        log.info("add NAME to critery");
+        spec = spec.and(VacancySpecifications.hasTitleLike(criterySearch.getByName()));
+    }
 
-        List<VacancyEntity> entities= vacancyRepository.findAll(spec);
-        for (VacancyEntity v : entities) {
-            log.info(format("Find vacancy by title %s", v.toString()));
-        }
-        return vacancyMapper.toListDto(entities);
+    List<VacancyEntity> entities = vacancyRepository.findAll(spec);
+    for (VacancyEntity v : entities) {
+        log.info(format("Find vacancy by title %s", v.toString()));
+    }
+    return vacancyMapper.toListDto(entities);
+}
 ````
 
 Тест ru.perm.v.vacancy_j.service.impl.VacancyServiceImplIntegrationTest:
