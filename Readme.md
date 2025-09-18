@@ -69,7 +69,7 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
             spec = spec.and(VacancySpecifications.hasTitleLike(criterySearch.getByName()));
         }
 
-        List<VacancyEntity> entities 1= vacancyRepository.findAll(spec);
+        List<VacancyEntity> entities= vacancyRepository.findAll(spec);
         for (VacancyEntity v : entities) {
             log.info(format("Find vacancy by title %s", v.toString()));
         }
