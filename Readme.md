@@ -274,3 +274,9 @@ export default axios.create({
 Версии:
 
 ветка v1 - сделано CRUD без авторизации
+
+Установка Java в Windows:
+
+````shell
+set JAVA_HOME="C:\po\jvm\jdk17"
+````
