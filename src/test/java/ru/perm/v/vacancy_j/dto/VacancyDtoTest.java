@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class VacancyDtoTest {
+public class VacancyDtoTest {
 
     @Test
-    void create() {
+    public void create() {
         VacancyDto vacancyDto = new VacancyDto();
         assertNotNull(vacancyDto);
     }

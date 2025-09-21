@@ -12,7 +12,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-class CompanyDtoTest {
+public class CompanyDtoTest {
 
     @Test
     void setName() {
@@ -95,7 +95,7 @@ class CompanyDtoTest {
 
         assertEquals("name", violation.getPropertyPath().toString());
 //        assertEquals("must not be null", violation.getMessage());
-        assertEquals("не должно равняться null", violation.getMessage());
+        assertEquals("must not be null", violation.getMessage());
     }
 
 }

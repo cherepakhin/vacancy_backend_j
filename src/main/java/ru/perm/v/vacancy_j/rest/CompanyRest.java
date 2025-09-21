@@ -32,8 +32,8 @@ import static java.lang.String.format;
 @CrossOrigin(origins = "*")
 
 @ApiResponses(@ApiResponse(responseCode = "200", useReturnTypeSchema = true))
-@Tag(name = "Company REST controller", description = "РљРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РєРѕРјРїР°РЅРёСЏРјРё")
-// Tag РґР»СЏ РіСЂСѓРїРїРёСЂРѕРІРєРё (РЅР° РїСЂРёРјРµСЂ РІСЃРµ GET Р·Р°РїСЂРѕСЃС‹ РІ РѕРґРЅРѕР№ СЃРµРєС†РёРё)
+@Tag(name = "Company REST controller", description = "Контроллер для работы с компаниями")
+// Tag для группировки (на пример все GET запросы в одной секции)
 public class CompanyRest {
 
     @Autowired
@@ -53,16 +53,16 @@ public class CompanyRest {
     }
 
     @GetMapping("/")
-    @Operation(summary = "РџРѕР»СѓС‡РёС‚СЊ РєРѕРјРїР°РЅРёСЋ РїРѕ N",
-            description = "РџРѕР»СѓС‡РёС‚СЊ РєРѕРјРїР°РЅРёСЋ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ N"
+    @Operation(summary = "Получить компанию по N",
+            description = "Получить компанию по идентификатору N"
     )
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(companyService.getAll());
     }
 
     @GetMapping("/{n}")
-    @Operation(summary = "РџРѕР»СѓС‡РёС‚СЊ РєРѕРјРїР°РЅРёСЋ РїРѕ N",
-            description = "РџРѕР»СѓС‡РёС‚СЊ РєРѕРјРїР°РЅРёСЋ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ N"
+    @Operation(summary = "Получить компанию по N",
+            description = "Получить компанию по идентификатору N"
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -71,10 +71,10 @@ public class CompanyRest {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = CompanyDto.class))}
             ),
-            @ApiResponse(responseCode = "500", description = "Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР° СЃРµСЂРІРёСЃР°")
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
     })
     public ResponseEntity<?> getByN(
-            @Parameter(description = "РќРѕРјРµСЂ РєРѕРјРїР°РЅРёРё", required = true)
+            @Parameter(description = "Номер компании", required = true)
             @Validated @Min(-1)
             @PathVariable Long n) {
         log.info(format("Get Company with n=%s", n));
