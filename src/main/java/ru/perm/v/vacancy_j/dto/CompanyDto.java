@@ -9,7 +9,7 @@ import java.util.Objects;
 @Schema(description = "Описание компании")
 public class CompanyDto extends Dto {
     @Size(min = 5, message = "Длина name в CompanyDto должна быть больше 5 символов.")
-    @NotNull
+    @NotNull(message = "name не может быть null.")
     @Schema(description = "Название компании")
     private String name;
 

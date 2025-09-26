@@ -16,8 +16,8 @@ public class ValidatorVacancyDtoTest {
 
         List<String> errors = validator.validate(dto);
 
-        assertEquals(1, errors.size());
-        assertEquals("field: title, error: Длина должна быть больше 5 символов.\n", errors.get(0));
+        assertEquals(2, errors.size());
+        assertEquals("field: title, error: не должно быть пустым\n", errors.get(0));
     }
 
     @Test

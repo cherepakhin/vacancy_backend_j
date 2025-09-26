@@ -32,8 +32,7 @@ import static java.lang.String.format;
 @CrossOrigin(origins = "*")
 
 @ApiResponses(@ApiResponse(responseCode = "200", useReturnTypeSchema = true))
-@Tag(name = "Company REST controller", description = "Контроллер для работы с компаниями")
-// Tag для группировки (на пример все GET запросы в одной секции)
+@Tag(name = "Company REST controller", description = "Description of Company REST controller")
 public class CompanyRest {
 
     @Autowired
@@ -53,16 +52,16 @@ public class CompanyRest {
     }
 
     @GetMapping("/")
-    @Operation(summary = "Получить компанию по N",
-            description = "Получить компанию по идентификатору N"
+    @Operation(summary = "Get ALL companies",
+            description = "Description of get ALL companies"
     )
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(companyService.getAll());
     }
 
     @GetMapping("/{n}")
-    @Operation(summary = "Получить компанию по N",
-            description = "Получить компанию по идентификатору N"
+    @Operation(summary = "Get company by ident N",
+            description = "Description of get company by ident N"
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -71,10 +70,10 @@ public class CompanyRest {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = CompanyDto.class))}
             ),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервиса")
+            @ApiResponse(responseCode = "500", description = "Company not found")
     })
     public ResponseEntity<?> getByN(
-            @Parameter(description = "Номер компании", required = true)
+            @Parameter(description = "ID Company", required = true)
             @Validated @Min(-1)
             @PathVariable Long n) {
         log.info(format("Get Company with n=%s", n));
