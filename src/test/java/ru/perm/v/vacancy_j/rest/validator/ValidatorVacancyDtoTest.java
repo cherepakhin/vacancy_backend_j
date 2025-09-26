@@ -6,6 +6,7 @@ import ru.perm.v.vacancy_j.dto.VacancyDto;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ValidatorVacancyDtoTest {
     @Test
@@ -17,7 +18,14 @@ public class ValidatorVacancyDtoTest {
         List<String> errors = validator.validate(dto);
 
         assertEquals(2, errors.size());
-        assertEquals("field: title, error: не должно быть пустым\n", errors.get(0));
+        boolean result = false;
+        for (String error : errors) {
+            if (error.equals("field: title, error: не должно быть пустым\n")) {
+                result = true;
+            }
+        }
+
+        assertTrue(result);
     }
 
     @Test
