@@ -22,6 +22,7 @@ public class ValidatorVacancyDtoTest {
         for (String error : errors) {
             if (error.equals("field: title, error: не должно быть пустым\n")) {
                 result = true;
+                break;
             }
         }
 
