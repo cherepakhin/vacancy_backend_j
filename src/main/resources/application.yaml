@@ -31,3 +31,23 @@ server:
   ssl.keyStoreType: PKCS12
 
 security.require-ssl: true
+
+management:
+  health:
+    probes:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: "/api/actuator"
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  server:
+    port: 8788
+

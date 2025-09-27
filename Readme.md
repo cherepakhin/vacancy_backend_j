@@ -506,3 +506,7 @@ $ sudo systemctl status vacancy_backend.service
 ./gradlew test --tests 'ru.perm.v.vacancy_j.service.impl.CompanyServiceImplIntegrationTest*'
 ./gradlew test --tests '*Assumptions*'
 ````
+
+### Spring Actuator
+
+Доступен по адресу (HTTPS!!!): [https://127.0.0.1:8788/api/actuator](https://127.0.0.1:8788/api/actuator)
