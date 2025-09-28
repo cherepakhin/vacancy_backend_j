@@ -28,6 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
     // https://mvnrepository.com/artifact/org.hibernate/hibernate-jpamodelgen
     compileOnly("org.hibernate:hibernate-jpamodelgen:6.6.5.Final")
