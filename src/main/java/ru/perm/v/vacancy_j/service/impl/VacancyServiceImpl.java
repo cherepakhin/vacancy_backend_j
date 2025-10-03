@@ -124,7 +124,7 @@ public class VacancyServiceImpl implements VacancyService {
         }
         boolean exist = vacancyRepository.existsById(vacancyDto.getN());
         if (!exist) {
-            String error = format("VacancyDto with N= %s not exist", vacancyDto.getN());
+            String error = format("VacancyDto with N=%s not exist", vacancyDto.getN());
             log.info(error);
             throw new Exception(error);
         }

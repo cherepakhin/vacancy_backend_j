@@ -50,7 +50,7 @@ public class VacancyServiceImplTest {
     }
 
     @Test
-    void getAll() {
+    public void getAll() {
         VacancyEntity vacancyEntity100 = new VacancyEntity();
         vacancyEntity100.setN(100L);
         vacancyEntity100.setTitle("TITLE 100");
@@ -68,6 +68,7 @@ public class VacancyServiceImplTest {
         vacancyEntity200.setTitle("TITLE 200");
         vacancyEntity200.setDescription("DESCRIPTION 200");
         vacancyEntity200.setLink("SOURCE 200");
+        vacancyEntity200.setComment("COMMENT 200");
         CompanyEntity companyEntity20 = new CompanyEntity();
         companyEntity20.setN(20L);
         companyEntity20.setName("COMPANY 20");
@@ -84,6 +85,7 @@ public class VacancyServiceImplTest {
         CompanyDto companyDto20 = new CompanyDto(20L, "COMPANY 20");
         assertEquals(2, dtos.size());
         assertEquals(new VacancyDto(100L, "TITLE 100", "DESCRIPTION 100", companyDto10, "SOURCE 100", "COMMENT 100", ""), dtos.get(0));
+        assertEquals(new VacancyDto(200L, "TITLE 200", "DESCRIPTION 200", companyDto20, "SOURCE 200", "COMMENT 200", ""), dtos.get(1));
     }
 
     @Test
@@ -111,33 +113,6 @@ public class VacancyServiceImplTest {
         assertEquals(1, dtos.size());
         assertEquals(100L, dtos.get(0).getN());
         assertEquals(SEARCH_TITLE, dtos.get(0).getTitle());
-    }
-
-    @Test
-    void update() {
-        CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
-        VacancyEntity vacancyEntity100 = new VacancyEntity(100L, "TITLE 100",
-                companyEntity10, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100", "");
-        when(vacancyRepository.existsById(100L)).thenReturn(true);
-        when(vacancyRepository.findById(100L)).thenReturn(Optional.of(vacancyEntity100));
-        when(vacancyRepository.save(vacancyEntity100)).thenReturn(vacancyEntity100);
-        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
-
-        CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
-        VacancyDto vacancyDto = new VacancyDto(100L, "TITLE 100", "DESCRIPTION 100",
-                companyDto, "SOURCE 100", "COMMENT 100", "");
-
-        VacancyDto updatedVacancyDto = null;
-        try {
-            updatedVacancyDto = vacancyService.update(vacancyDto);
-        } catch (Exception e) {
-            fail();
-        }
-
-        assertEquals(vacancyDto, updatedVacancyDto);
-        verify(vacancyRepository, times(1)).existsById(100L);
-        verify(vacancyRepository, times(1)).findById(100L);
-        verify(vacancyRepository, times(1)).save(vacancyEntity100);
     }
 
     @Test
@@ -210,5 +185,56 @@ public class VacancyServiceImplTest {
 
         verify(vacancyRepository, times(1)).getMaxN();
         verify(vacancyRepository, times(1)).save(vacancyEntity);
+    }
+
+    @Test
+    void update() {
+        CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
+        VacancyEntity vacancyEntity100 = new VacancyEntity(100L, "TITLE 100",
+                companyEntity10, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100", "");
+        when(vacancyRepository.existsById(100L)).thenReturn(true);
+        when(vacancyRepository.findById(100L)).thenReturn(Optional.of(vacancyEntity100));
+        when(vacancyRepository.save(vacancyEntity100)).thenReturn(vacancyEntity100);
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+
+        CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
+        VacancyDto vacancyDto = new VacancyDto(100L, "TITLE 100", "DESCRIPTION 100",
+                companyDto, "SOURCE 100", "COMMENT 100", "");
+
+        VacancyDto updatedVacancyDto = null;
+        try {
+            updatedVacancyDto = vacancyService.update(vacancyDto);
+        } catch (Exception e) {
+            fail();
+        }
+
+        assertEquals(vacancyDto, updatedVacancyDto);
+        verify(vacancyRepository, times(1)).existsById(100L);
+        verify(vacancyRepository, times(1)).findById(100L);
+        verify(vacancyRepository, times(1)).save(vacancyEntity100);
+    }
+
+    @Test
+    public void updateNotExist() {
+        Long VACANCY_N = 100L;
+        CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
+        VacancyEntity vacancyEntity100 = new VacancyEntity(VACANCY_N, "TITLE 100",
+                companyEntity10, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100", "");
+        when(vacancyRepository.existsById(VACANCY_N)).thenReturn(false);
+
+        VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
+
+        CompanyDto companyDto = new CompanyDto(10L, "COMPANY 10");
+        VacancyDto vacancyDto = new VacancyDto(VACANCY_N, "TITLE 100", "DESCRIPTION 100",
+                companyDto, "SOURCE 100", "COMMENT 100", "");
+
+        String err = "";
+        try {
+            vacancyService.update(vacancyDto);
+        } catch (Exception e) {
+            err = e.getMessage();
+        }
+
+        assertEquals("VacancyDto with N=100 not exist", err);
     }
 }
