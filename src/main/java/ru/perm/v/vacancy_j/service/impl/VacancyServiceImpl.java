@@ -12,7 +12,6 @@ import ru.perm.v.vacancy_j.dto.VacancyCriterySearch;
 import ru.perm.v.vacancy_j.dto.VacancyDto;
 import ru.perm.v.vacancy_j.entity.VacancyEntity;
 import ru.perm.v.vacancy_j.entity.VacancySort;
-import ru.perm.v.vacancy_j.mapper.CompanyMapper;
 import ru.perm.v.vacancy_j.mapper.VacancyMapper;
 import ru.perm.v.vacancy_j.repository.IVacancyRepository;
 import ru.perm.v.vacancy_j.service.VacancyService;

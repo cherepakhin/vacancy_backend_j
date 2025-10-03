@@ -217,9 +217,6 @@ public class VacancyServiceImplTest {
     @Test
     public void updateNotExist() {
         Long VACANCY_N = 100L;
-        CompanyEntity companyEntity10 = new CompanyEntity(10L, "COMPANY 10");
-        VacancyEntity vacancyEntity100 = new VacancyEntity(VACANCY_N, "TITLE 100",
-                companyEntity10, "DESCRIPTION 100", "SOURCE 100", "COMMENT 100", "");
         when(vacancyRepository.existsById(VACANCY_N)).thenReturn(false);
 
         VacancyService vacancyService = new VacancyServiceImpl(vacancyRepository);
