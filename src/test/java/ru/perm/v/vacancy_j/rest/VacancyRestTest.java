@@ -327,7 +327,7 @@ class VacancyRestTest {
         VacancyRest vacancyRest = new VacancyRest();
         ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
 
-        assertEquals("field: dateChanged, error: не должно быть пустым\n", errors.getBody());
+        assertEquals("field: dateChanged, error: must not be empty\n", errors.getBody());
     }
 
     @Test
@@ -339,7 +339,7 @@ class VacancyRestTest {
         VacancyRest vacancyRest = new VacancyRest();
         ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
 
-        assertEquals("field: status, error: не должно быть пустым\n" +
+        assertEquals("field: status, error: must not be empty\n" +
                 "field: status, error: status must be in_plan, in_work or deleted\n", errors.getBody());
     }
     @Test
@@ -352,7 +352,7 @@ class VacancyRestTest {
         VacancyRest vacancyRest = new VacancyRest();
         ResponseEntity<?> errors = vacancyRest.update(vacancyDto);
 
-        assertEquals("field: status, error: не должно быть пустым\n" +
+        assertEquals("field: status, error: must not be empty\n" +
                 "field: status, error: status must be in_plan, in_work or deleted\n", errors.getBody());
     }
 }

@@ -41,7 +41,8 @@ class ValidatorVacancyDtoTest {
         dto.setDateChanged("2020-01-01");
 
         List<String> errors = validator.validate(dto);
-        assertTrue(errors.contains("field: description, error: не должно быть пустым\n"));
+        assertEquals(1, errors.size());
+        assertTrue(errors.contains("field: description, error: must not be empty\n"));
     }
 
     @Test
@@ -52,7 +53,7 @@ class ValidatorVacancyDtoTest {
 
         List<String> errors = validator.validate(dto);
 
-        assertTrue(errors.contains("field: company, error: не должно равняться null\n"));
+        assertTrue(errors.contains("field: company, error: must not be null\n"));
     }
 
     @Test
@@ -66,7 +67,9 @@ class ValidatorVacancyDtoTest {
         dto.setStatus(null);
         List<String> errors = validator.validate(dto);
 
-        assertTrue(errors.contains("field: status, error: не должно быть пустым\n"));
+        assertEquals(2, errors.size());
+        assertEquals("field: status, error: must not be empty\n", errors.get(0));
+        assertEquals("field: status, error: status must be in_plan, in_work or deleted\n", errors.get(1));
     }
 
     @Test
@@ -79,7 +82,7 @@ class ValidatorVacancyDtoTest {
         dto.setDescription("Description");
         List<String> errors = validator.validate(dto);
 
-        assertTrue(errors.contains("field: dateChanged, error: не должно быть пустым\n"));
+        assertTrue(errors.contains("field: dateChanged, error: must not be empty\n"));
     }
 
     @Test

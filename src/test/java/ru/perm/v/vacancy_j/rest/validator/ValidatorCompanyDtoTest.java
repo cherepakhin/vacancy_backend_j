@@ -26,6 +26,6 @@ public class ValidatorCompanyDtoTest {
         dto.setName(null);
         List<String> errors = validator.validate(dto);
         assertTrue(errors.size() == 1);
-        assertEquals("field: name, error: не должно равняться null\n", errors.get(0));
+        assertEquals("field: name, error: must not be null\n", errors.get(0));
     }
 }

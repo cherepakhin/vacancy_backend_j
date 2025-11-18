@@ -126,12 +126,12 @@ public class CompanyRest {
         companyDto.setN(-1L);
         log.info(message);
         Validator validator = validatorFactory.getValidator();
-//        Set<ConstraintViolation<CompanyDto>> violations = validator.validate(companyDto);
-//        if (!violations.isEmpty()) {
-//            List<ConstraintViolation<CompanyDto>> listViolations = violations.stream().toList();
-//            String error = listViolationToString(listViolations);
-//            return ResponseEntity.internalServerError().body(error);
-//        }
+        Set<ConstraintViolation<CompanyDto>> violations = validator.validate(companyDto);
+        if (!violations.isEmpty()) {
+            List<ConstraintViolation<CompanyDto>> listViolations = violations.stream().toList();
+            String error = listViolationToString(listViolations);
+            return ResponseEntity.internalServerError().body(error);
+        }
         try {
             CompanyDto dto = companyService.create(companyDto);
             message = format("Created %s", dto);
