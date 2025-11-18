@@ -53,7 +53,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //        6. С кешем его работать не учили.
 //
 //        7. Нет тестов на ошибки.
-// Короче, весь тест пришлось править.
+// Короче, весь тест пришлось ПЕРЕПИСЫВАТЬ.
 
 @WebMvcTest(CompanyRest.class)
 class CompanyRestPerplexityMvcTest {
@@ -117,7 +117,7 @@ class CompanyRestPerplexityMvcTest {
     }
 
     @Test
-    void getAllWithConvertoerObjectMapper() throws Exception {
+    void getAllWithConverterObjectMapper() throws Exception {
         CompanyDto company0 = new CompanyDto(1L, "Company A");
         CompanyDto company1 = new CompanyDto(2L, "Company B");
         when(companyService.getAll()).thenReturn(List.of(company0, company1));
