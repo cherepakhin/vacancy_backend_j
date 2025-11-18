@@ -19,7 +19,6 @@ public class CompanyDto extends Dto {
 
     public CompanyDto(Long n, String name) {
         super(n);
-
         this.name = name;
     }
 

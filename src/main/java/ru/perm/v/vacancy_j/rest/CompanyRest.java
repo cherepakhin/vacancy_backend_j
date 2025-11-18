@@ -19,6 +19,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -106,7 +108,7 @@ public class CompanyRest {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
                     description = "Ok",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = CompanyDto.class))}
@@ -121,17 +123,21 @@ public class CompanyRest {
             @Parameter(description = "Описание компании", required = true)
             @RequestBody CompanyDto companyDto) {
         String message = format("Create %s", companyDto);
+        companyDto.setN(-1L);
         log.info(message);
         Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<CompanyDto>> violations = validator.validate(companyDto);
-        if (!violations.isEmpty()) {
-            List<ConstraintViolation<CompanyDto>> listViolations = violations.stream().toList();
-            String error = listViolationToString(listViolations);
-            return ResponseEntity.internalServerError().body(error);
-        }
+//        Set<ConstraintViolation<CompanyDto>> violations = validator.validate(companyDto);
+//        if (!violations.isEmpty()) {
+//            List<ConstraintViolation<CompanyDto>> listViolations = violations.stream().toList();
+//            String error = listViolationToString(listViolations);
+//            return ResponseEntity.internalServerError().body(error);
+//        }
         try {
             CompanyDto dto = companyService.create(companyDto);
-            return ResponseEntity.ok(dto);
+            message = format("Created %s", dto);
+            log.info(message);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .contentType(MediaType.APPLICATION_JSON).body(dto);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
