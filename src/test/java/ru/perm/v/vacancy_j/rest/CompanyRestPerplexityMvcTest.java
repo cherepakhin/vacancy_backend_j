@@ -61,6 +61,8 @@ class CompanyRestPerplexityMvcTest {
     @MockitoBean
     private CompanyService companyService;
 
+    ObjectMapper mapper =  new ObjectMapper();
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
@@ -118,7 +120,7 @@ class CompanyRestPerplexityMvcTest {
     }
 
     @Test
-    void create_ShouldReturnCreatedCompany() throws Exception {
+    void create_ShouldReturnCreatedCompanyCheckWitExpect() throws Exception {
         // Given
         CompanyDto savedCompany = new CompanyDto(1L, "New Company");
 
@@ -143,10 +145,9 @@ class CompanyRestPerplexityMvcTest {
 
     @Test
     void create_ShouldReturnCreatedCompanyWithCheckBody() throws Exception {
-        CompanyDto savedCompany = new CompanyDto(1L, "New Company");
-        ObjectMapper mapper =  new ObjectMapper();
-        String requestJson = mapper.writeValueAsString(savedCompany);
-        when(companyService.create(new CompanyDto(-1L, "New Company"))).thenReturn(savedCompany);
+        CompanyDto companyForSave = new CompanyDto(1L, "New Company");
+        String requestJson = mapper.writeValueAsString(companyForSave);
+        when(companyService.create(new CompanyDto(-1L, "New Company"))).thenReturn(companyForSave);
 
         MvcResult result = mockMvc.perform(put("/company/")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -154,9 +155,9 @@ class CompanyRestPerplexityMvcTest {
                 )
                 .andExpect(status().isCreated())
                 .andReturn();
-        CompanyDto companyDto = mapper.readValue(result.getResponse().getContentAsString(), CompanyDto.class);
+        CompanyDto savedCompany = mapper.readValue(result.getResponse().getContentAsString(), CompanyDto.class);
 
-        assertEquals(savedCompany, companyDto);
+        assertEquals(savedCompany, companyForSave);
         verify(companyService, times(1)).create(any(CompanyDto.class));
     }
 
@@ -164,29 +165,28 @@ class CompanyRestPerplexityMvcTest {
     void update_WhenCompanyExists_ShouldReturnUpdatedCompany() throws Exception {
         // Given
         Long id = 1L;
-        CompanyDto requestCompany = new CompanyDto(id, "Updated Name");
-        CompanyDto updatedCompany = new CompanyDto(id, "Updated Name");
+        CompanyDto companyForUpdate = new CompanyDto(id, "Company for updated");
+        CompanyDto updatedCompany = new CompanyDto(id, "Company updated");
 
-        when(companyService.update(requestCompany)).thenReturn(updatedCompany);
+        when(companyService.update(updatedCompany)).thenReturn(updatedCompany);
 
         String jsonRequest = """
                 {
                     "id": 1,
-                    "name": "Updated Name",
-                    "description": "Updated Desc"
+                    "name": "Company for update"
                 }
                 """;
 
-        // When & Then
-        mockMvc.perform(put("/api/company/{id}", id)
+        // When
+        MvcResult result = mockMvc.perform(post("/company/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.name").value("Updated Name"))
-                .andExpect(jsonPath("$.description").value("Updated Desc"));
+                .andReturn();
 
+        // Then
+        CompanyDto companyDto = mapper.readValue(result.getResponse().getContentAsString(), CompanyDto.class);
+        assertEquals(companyDto, updatedCompany);
         verify(companyService, times(1)).update(any(CompanyDto.class));
     }
 

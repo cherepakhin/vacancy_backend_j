@@ -183,7 +183,8 @@ public class CompanyRest {
         }
         try {
             CompanyDto dto = companyService.update(companyDto);
-            return ResponseEntity.ok(dto);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON).body(dto);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
