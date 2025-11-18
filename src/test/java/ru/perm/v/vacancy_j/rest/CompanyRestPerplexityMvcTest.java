@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // https://www.perplexity.ai/search/napishi-unit-test-dlia-https-g-vGJ2l23USiyLuXn79QLCKA
@@ -162,31 +163,40 @@ class CompanyRestPerplexityMvcTest {
     }
 
     @Test
-    void update_WhenCompanyExists_ShouldReturnUpdatedCompany() throws Exception {
+    void update_WhenCompanyExists() throws Exception {
         // Given
-        Long id = 1L;
-        CompanyDto companyForUpdate = new CompanyDto(id, "Company for updated");
-        CompanyDto updatedCompany = new CompanyDto(id, "Company updated");
+        Long ID = 100L;
+        CompanyDto companyForUpdate = new CompanyDto(ID, "Company for update1");
+        CompanyDto updatedCompany = new CompanyDto(ID, "Company updated");
 
-        when(companyService.update(updatedCompany)).thenReturn(updatedCompany);
+        when(companyService.update(companyForUpdate)).thenReturn(updatedCompany);
 
         String jsonRequest = """
                 {
-                    "id": 1,
-                    "name": "Company for update"
+                    "n": 100,
+                    "name": "Company for update1"
                 }
                 """;
 
         // When
-        MvcResult result = mockMvc.perform(post("/company/{id}", id)
+        MvcResult mvcResult = mockMvc.perform(post("/company/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
 
         // Then
-        CompanyDto companyDto = mapper.readValue(result.getResponse().getContentAsString(), CompanyDto.class);
-        assertEquals(companyDto, updatedCompany);
+// DEBUG
+//        System.out.println("------------------------------------result");
+//        System.out.println(result);
+//        System.out.println("------------------------------------getResponse");
+//        System.out.println(result.getResponse());
+//        System.out.println("------------------------------------getContentAsString");
+//        System.out.println(result.getResponse().getContentAsString());
+        CompanyDto companyDto = mapper.readValue(mvcResult.getResponse().getContentAsString(),
+                CompanyDto.class);
+        assertEquals(updatedCompany, companyDto);
         verify(companyService, times(1)).update(any(CompanyDto.class));
     }
 

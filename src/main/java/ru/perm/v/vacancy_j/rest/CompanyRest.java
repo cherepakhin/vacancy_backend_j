@@ -166,7 +166,7 @@ public class CompanyRest {
             @PathVariable Long n,
             @Parameter(description = "Описание компании", required = true)
             @RequestBody CompanyDto companyDto) {
-        String message = format("Company update n=%s %s", n, companyDto);
+        String message = format("Company update n=%s companyDto=%s", n, companyDto);
         log.info(message);
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<CompanyDto>> violations = validator.validate(companyDto);
@@ -183,6 +183,8 @@ public class CompanyRest {
         }
         try {
             CompanyDto dto = companyService.update(companyDto);
+            message = format("Updated %s", dto);
+            log.info(message);
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON).body(dto);
         } catch (Exception e) {
