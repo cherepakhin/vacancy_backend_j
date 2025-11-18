@@ -51,6 +51,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //        6. С кешем его работать не учили.
 //
 //        7. Нет тестов на ошибки.
+// Короче, весь тест пришлось править.
+
 @WebMvcTest(CompanyRest.class)
 class CompanyRestPerplexityMvcTest {
 
@@ -201,14 +203,14 @@ class CompanyRestPerplexityMvcTest {
     }
 
     @Test
-    void delete_WhenCompanyExists_ShouldReturnNoContent() throws Exception {
+    void delete_WhenCompanyExists() throws Exception {
         // Given
-        Long id = 1L;
-
+        Long ID = 1L;
+        doNothing().when(companyService).delete(ID);
         // When & Then
-        mockMvc.perform(delete("/api/company/{id}", id))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(delete("/company/{id}", ID))
+                .andExpect(status().isOk());
 
-        verify(companyService, times(1)).delete(id);
+        verify(companyService, times(1)).delete(ID);
     }
 }

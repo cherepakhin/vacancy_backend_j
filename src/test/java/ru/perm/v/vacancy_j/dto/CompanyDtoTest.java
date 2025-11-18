@@ -94,7 +94,7 @@ class CompanyDtoTest {
         ConstraintViolation<CompanyDto> violation = listViolations.get(0);
 
         assertEquals("name", violation.getPropertyPath().toString());
-        assertEquals("не должно равняться null", violation.getMessage());
+        assertEquals("must not be null", violation.getMessage());
     }
 
 }
