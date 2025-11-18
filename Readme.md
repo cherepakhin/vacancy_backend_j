@@ -55,6 +55,9 @@ server:
 
 ````
 
+Тест
+[https://v.perm.ru:8443/api/vacancy/](https://v.perm.ru:8443/api/vacancy/)
+
 Использован flyway. Для обновления структуры базы данных выполнить:
 
 ````shell
@@ -136,10 +139,8 @@ __2.__ Можно использовать утилиту HTTPIE  [https://httpi
 Для проверок на локальном компьютере. __КЛЮЧЕВОЙ ПАРАМЕТР__ --verify=no:
 
 ````shell
-$ https --verify=no https://127.0.0.1:8443/api/echo/MESSAGE
-MESSAGE
+$ https --verify=no https://localhost:8090/api/echo/MESSAGE_ECHO
 
-$ https --verify=no https://v:8443/api/echo/MESSAGE
 HTTP/1.1 200 
 Connection: keep-alive
 Content-Length: 7
@@ -151,13 +152,20 @@ MESSAGE
 ````
 
 ````shell
-$ https --verify=no https://127.0.0.1:8443/api/company/ | jq
-(https --verify=no https://127.0.0.1:8443/api/company/ | jq)
+$ https --verify=no https://127.0.0.1:8090/api/company/ | jq
 [
-    {
-      "n": 2,
-      "name": "Company 2"
-    }
+  {
+    "n": -1,
+    "name": "-"
+  },
+  {
+    "n": 1,
+    "name": "Company 1"
+  },
+  {
+    "n": 2,
+    "name": "Company 2"
+  }
 ]
 ````
 
@@ -165,8 +173,8 @@ $ https --verify=no https://127.0.0.1:8443/api/company/ | jq
 
 
 ````shell
-$ https https://v.perm.ru:8443/api/vacancy/2
-(https --verify=no https://127.0.0.1:8443/api/vacancy/2 | jq)
+$ https --verify=no https://127.0.0.1:8090/api/vacancy/2
+(https --verify=no https://127.0.0.1:8090/api/vacancy/2 | jq)
 HTTP/1.1 200 
 Connection: keep-alive
 Content-Type: application/json
@@ -187,13 +195,22 @@ Vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers
     "title": "Vacancy 2 Company 1"
 }
 
-$ http --verify=no https://v.perm.ru:8443/api/company/2 | jq
+$ https --verify=no https://127.0.0.1:8090/api/vacancy/2 | jq
 {
-  "n": -1,
-  "name": "-"
+  "n": 2,
+  "title": "Vacancy 2 Company 1",
+  "description": "Description Vacancy 2 Company 1",
+  "company": {
+    "n": 1,
+    "name": "Company 1"
+  },
+  "source": "Link 21",
+  "comment": "Comment 2",
+  "status": "in_plan",
+  "dateChanged": "18.11.2025"
 }
 
-$ echo "{\"nn\": [1,2]}" | https --verify=no POST https://127.0.0.1:8443/api/company/find
+$ echo "{\"nn\": [1,2]}" | https --verify=no https://127.0.0.1:8090/api/company/find
 [
     {
         "n": 1,
@@ -207,19 +224,17 @@ $ echo "{\"nn\": [1,2]}" | https --verify=no POST https://127.0.0.1:8443/api/com
 
 ````
 
-(работает на сервере, НЕ РАБОТАЕТ на ноуте)
-
 __3.__ Ручные тестовые запросы HTTPS через CURL (использовать ключ --insecure):
 
 ````shell
-curl -X 'GET' --insecure https://127.0.0.1:8443/api/company/2
-curl -X 'GET' --insecure https://192.168.1.57:8443/api/company/2 
+curl -X 'GET' --insecure https://127.0.0.1:8090/api/company/2
+curl -X 'GET' --insecure https://192.168.1.79:8090/api/company/2 
 ````
 
 форматированный вывод и статистика (использован jq):
 
 ````shell
-curl -X 'GET' --insecure https://127.0.0.1:8443/api/company/2 | jq
+curl -X 'GET' --insecure https://127.0.0.1:8090/api/company/2 | jq
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100    19    0    19    0     0    463      0 --:--:-- --:--:-- --:--:--   463
@@ -230,7 +245,7 @@ curl -X 'GET' --insecure https://127.0.0.1:8443/api/company/2 | jq
 ````
 
 __4.__ Ручные тестовые запросы через браузер:
-[https://127.0.0.1:8443/api/company/2](https://127.0.0.1:8443/api/company/2)
+[https://127.0.0.1:8090/api/company/2](https://127.0.0.1:8090/api/company/2)
 
 ````
 {
@@ -239,7 +254,7 @@ __4.__ Ручные тестовые запросы через браузер:
 }
 ````
 
-[https://127.0.0.1:8443/api/vacancy/2](https://127.0.0.1:8443/api/vacancy/2)
+[https://127.0.0.1:8090/api/vacancy/2](https://127.0.0.1:8090/api/vacancy/2)
 
 ````
 {
@@ -255,7 +270,7 @@ __4.__ Ручные тестовые запросы через браузер:
 }
 ````
 
-[https://127.0.0.1:8443/api/vacancy/](https://127.0.0.1:8443/api/vacancy/)
+[https://127.0.0.1:8090/api/vacancy/](https://127.0.0.1:8090/api/vacancy/)
 
 ````
 [
@@ -301,7 +316,7 @@ springBoot {
 запуск на другом порту:
 
 ````shell
-/usr/lib/jvm/java-17-openjdk-amd64/bin/java -Dserver.port=8090 -jar vacancy_backend-0.0.1-SNAPSHOT.jar
+/usr/lib/jvm/java-17-openjdk-amd64/bin/java -Dserver.port=8090 -jar build/libs/vacancy_backend-0.0.1-SNAPSHOT.jar
 ````
 
 #### WAR
@@ -376,13 +391,13 @@ https https://v.perm.ru:8443/api/company/2
 echo "{\"nn\": [2]}" | https --verify=no POST https://127.0.0.1:8443/api/company/find     
 ````
 
-Можно использовать swagger [https://127.0.0.1:8443/api/swagger-ui/index.html#/](https://127.0.0.1:8443/api/swagger-ui/index.html#/)
+TODO: Можно использовать swagger [https://127.0.0.1:8443/api/swagger-ui/index.html#/](https://127.0.0.1:8443/api/swagger-ui/index.html#/)
 
 Без HTTPS проверки сертификатов:
 
 ````shell
-https --verify=no https://v.perm.ru:8443/api/echo/MESSAGE_ECHO
-curl -k https://v.perm.ru:8443/api/echo/MESSAGE_ECHO
+https --verify=no https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
+curl -k https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
 ````
 
 #### Frontend
@@ -519,10 +534,10 @@ $ sudo systemctl status vacancy_backend.service
 
 #### Prometheus
 
-Подключен Prometheus [https://127.0.0.1:8788/api/actuator/prometheus](https://127.0.0.1:8788/api/actuator/prometheus)
+URL для Prometheus [https://127.0.0.1:8788/api/actuator/prometheus](https://127.0.0.1:8788/api/actuator/prometheus)
 
 ````shell
-curl -k https://192.168.1.57:8788/api/actuator/prometheus
+curl -k https://127.0.0.1:8788/api/actuator/prometheus
 ````
 
 Развернут Prometheus service на локальной машине. Просмотр метрик:
