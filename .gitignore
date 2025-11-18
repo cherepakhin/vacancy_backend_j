@@ -39,3 +39,4 @@ out/
 src/main/resources/keystore.p12
 src/main/resources/v_perm_ru.p12
 
+htmlReport/
