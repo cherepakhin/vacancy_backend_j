@@ -1,6 +1,8 @@
 package ru.perm.v.vacancy_j.rest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -89,6 +91,49 @@ class CompanyRestPerplexityMvcTest {
                 .andExpect(jsonPath("$[1].n").value(2L))
                 .andExpect(jsonPath("$[1].name").value("Company B"));
 
+        verify(companyService, times(1)).getAll();
+    }
+
+    @Test
+    void getAll() throws Exception {
+        // Given
+        CompanyDto company0 = new CompanyDto(1L, "Company A");
+        CompanyDto company1 = new CompanyDto(2L, "Company B");
+        when(companyService.getAll()).thenReturn(List.of(company0, company1));
+
+        // When
+        MvcResult result = this.mockMvc.perform(get("/company/"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String json = result.getResponse().getContentAsString();
+
+        // Then
+        List<CompanyDto> companies = mapper.readValue(json, new TypeReference<List<CompanyDto>>() {});
+        assertEquals(2, companies.size());
+        assertEquals(company0, companies.get(0));
+        assertEquals(company1, companies.get(1));
+        verify(companyService, times(1)).getAll();
+    }
+
+    @Test
+    void getAllWithConvertoerObjectMapper() throws Exception {
+        CompanyDto company0 = new CompanyDto(1L, "Company A");
+        CompanyDto company1 = new CompanyDto(2L, "Company B");
+        when(companyService.getAll()).thenReturn(List.of(company0, company1));
+
+        MvcResult result = this.mockMvc.perform(get("/company/"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String json = result.getResponse().getContentAsString();
+
+        CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(List.class, CompanyDto.class);
+        List<CompanyDto> companies = mapper.readValue(json, collectionType);
+
+        assertEquals(2, companies.size());
+        assertEquals(company0, companies.get(0));
+        assertEquals(company1, companies.get(1));
         verify(companyService, times(1)).getAll();
     }
 
