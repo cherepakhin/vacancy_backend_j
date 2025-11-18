@@ -9,9 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.perm.v.vacancy_j.dto.CompanyDto;
 import ru.perm.v.vacancy_j.service.CompanyService;
@@ -20,6 +22,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -257,5 +260,32 @@ class CompanyRestPerplexityMvcTest {
                 .andExpect(status().isOk());
 
         verify(companyService, times(1)).delete(ID);
+    }
+
+    @Test
+    void delete_WhenCompany_NOT_Exists() throws Exception {
+        // Given
+        Long ID = 1L;
+        doThrow(new Exception("Company not found")).when(companyService).getByN(ID);
+        // When
+        mockMvc.perform(delete("/company/{id}", ID))
+                .andExpect(status().is5xxServerError());
+        //Then
+        verify(companyService, never()).delete(ID);
+    }
+
+    @Test
+    void delete_WhenCompany_NOT_Exists_Check_Message() throws Exception {
+        // Given
+        Long ID = 1L;
+        doThrow(new Exception("Company not found")).when(companyService).getByN(ID);
+        // When
+        ResultActions result = mockMvc.perform(delete("/company/{id}", ID));
+        //Then
+        verify(companyService, never()).delete(ID);
+
+        MockHttpServletResponse response = result.andReturn().getResponse();
+        assertTrue(response.getContentAsString().equals("Company not found"));
+        assertEquals("Company not found", response.getContentAsString());
     }
 }
