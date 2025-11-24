@@ -16,8 +16,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(EchoRest.class)
-@Import(EchoRestGigaTest.TestConfig.class)
-public class EchoRestGigaTest {
+@Import(EchoRestLoggerTest.TestConfig.class)
+public class EchoRestLoggerTest {
 
     @Autowired
     private MockMvc mockMvc;
