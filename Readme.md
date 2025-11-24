@@ -549,5 +549,9 @@ curl -k https://127.0.0.1:8788/api/actuator/prometheus
 
 ![grafana1](doc/grafana1.png)
 
+### Внедрение Spring bean в тест с @Import
+
+Вся механика описана в тесте.
+
 ### Ссылки
 [Get JSON Content as Object Using MockMVC](https://www.baeldung.com/spring-mockmvc-fetch-json)

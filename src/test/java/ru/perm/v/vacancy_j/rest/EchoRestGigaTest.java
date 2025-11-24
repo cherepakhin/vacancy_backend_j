@@ -26,10 +26,10 @@ public class EchoRestGigaTest {
     private Logger logger;
 
     // Пояснения по тесту:
-    // EchoRest создается полностью, штатно SpringBoot-ом
-    // НО. Logger создается в конфигурации EchoRestGigaTest.TestConfig
-    // Причем создается хитро, через штатный метод с @Bean, @Primary (и это внедряется в контекст)
-    // НО!!! Этот бин создается как мок.
+    // EchoRest создается полностью, штатно SpringBoot-ом и Logger объявлен через @Autowrired
+    // НО. Бин Loggerа создается в конфигурации EchoRestGigaTest.TestConfig
+    // Причем создается хитро, в runtime, через штатный метод с @Bean, @Primary (и это внедряется в контекст)
+    // НО!!! Этот бин создается как мок и его работу можно протестировать.
     // УХХХХ!!!
     @Test
     public void testEcho_NormalMessage_ReturnsSameMessage() throws Exception {
