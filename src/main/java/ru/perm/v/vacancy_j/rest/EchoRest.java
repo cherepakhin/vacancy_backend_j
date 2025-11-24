@@ -1,5 +1,6 @@
 package ru.perm.v.vacancy_j.rest;
 
+import jakarta.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,9 @@ public class EchoRest {
     @Operation(summary = "Echo controller", description = "Позволяет проверить REST сервис")
     public String echo(
             @Parameter(description = "Тестовое сообщение", required = true)
-            @PathVariable String message) {
+            @PathVariable 
+            @Size(max = 20, message = "Длина сообщения не должна превышать 20 символов")
+            String message) {
         log.info("Echo message: {}", message);
         return message;
     }
