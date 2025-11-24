@@ -79,25 +79,26 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 
 ````java
     public List<VacancyDto> findByCritery(VacancyCriterySearch criterySearch) {
-        log.info(format("Find vacancy by criterySearch: %s", criterySearch));
+    log.info(format("Find vacancy by criterySearch: %s", criterySearch));
 
-        Specification<VacancyEntity> spec = VacancySpecifications.hasNGreaterThan(-1L);
+    Specification<VacancyEntity> spec = VacancySpecifications.hasNGreaterThan(-1L);
 
-        if (criterySearch.getNn().size() > 0) {
-            log.info("add NN to critery");
-            spec = spec.and(VacancySpecifications.N_In(criterySearch.getNn()));
-        }
+    if (criterySearch.getNn().size() > 0) {
+        log.info("add NN to critery");
+        spec = spec.and(VacancySpecifications.N_In(criterySearch.getNn()));
+    }
 
-        if (!criterySearch.getByName().isEmpty()) {
-            log.info("add NAME to critery");
-            spec = spec.and(VacancySpecifications.hasTitleLike(criterySearch.getByName()));
-        }
+    if (!criterySearch.getByName().isEmpty()) {
+        log.info("add NAME to critery");
+        spec = spec.and(VacancySpecifications.hasTitleLike(criterySearch.getByName()));
+    }
 
-        List<VacancyEntity> entities 1= vacancyRepository.findAll(spec);
-        for (VacancyEntity v : entities) {
-            log.info(format("Find vacancy by title %s", v.toString()));
-        }
-        return vacancyMapper.toListDto(entities);
+    List<VacancyEntity> entities = vacancyRepository.findAll(spec);
+    for (VacancyEntity v : entities) {
+        log.info(format("Find vacancy by title %s", v.toString()));
+    }
+    return vacancyMapper.toListDto(entities);
+}
 ````
 
 Тест ru.perm.v.vacancy_j.service.impl.VacancyServiceImplIntegrationTest:
@@ -549,9 +550,11 @@ curl -k https://127.0.0.1:8788/api/actuator/prometheus
 
 ![grafana1](doc/grafana1.png)
 
-### Внедрение Spring bean в тест с @Import
+### Тестирование Spring bean с @TestConfiguration
 
+Внедрение Spring bean в тест с @Import
 Вся механика описана в тесте.
+[Testing with Spring Boot’s @TestConfiguration Annotation](https://reflectoring.io/spring-boot-testconfiguration/)
 
 ### Ссылки
 [Get JSON Content as Object Using MockMVC](https://www.baeldung.com/spring-mockmvc-fetch-json)

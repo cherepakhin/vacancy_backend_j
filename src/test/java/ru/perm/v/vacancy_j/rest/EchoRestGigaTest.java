@@ -31,6 +31,7 @@ public class EchoRestGigaTest {
     // Причем создается хитро, в runtime, через штатный метод с @Bean, @Primary (и это внедряется в контекст)
     // НО!!! Этот бин создается как мок и его работу можно протестировать.
     // УХХХХ!!!
+    // https://reflectoring.io/spring-boot-testconfiguration/
     @Test
     public void testEcho_NormalMessage_ReturnsSameMessage() throws Exception {
         String message = "hello";
