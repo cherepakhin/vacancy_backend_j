@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 @CrossOrigin(origins = "*")
 @Tag(name = "Echo REST controller", description = "Controller for Echo test") // Tag для группировки (на пример все GET запросы в одной секции)
 public class EchoRest {
+
     Logger log = LoggerFactory.getLogger(EchoRest.class);
     @GetMapping("/{message}")
     @Operation(summary = "Echo controller", description = "Позволяет проверить REST сервис")
