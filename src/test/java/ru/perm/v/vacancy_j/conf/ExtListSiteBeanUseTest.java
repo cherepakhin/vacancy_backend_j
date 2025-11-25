@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @SpringBootTest
 public class ExtListSiteBeanUseTest {
+    // Так можно получить список сайтов из конфигурации как Bean
     @Autowired
     private List<ExtSiteDto> listExtSiteDto;
 
