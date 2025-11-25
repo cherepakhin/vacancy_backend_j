@@ -16,7 +16,7 @@ class CreatorExtListSiteTest {
 
         assertEquals(3, sites.size());
         assertEquals(new ExtSiteDto("hh.ru","https://hh.ru"), sites.get(0));
-        assertEquals(new ExtSiteDto("trudvsem.ru","https://trudvsem.ru/"), sites.get(1));
+        assertEquals(new ExtSiteDto("trudvsem.ru","https://trudvsem.ru"), sites.get(1));
         assertEquals(new ExtSiteDto("v.perm.ru","https://v.perm.ru"), sites.get(2));
     }
 
