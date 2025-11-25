@@ -8,35 +8,35 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Primary;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
- * Тестирование создания бинов в Spring Boot
-*/
+ * Тестирование создания бина в Spring Boot
+ */
 @WebMvcTest(EchoRest.class) // Нужно чтобы поднять контекст Spring Boot. Вместо EchoRest можно указать любой сервис
-@Import(BeanCreatorTest.TestConfig.class)
+@Import(BeanCreatorTest.TestConfig.class) // генерируемый контекст. См ниже
 public class BeanCreatorTest {
 
-//    @Autowired
-//    private MockMvc mockMvc;
-
-    // Этот типа обычный bean из Spring Context, т.к. @Autowired,
-    // Но реально он создается в @TestConfiguration.
+    // Этот типа обычный bean из Spring Context (типа RestController и т.п.)
+    // Он типа @Autowired, НО (!!!) реально он создается в TestConfig.
+    // См. выше @Import(BeanCreatorTest.TestConfig.class)
     @Autowired
     Logger logger;
 
-    // В реальном проекте подобные beans создаются в @Configuration
+    // В реальном проекте подобные beans создаются автоматом или в @Configuration
+    // Можно вынести в отдельный файл
+    // static потому что должен создаваться раньше всех и в единственном экземпляре
     @TestConfiguration
     static class TestConfig {
-        // Генерация бина для тестирования
+        // Генерация бина "logger" для тестирования
         @Bean
-        @Primary
         Logger logger() {
-            // В контекст вставляется не реальный бин, а мок-объект.
-            // Примечание: для тестов можно обойтись @MockBean,
-            // но тут тестируется схема работы ГЕНЕРАЦИИ бинов в Spring Boot
+            // ДЛЯ ТЕСТА в контекст вставляется не реальный бин, а мок-объект, но с именем "logger".
+            // Примечание: в обычных тестах можно обойтись @MockBean,
+            // но тут ДЕМОНСТРИРУЕТСЯ схема работы ГЕНЕРАЦИИ бинов в Spring Boot
             System.out.println("Create mock Logger");
             return Mockito.mock(Logger.class);
         }
@@ -50,16 +50,28 @@ public class BeanCreatorTest {
     // https://reflectoring.io/spring-boot-testconfiguration/
     @Test
     public void testLogger() throws Exception {
-        String message = "hello";
-
-        // MOCK logger создался в Spring контексте?
+        // Проверка, что MOCK logger создался в Spring контексте
         // Он помечен как @Autowired, но создается в конфигурации TestConfig
         assertNotNull(logger);
 
         // test
+        logger.info("Echo message: hello");
+
+        // verify
+        verify(logger, times(1)).info("Echo message: hello");
+    }
+
+    @Test
+    public void testLoggerWithParameter() throws Exception {
+        // Проверка, что MOCK logger создался в Spring контексте
+        // Он помечен как @Autowired, но создается в конфигурации TestConfig
+        assertNotNull(logger);
+
+        String message = "hello";
+        // test
         logger.info("Echo message: {}", message);
 
         // verify
-        org.mockito.Mockito.verify(logger).info("Echo message: {}", message);
+        verify(logger, times(1)).info("Echo message: {}", message);
     }
 }
