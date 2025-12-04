@@ -4,7 +4,6 @@
 
 Создать приложение на Java и Camunda для проекта "Ищу работу"
 
-
 ОБЯЗАТЕЛЬНО установить имя и пароль для доступа к базе данных postgres:
 
 ````shell
@@ -119,21 +118,22 @@ http POST :8090/api/vacancy/find < src/resources/VacancyCriterySearchByName.json
 
 #### Swagger
 
-Доступен по [https://127.0.0.1:8443/api/swagger-ui/index.html](https://127.0.0.1:8443/api/swagger-ui/index.html)
+TODO: Доступен по [https://127.0.0.1:8443/api/swagger-ui/index.html](https://127.0.0.1:8443/api/swagger-ui/index.html) -не работает
+Failed to load resource: the server responded with a status of 500
 
 ![swagger](doc/swagger.png)
 
 (Swagger работает через __HTTPS__)
 
- Доступ на сервере [https://v.perm.ru:8443/api/swagger-ui/index.html](https://v.perm.ru:8443/api/swagger-ui/index.html).
-
+Доступ на сервере [https://v.perm.ru:8443/api/swagger-ui/index.html](https://v.perm.ru:8443/api/swagger-ui/index.html).
+или из local network:
+[https://v:8443/api/swagger-ui/index.html](https://v:8443/api/swagger-ui/index.html)
 
 #### Тестовые запросы:
 
 __Для HTTPS.__
 
 __1.__ Можно использовать swagger (см. [Swagger](#swagger)).
-
 
 __2.__ Можно использовать утилиту HTTPIE  [https://httpie.io](https://httpie.io):
 
@@ -391,8 +391,6 @@ https https://v.perm.ru:8443/api/echo/MESSAGE_ECHO
 https https://v.perm.ru:8443/api/company/2
 echo "{\"nn\": [2]}" | https --verify=no POST https://127.0.0.1:8443/api/company/find     
 ````
-
-TODO: Можно использовать swagger [https://127.0.0.1:8443/api/swagger-ui/index.html#/](https://127.0.0.1:8443/api/swagger-ui/index.html#/)
 
 Без HTTPS проверки сертификатов:
 
