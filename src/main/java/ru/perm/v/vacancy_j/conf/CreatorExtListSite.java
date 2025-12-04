@@ -16,7 +16,7 @@ import java.util.List;
  * Создание Spring beans как списка сайтов вакансий List<JobSiteDto>
  * из внешнего файла job_sites.csv
  *
- * Пример использования см. в тесте ru.perm.v.vacancy_j.conf.ListSiteBeanUseTest
+ * Тест {@link ru.perm.v.vacancy_j.conf.ListSiteBeanUseTest}
  *
  */
 @Configuration
