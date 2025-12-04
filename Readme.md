@@ -556,5 +556,9 @@ curl -k https://127.0.0.1:8788/api/actuator/prometheus
 Вся механика описана в тесте.
 [Testing with Spring Boot’s @TestConfiguration Annotation](https://reflectoring.io/spring-boot-testconfiguration/)
 
+### Создание Spring Beans из файла
+
+Класс [ru.perm.v.vacancy_j.conf.CreatorExtListSite.java](src/main/java/ru/perm/v/vacancy_j/conf/CreatorExtListSite.java) создает список Spring bean List<JobSiteDto> с параметрами заданном во внешнем файле  [resources/job_sites.csv](resources/job_sites.csv).
+
 ### Ссылки
 [Get JSON Content as Object Using MockMVC](https://www.baeldung.com/spring-mockmvc-fetch-json)
