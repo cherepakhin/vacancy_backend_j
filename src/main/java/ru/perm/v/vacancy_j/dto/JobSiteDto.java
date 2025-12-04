@@ -3,24 +3,24 @@ package ru.perm.v.vacancy_j.dto;
 
 import java.util.Objects;
 
-public class ExtSiteDto {
+public class JobSiteDto {
     private String name = "";
     private String url = "";
 
-    public ExtSiteDto() {
+    public JobSiteDto() {
     }
 
     /**
      * Constructor for line. Line format: name;url
-     * @param line
+     * @param line - example "hh.ru;https://hh.ru"
      */
-    public ExtSiteDto(String line) {
+    public JobSiteDto(String line) {
         String[] fields=line.trim().split(";");
         this.name = fields[0];
         this.url = fields[1];
     }
 
-    public ExtSiteDto(String name, String url) {
+    public JobSiteDto(String name, String url) {
         this.name = name;
         this.url = url;
     }
@@ -44,7 +44,7 @@ public class ExtSiteDto {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ExtSiteDto extSite)) return false;
+        if (!(o instanceof JobSiteDto extSite)) return false;
         return Objects.equals(name, extSite.name) && Objects.equals(url, extSite.url);
     }
 

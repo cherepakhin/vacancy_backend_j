@@ -12,12 +12,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ReadConfTest {
     @Test
     public void readFromFileTest() throws IOException {
-        ClassPathResource resource = new ClassPathResource("ext_sites.csv");
+        ClassPathResource resource = new ClassPathResource("job_sites.csv");
         List<String> lines = resource.getContentAsString(StandardCharsets.UTF_8).lines().toList();
+
 
         assertEquals(3, lines.size());
         assertEquals("hh.ru;https://hh.ru", lines.get(0));
-        assertEquals("trudvsem.ru;https://trudvsem.ru/", lines.get(1));
+        assertEquals("trudvsem.ru;https://trudvsem.ru", lines.get(1));
+        assertEquals("v.perm.ru;https://v.perm.ru", lines.get(2));
     }
 
     @Test
