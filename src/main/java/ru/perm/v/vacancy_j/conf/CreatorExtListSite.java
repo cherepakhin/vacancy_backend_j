@@ -12,6 +12,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Создание Spring beans как списка сайтов вакансий List<JobSiteDto>
+ * из внешнего файла job_sites.csv
+ *
+ * Пример использования см. в тесте ru.perm.v.vacancy_j.conf.ListSiteBeanUseTest
+ *
+ */
 @Configuration
 public class CreatorExtListSite {
     private static final String EXT_SITES_FILE = "job_sites.csv";
