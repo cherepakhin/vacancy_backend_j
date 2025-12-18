@@ -392,10 +392,11 @@ https https://v.perm.ru:8443/api/company/2
 echo "{\"nn\": [2]}" | https --verify=no POST https://127.0.0.1:8443/api/company/find     
 ````
 
-Без HTTPS проверки сертификатов:
+Тестирование HTTPS без проверки сертификатов:
 
 ````shell
 https --verify=no https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
+httpx --no-verify https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
 curl -k https://127.0.0.1:8443/api/echo/MESSAGE_ECHO
 ````
 
